@@ -10,25 +10,25 @@ export const doctorApi = baseApi.injectEndpoints({
                 url: `${DOC_URL}`,
                 method: 'GET',
                 params: arg
-            }),
-            transformResponse: (response) =>{
-                return {
-                    doctors: response.data,
-                    meta: response.meta
-                }
-            },
-            providesTags: [tagTypes.doctor]
+            })
         }),
         getDoctor: build.query({
             query: (id) => ({
-                url: `${DOC_URL}/${id}`,
+                url: `/user/me`,
+                method: 'GET',
+            }),
+            providesTags: [tagTypes.doctor]
+        }),
+        getOneDoctor: build.query({
+            query: (id) => ({
+                url: `/doctor/${id}`,
                 method: 'GET',
             }),
             providesTags: [tagTypes.doctor]
         }),
         updateDoctor: build.mutation({
-            query: ({ data, id }) => ({
-                url: `${DOC_URL}/${id}`,
+            query: ({ data }) => ({
+                url: `/user/update`,
                 method: 'PATCH',
                 data: data,
                 headers: {
@@ -40,4 +40,9 @@ export const doctorApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetDoctorsQuery, useGetDoctorQuery, useUpdateDoctorMutation } = doctorApi
+export const { 
+    useGetDoctorsQuery,
+    useGetDoctorQuery,
+    useUpdateDoctorMutation,
+    useGetOneDoctorQuery,
+} = doctorApi

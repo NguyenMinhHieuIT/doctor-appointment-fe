@@ -125,8 +125,10 @@ const SignUp = ({ setSignUp }) => {
         e.preventDefault();
         setLoading(true);
         if (userType === "doctor") {
+            user['role'] = 'doctor';
             doctorSignUp(user);
         } else {
+            user['role'] = 'patient';
             patientSignUp(user)
         }
     }

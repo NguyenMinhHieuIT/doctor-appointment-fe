@@ -1,24 +1,25 @@
 import './index.css';
 import { FaHospitalUser, FaCalendarAlt, FaHospital } from "react-icons/fa";
-const DoctorDashCard = () => {
+import moment from 'moment';
+const DoctorDashCard = (props) => {
     const cardData = [
         {
             icon: <FaHospital className='icon' />,
             title: 'Total Patient',
-            amount: 1500,
-            date: "10 Jan 2024"
+            amount: props.totalPatient,
+            date: moment(new Date()).format('lll')
         },
         {
             icon: <FaHospitalUser className='icon active' />,
             title: 'Today Patient',
-            amount: 1500,
-            date: "10 Jan 2024"
+            amount: props.todayPatient,
+            date: moment(new Date()).format('lll')
         },
         {
             icon: <FaCalendarAlt className='icon danger' />,
             title: 'Appointments',
-            amount: 85,
-            date: "10 Jan 2024"
+            amount: props.totalAppoint,
+            date: moment(new Date()).format('lll')
         }
     ]
     return (

@@ -13,7 +13,7 @@ import { useGetDoctorsQuery } from '../../redux/api/doctorApi';
 
 const About = () => {
     const { data, isError, isLoading } = useGetAllBlogsQuery({ limit: 4 });
-    const { data: doctorData, isLoading: DoctorIsLoading, isError: doctorIsError } = useGetDoctorsQuery({ limit: 4 });
+    const { data: doctorData, isLoading: DoctorIsLoading, isError: doctorIsError } = useGetDoctorsQuery({ pageSize:4 , pageNumber:1 });
 
     const blogData = data?.blogs;
     const doctors = doctorData?.doctors;
@@ -87,29 +87,6 @@ const About = () => {
                 </div>
             </div>
 
-            <div className="container" style={{ marginBottom: 100, marginTop: 100 }}>
-                <div className="row align-items-center">
-                    <div className="col-lg-4">
-                        <div className='section-title text-center'>
-                            <h2 className='text-uppercase'>Our Doctors Acheivement</h2>
-                            <p className='form-text m-0'>Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </div>
-                    <div className="col-lg-8">
-                        <div className="row">
-                            {
-                                Array(6).fill(null).map((_, id) => (
-                                    <div className="col-lg-4 col-md-6 col-sm-6" key={id + 3}>
-                                        <div className="award-img">
-                                            <img src={img} alt="" className="img-fluid" />
-                                        </div>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div className="container" style={{ marginBottom: 100, marginTop: 100 }}>
                 <div className="row justify-content-center">

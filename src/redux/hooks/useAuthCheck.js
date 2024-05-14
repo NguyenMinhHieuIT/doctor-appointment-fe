@@ -14,7 +14,6 @@ export default function useAuthCheck() {
 
     useEffect(() => {
         const localAuth = getUserInfo();
-        // console.log('AccessToken>>>>>>>>>>', );
         if (localAuth && localAuth !== null) {
             if (localAuth.role === 'patient') {
                 setUserId(localAuth?.userId)

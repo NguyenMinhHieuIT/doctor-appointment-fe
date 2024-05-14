@@ -4,7 +4,7 @@ import img from '../../../images/doc/doctor 3.jpg'
 import './index.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Empty, Button, message, Steps } from 'antd';
-import { useGetDoctorQuery } from '../../../redux/api/doctorApi';
+import { useGetOneDoctorQuery } from '../../../redux/api/doctorApi';
 import { FaArchway } from "react-icons/fa";
 import { useGetAppointmentTimeQuery } from '../../../redux/api/timeSlotApi';
 import moment from 'moment';
@@ -45,7 +45,7 @@ const DoctorBooking = () => {
     const [createAppointment, { data: appointmentData, isSuccess: createIsSuccess, isError: createIsError, error: createError, isLoading: createIsLoading }] = useCreateAppointmentMutation();
     const { doctorId } = useParams();
     const navigation = useNavigate();
-    const { data, isLoading, isError, error } = useGetDoctorQuery(doctorId);
+    const { data, isLoading, isError, error } = useGetOneDoctorQuery(doctorId);
     const { data: time, refetch, isLoading: dIsLoading, isError: dIsError, error: dError } = useGetAppointmentTimeQuery({ day: selectDay, id: doctorId });
 
     const [selectValue, setSelectValue] = useState(initialValue);
@@ -100,12 +100,12 @@ const DoctorBooking = () => {
                     <img src={img} alt="" />
                 </Link>
                 <div className='text-start'>
-                    <Link to={`/doctors/${data?.id}`} style={{ textDecoration: 'none' }}>Dr. {data?.firstName + ' ' + data?.lastName}</Link>
+                    <Link to={`/doctors/${data?.id}`} style={{ textDecoration: 'none' }}>Dr. {data?.name}</Link>
                     <p className="form-text mb-0"><FaArchway /> {data?.specialization + ',' + data?.experienceHospitalName}</p>
                 </div>
             </div>
         </>
-
+        console.log(data)
     const steps = [
         {
             title: 'Select Appointment Date & Time',

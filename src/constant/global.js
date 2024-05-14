@@ -18,18 +18,51 @@ export const genderOptions = gender.map((data) => {
 export const daysArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
 export const doctorSpecialistArray = [
-    { id: 1, value: "Cardiologist" },
-    { id: 2, value: "Dermatologist" },
-    { id: 3, value: "Orthopedic Surgeon", },
-    { id: 4, value: "Gynecologist" },
-    { id: 5, value: "Neurologist" },
-    { id: 6, value: "Ophthalmologist" },
-    { id: 7, value: "Pediatrician" },
-    { id: 8, value: "Endocrinologist" },
-    { id: 9, value: "Gastroenterologist" },
-    { id: 10, value: "Pulmonologist" },
-    { id: 11, value: "Orthopedic" }
+    { id: 1, value: "Cardiologist" }, // tim mach
+    { id: 2, value: "Dermatologist" }, // da lieu
+    { id: 3, value: "Orthopedic Surgeon", }, // xuong chinh hinh
+    { id: 4, value: "Gynecologist" }, // phu khoa 
+    { id: 5, value: "Neurologist" }, // than kinh
+    { id: 6, value: "Ophthalmologist" }, // mat
+    { id: 7, value: "Pediatrician" }, // nhi khoa
+    { id: 8, value: "Endocrinologist" }, // noi tiet
+    { id: 9, value: "Gastroenterologist" }, // tieu hoa
+    { id: 10, value: "Pulmonologist" }, // phoi
+    { id: 11, value: "Orthopedic" } // 
 ]
+
+export const Special = {
+    Urology: 'Urology',
+    Neurology: 'Neurology',
+    Orthopedic: 'Orthopedic',
+    Cardiologist: 'Cardiologist',
+    Dentist: 'Dentist',
+}
+
+export const SpecialOptions = [
+    {
+        label: Special.Urology,
+        value: Special.Urology,
+    },
+    {
+        label: Special.Neurology,
+        value: Special.Neurology,
+    },
+    {
+        label: Special.Orthopedic,
+        value: Special.Orthopedic,
+    },
+    {
+        label: Special.Cardiologist,
+        value: Special.Cardiologist,
+    },
+    {
+        label: Special.Dentist,
+        value: Special.Dentist,
+    },
+
+];
+
 
 export const doctorSpecialistOptions = doctorSpecialistArray.map(data => {
     return {

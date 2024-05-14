@@ -6,11 +6,15 @@ import DashboardPage from './doctor/DashboardPage';
 import PatientDashboard from './PatientDashboard';
 
 const Dashboard = () => {
-    const { role } = useAuthCheck();
+    const { role, data } = useAuthCheck();
     return (
         <>
             <DashboardLayout>
-                {role === 'doctor' && <DoctorDashCard />}
+                {role === 'doctor' && <DoctorDashCard 
+                    totalPatient={data?.patient && data.patient}
+                    todayPatient={15}
+                    totalAppoint={100}
+                />}
 
                 <div className="row">
                     {role === 'patient' &&

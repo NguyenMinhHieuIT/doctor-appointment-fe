@@ -5,13 +5,13 @@ import { Button, Select, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { useUpdateDoctorMutation } from '../../../redux/api/doctorApi';
 import useAuthCheck from '../../../redux/hooks/useAuthCheck';
-import { doctorSpecialistOptions } from '../../../constant/global';
+import { doctorSpecialistOptions, SpecialOptions } from '../../../constant/global';
 import ImageUpload from '../../UI/form/ImageUpload';
 import dImage from '../../../images/avatar.jpg';
 import { DatePicker } from 'antd';
 
 const DoctorProfileSetting = () => {
-    const [selectedItems, setSelectedItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState('');
     const [updateDoctor, { isLoading, isSuccess, isError, error }] = useUpdateDoctorMutation()
     const { data } = useAuthCheck();
     const { register, handleSubmit } = useForm({});
@@ -23,9 +23,9 @@ const DoctorProfileSetting = () => {
 
     useEffect(() => {
         if (data) {
-            const { id, services } = data;
+            const { id, specialization } = data;
             setUserId(id);
-            setSelectedItems(services?.split(','));
+            setSelectedItems(specialization);
         };
     }, [data]);
 
@@ -39,15 +39,19 @@ const DoctorProfileSetting = () => {
     const onSubmit = (data) => {
         const obj = data
         obj.price && obj.price.toString();
-        const newObj = { ...obj, ...selectValue };
-        date && (newObj['dob'] = date);
-        newObj["services"] = Array.isArray(selectedItems) ? selectedItems.join(',') : null;
+        const newObj = { 
+            ...obj, 
+            ...selectValue,
+            specialization: selectedItems,
+        };
+        date && (newObj['birth'] = date);
         const changedValue = Object.fromEntries(Object.entries(newObj).filter(([key, value]) => value !== ''));
         const formData = new FormData();
         selectedImage && formData.append('file', file);
-        const changeData = JSON.stringify(changedValue);
-        formData.append('data', changeData)
-        updateDoctor({ data: formData, id: userId })
+        for(const i in changedValue){
+            formData.append(i, changedValue[i]);
+        }
+        updateDoctor({ data: formData })
     };
 
     useEffect(() => {
@@ -58,7 +62,6 @@ const DoctorProfileSetting = () => {
             message.success('Successfully Changed Saved !')
         }
     }, [isLoading, isError, error, isSuccess]);
-
     return (
         <div style={{ marginBottom: '10rem' }}>
             <div className="w-100 mb-3 rounded mb-5 p-2" style={{ background: '#f8f9fa' }}>
@@ -79,23 +82,15 @@ const DoctorProfileSetting = () => {
 
                     <div className="col-md-6">
                         <div className="form-group mb-2 card-label">
-                            <label>First Name <span className="text-danger">*</span></label>
-                            <input defaultValue={data?.firstName} {...register("firstName")} className="form-control" />
+                            <label>Name <span className="text-danger">*</span></label>
+                            <input defaultValue={data?.name} {...register("name")} className="form-control" />
                         </div>
                     </div>
 
                     <div className="col-md-6">
                         <div className="form-group mb-2 card-label">
-                            <label>Last Name <span className="text-danger">*</span></label>
-                            <input defaultValue={data?.lastName} {...register("lastName")} className="form-control" />
-                        </div>
-                    </div>
-
-                    <div className="col-md-6">
-                        <div className="form-group mb-2 card-label">
-                            <label>Email</label>
-                            <input defaultValue={data?.email} {...register("email")} className="form-control" />
-
+                        <label>Email <span className="text-danger">*</span></label>
+                            <input defaultValue={data?.email} disabled className="form-control" />
                         </div>
                     </div>
 
@@ -108,19 +103,18 @@ const DoctorProfileSetting = () => {
 
                     <div className="col-md-6">
                         <div className="form-group mb-2 card-label">
-                            <label>Gender</label>
+                            <label>Gender {data?.gender ? '--->' + data?.gender : null}</label>
                             <select className="form-control select" onChange={handleChange} name='gender'>
                                 <option value={''}>Select</option>
                                 <option className='text-capitalize'>male</option>
                                 <option className='text-capitalize'>female</option>
-                                <option className='text-capitalize'>shemale</option>
                             </select>
                         </div>
                     </div>
 
                     <div className="col-md-6">
                         <div className="form-group mb-2 card-label">
-                            <label>Date of Birth {moment(data?.dob).format('LL')}</label>
+                            <label>Date of Birth {data?.birth ? '--->'+moment(data?.birth).format('LL') : null}</label>
                             <DatePicker onChange={onChange} format={"YYYY-MM-DD"} style={{ width: '100%', padding: '6px' }} />
                         </div>
                     </div>
@@ -165,15 +159,8 @@ const DoctorProfileSetting = () => {
                             <div className="row form-row">
                                 <div className="col-md-6">
                                     <div className="form-group mb-2 card-label">
-                                        <label>Address Line</label>
+                                        <label>Address </label>
                                         <input defaultValue={data?.address} {...register("address")} className="form-control" />
-                                    </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                    <div className="form-group mb-2 card-label">
-                                        <label>City</label>
-                                        <input defaultValue={data?.city} {...register("city")} className="form-control" />
                                     </div>
                                 </div>
 
@@ -182,19 +169,7 @@ const DoctorProfileSetting = () => {
                                         <label>State / Province</label>
                                         <input defaultValue={data?.state} {...register("state")} className="form-control" />
                                     </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="form-group mb-2 card-label">
-                                        <label>Country</label>
-                                        <input defaultValue={data?.country} {...register("country")} className="form-control" />
-                                    </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="form-group mb-2 card-label">
-                                        <label>Postal Code</label>
-                                        <input defaultValue={data?.postalCode} {...register("postalCode")} className="form-control" />
-                                    </div>
-                                </div>
+                                </div>                            
                             </div>
                         </div>
                     </div>
@@ -216,25 +191,17 @@ const DoctorProfileSetting = () => {
 
                     <div className="col-md-12">
                         <div className="card mb-2 p-3 mt-2">
-                            <h6 className="card-title text-secondary">Services and Specialization</h6>
+                            <h6 className="card-title text-secondary">Specialization</h6>
                             <div className="row form-row">
                                 <div className="form-group mb-2 card-label">
-                                    <label>Services</label>
                                     <Select
-                                        mode="multiple"
-                                        allowClear
-                                        style={{ width: '100%' }}
-                                        placeholder="Please select"
-                                        value={selectedItems}
-                                        onChange={setSelectedItems}
-                                        options={doctorSpecialistOptions}
-                                    />
-                                    <small className="form-text text-muted">Note : Type & Press enter to add new services</small>
-                                </div>
-                                <div className="form-group mb-2 card-label">
-                                    <label>Specialization </label>
-                                    <input defaultValue={data?.specialization} {...register("specialization")} className="input-tags form-control" placeholder="Enter Specialization" />
-                                    <small className="form-text text-muted">Note : Type & Press  enter to add new specialization</small>
+                                    defaultValue={data?.specialization ? data?.specialization : null }
+                                    style={{ width: '100%' }}
+                                    placeholder="Please select"
+                                    value={selectedItems}
+                                    onChange={setSelectedItems}
+                                    options={SpecialOptions}
+                                    />                                  
                                 </div>
                             </div>
                         </div>
@@ -293,46 +260,6 @@ const DoctorProfileSetting = () => {
                                     <div className="form-group mb-2 card-label">
                                         <label>Designation</label>
                                         <input defaultValue={data?.designation} {...register("designation")} className="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-md-12">
-                        <div className="card mb-2 p-3 mt-2">
-                            <h6 className="card-title text-secondary">Awards</h6>
-                            <div className="row form-row">
-                                <div className="col-md-6">
-                                    <div className="form-group mb-2 card-label">
-                                        <label>Awards</label>
-                                        <input defaultValue={data?.award} {...register("award")} className="form-control" />
-                                    </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="form-group mb-2 card-label">
-                                        <label>Year</label>
-                                        <input defaultValue={data?.awardYear} {...register("awardYear")} className="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-md-12">
-                        <div className="card mb-2 p-3 mt-2">
-                            <h6 className="card-title text-secondary">Registrations</h6>
-                            <div className="row form-row">
-                                <div className="col-md-6">
-                                    <div className="form-group mb-2 card-label">
-                                        <label>Registrations</label>
-                                        <input defaultValue={data?.registration} {...register("registration")} className="form-control" />
-                                    </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="form-group mb-2 card-label">
-                                        <label>Year</label>
-                                        <input defaultValue={data?.year} {...register("year")} className="form-control" />
                                     </div>
                                 </div>
                             </div>
