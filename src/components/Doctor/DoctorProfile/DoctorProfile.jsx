@@ -25,7 +25,7 @@ const DoctorProfile = () => {
         {
             key: '1',
             label: 'Overview',
-            children: <OverView />,
+            children: <OverView data={data}/>,
         },
         {
             key: '2',

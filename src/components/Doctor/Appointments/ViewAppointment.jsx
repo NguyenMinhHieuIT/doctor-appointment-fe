@@ -5,16 +5,16 @@ import Header from '../../Shared/Header/Header';
 import Footer from '../../Shared/Footer/Footer';
 import moment from 'moment';
 import './index.css';
-import { Button, Tag, Tooltip } from 'antd';
+import { Button, Tag } from 'antd';
 import { clickToCopyClipBoard } from '../../../utils/copyClipBoard';
 import { FaPrint } from "react-icons/fa";
 import ReactToPrint from "react-to-print";
-
+import avatar from '../../../images/avatar.jpg'
 const ViewAppointment = () => {
     const ref = useRef();
     const { id } = useParams();
     const { data, isLoading, isError } = useGetSingleAppointmentQuery(id);
-
+    
     let content = null;
     if (!isLoading && isError) content = <div>Something Went Wrong!</div>
     if (isLoading && !isError) content = <h2>Loading...</h2>
@@ -23,12 +23,7 @@ const ViewAppointment = () => {
             <page size="A4" className="container mx-auto border border-primary-subtle p-3 pb-3">
                 <div className='d-flex justify-content-between rounded p-2' style={{ background: '#f2f4fe' }}>
                     <div>
-                        <p className='form-text text-black mb-0'>Creation Date : <Tag bordered={false} color="volcano">{moment(data?.createdAt).format('LL')}</Tag></p>
-                        <Tooltip title="Copy Tracking Id">
-                            <Button>
-                                <h6>Tracking<Tag color="#87d068" className='ms-2 text-uppercase' onClick={() => clickToCopyClipBoard(data?.trackingId)}>{data?.trackingId}</Tag></h6>
-                            </Button>
-                        </Tooltip>
+                        <p className='form-text text-black mb-0'> <b>Ngày tạo :</b>  <Tag bordered={false} color="volcano">{moment(data?.createdAt).format('LL')}</Tag></p>
                     </div>
 
                     <div style={{ fontWeight: 500 }}>
@@ -42,49 +37,54 @@ const ViewAppointment = () => {
 
                 <div>
                     <h4 className='text-center my-3 fw-bold'>
-                        APPOINTMENT INFOMATION
+                        THÔNG TIN CUỘC HẸN
                     </h4>
                     <div className='border border-light-subtle rounded p-3'>
-                        <p className='mb-1'>Place of Meeting : <Tag bordered={false} color="#f50">ONLINE</Tag></p>
-                        <p className='mb-1'>Meeting Link : <a href="https://meet.google.com/udx-kieq-sng" target='_blank' rel='noreferrer'>https://meet.google.com/udx-kieq-sng</a></p>
-                        <p className='mb-1'>Meeting Date : <Tag bordered={false} color="orange">{moment(data?.scheduleDate).format('LL')}</Tag></p>
-                        <p className='mb-1'>Meeting Time : <Tag bordered={false} color="orange">{data?.scheduleTime}</Tag></p>
+                        <p className='mb-1'>Hình thức: <Tag bordered={false} color="#f50">OFFLINE</Tag></p>
+                        {data?.link && <p className='mb-1'>Meeting Link : <a href={data?.link}target='_blank' rel='noreferrer'>{data?.link}</a></p>}
+                        <p className='mb-1'>Ngày : <Tag bordered={false} color="orange">{moment(data?.scheduleDate).format('LL')}</Tag></p>
+                        <p className='mb-1'>Thời gian : <Tag bordered={false} color="orange">{data?.startTime + ' _ ' + data?.endTime }</Tag></p>
+                        <p className='mb-1'>Cơ sở : <Tag bordered={false} color="orange">{data?.doctor?.clinicName }</Tag></p>
+                        <p className='mb-1'>Địa điểm : <Tag bordered={false} color="orange">{data?.doctor?.clinicAddress }</Tag></p>
                     </div>
                 </div>
 
                 <div>
-                    <h4 className='text-center my-3 fw-bold text-secondary'>DOCTOR INFOMATION</h4>
+                    <h4 className='text-center my-3 fw-bold text-secondary'>THÔNG TIN BÁC SĨ</h4>
                     {
                         data?.doctor &&
                         <div className='border border-light-subtle rounded p-3 d-flex gap-3'>
                             <div>
-                                <img src={data?.doctor?.img} alt="" style={{ border: '2px solid #ffbc21', width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top' }} />
+                                <img src={data?.doctor?.avatar ?? avatar} alt="" style={{ border: '2px solid #ffbc21', width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top' }} />
                             </div>
                             <div>
-                                <h4 className="mb-1">{data?.doctor?.firstName && data?.doctor?.lastName ? `${data.doctor.firstName} ${data.doctor.lastName}` : (data?.doctor?.firstName || data?.doctor?.lastName)}</h4>
+                                <h4 className="mb-1">{data?.doctor.name}</h4>
                                 <p className="mb-1">{data?.doctor?.specialization}</p>
-                                <p className="mb-1 form-text">{data?.doctor?.designation}</p>
-                                <p className="mb-1 form-text">{data?.doctor?.college}</p>
+                                <p className="mb-1 form-text">Tuổi : {data?.doctor?.age}</p>
+                                <p className="mb-1 form-text">Địa chỉ : {data?.doctor?.address}</p>
+                                <p className="mb-1 form-text">Chứng chỉ : {data?.doctor?.designation}</p>
+                                <p className="mb-1 form-text">Tốt nghiệp : {data?.doctor?.college}</p>
                             </div>
                         </div>
                     }
                 </div>
 
                 <div>
-                    <h4 className='text-center my-3 fw-bold text-secondary'>PATIENT INFOMATION</h4>
+                    <h4 className='text-center my-3 fw-bold text-secondary'>THÔNG TIN NGƯỜI BỆNH</h4>
                     <div className='border border-light-subtle rounded p-3 d-flex gap-3'>
                         <div>
-                            <img src={data?.patient?.img} alt="" style={{ border: '2px solid #ffbc21', width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top' }} />
+                            <img src={data?.patient?.avatar ?? avatar} alt="" style={{ border: '2px solid #ffbc21', width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top' }} />
                         </div>
                         <div>
 
-                            <h4 className="mb-1">{data?.patient?.firstName + ' ' + data?.patient?.lastName}</h4>
-                            <p className="mb-1 form-text">Age : {moment().diff(moment(data?.patient?.dateOfBirth), 'years')}</p>
-                            <p className="mb-1 form-text">Blood Group : {data?.patient?.bloodGroup}</p>
-                            <p className="mb-1 form-text">{data?.patient?.city + ' , ' + data?.patient?.state + ' , ' + data?.patient?.country}</p>
+                            <h4 className="mb-1">{data?.patient?.name}</h4>
+                            <p className="mb-1 form-text">Tuổi : {data?.patient?.age}</p>
+                            <p className="mb-1 form-text">Nhóm máu : {data?.patient?.bloodGroup}</p>
+                            <p className="mb-1 form-text">Trạng thái : {data?.patient?.state}</p>
+                            <p className="mb-1 form-text">Địa chỉ: {data?.patient?.address}</p>
 
                             <div className='mt-2'>
-                                <p>Reason for Visit - <span className='text-warning'>{data?.reasonForVisit}</span></p>
+                                <p>Lý do thăm khám - <span className='text-warning'>{data?.reasonForVisit}</span></p>
                                 <p className='text-warning'>{data?.description}</p>
                             </div>
                         </div>

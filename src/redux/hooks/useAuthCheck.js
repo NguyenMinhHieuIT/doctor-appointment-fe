@@ -9,7 +9,7 @@ export default function useAuthCheck() {
     const [isSkip, setIsSkip] = useState(true);
     const [data, setData] = useState({});
     const [role, setRole] = useState("");
-    const { data: doctorData, isError, isSuccess: dIsSuccess } = useGetDoctorQuery(userId, { skip: isSkip });
+    const { data: doctorData, isError, isSuccess: dIsSuccess } = useGetDoctorQuery();
     const { data: patientData, isError: pIsError, isSuccess: pIsSuccess } = useGetPatientQuery();
 
     useEffect(() => {

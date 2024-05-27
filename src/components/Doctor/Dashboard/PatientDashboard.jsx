@@ -14,10 +14,69 @@ const PatientDashboard = () => {
     const { data, isLoading: pIsLoading } = useGetPatientAppointmentsQuery();
     const { data: prescriptionData, prescriptionIsLoading } = useGetPatientPrescriptionQuery();
     const { data: invoices, isLoading: InvoicesIsLoading } = useGetPatientInvoicesQuery();
-    
+
+    const appointmentColumns = [
+        {
+            title: 'Bác sĩ',
+            key: 20,
+            width: 150,
+            render: function (data) {
+                return <>
+                    <div className="avatar avatar-sm mr-2 d-flex gap-2">
+                        <div>
+                            <img className="avatar-img rounded-circle" src={data?.doctor?.avatar ?? img} alt="" />
+                        </div>
+                        <div>
+                            <h6 className='text-nowrap mb-0'>{data?.doctor?.name}</h6>
+                            <p className='form-text'>{data?.doctor?.designation}</p>
+                        </div>
+                    </div>
+                </>
+            }
+        },
+        {
+            title: 'Ngày tạo',
+            key: 22,
+            width: 100,
+            render: function (data) {
+                return (
+                    <div>{moment(data?.scheduleDate).format("LL")} <span className="d-block text-info">{data?.startTime + ' _ ' + data?.endTime}</span></div>
+                )
+            }
+        },
+        {
+            title: 'Ngày đặt',
+            key: 22,
+            width: 100,
+            render: function (data) {
+                return <div>{moment(data?.createdAt).format("LL")}</div>
+            }
+        },
+        {
+            title: 'Trạng thái',
+            key: 24,
+            width: 100,
+            render: function (data) {
+                return <Tag color="#f50">{data?.status}</Tag>
+            }
+        },
+        {
+            title: 'Hành động',
+            key: 25,
+            width: 100,
+            render: function (data) {
+                return (
+                    <Link to={`/dashboard/appointments/${data.id}`}>
+                        <Button type='primary'>View</Button>
+                    </Link>
+                )
+            }
+        },
+    ];
+
     const InvoiceColumns = [
         {
-            title: 'Doctor',
+            title: 'Bác sĩ',
             key: 1,
             width: 150,
             render: function (data) {
@@ -49,7 +108,7 @@ const PatientDashboard = () => {
             }
         },
         {
-            title: 'Payment Method',
+            title: 'Hình thức thanh toán',
             key: 4,
             width: 100,
             dataIndex: "paymentMethod"
@@ -61,7 +120,7 @@ const PatientDashboard = () => {
             dataIndex: "paymentType"
         },
         {
-            title: 'Action',
+            title: 'Hành động',
             key: '5',
             width: 100,
             render: function (data) {
@@ -157,69 +216,12 @@ const PatientDashboard = () => {
             }
         },
     ];
-    const appointmentColumns = [
-        {
-            title: 'Doctor',
-            key: 20,
-            width: 150,
-            render: function (data) {
-                return <>
-                    <div className="avatar avatar-sm mr-2 d-flex gap-2">
-                        <div>
-                            <img className="avatar-img rounded-circle" src={img} alt="" />
-                        </div>
-                        <div>
-                            <h6 className='text-nowrap mb-0'>{data?.doctor?.firstName + ' ' + data?.doctor?.lastName}</h6>
-                            <p className='form-text'>{data?.doctor?.designation}</p>
-                        </div>
-                    </div>
-                </>
-            }
-        },
-        {
-            title: 'App Date',
-            key: 22,
-            width: 100,
-            render: function (data) {
-                return (
-                    <div>{moment(data?.scheduleDate).format("LL")} <span className="d-block text-info">{data?.scheduleTime}</span></div>
-                )
-            }
-        },
-        {
-            title: 'Booking Date',
-            key: 22,
-            width: 100,
-            render: function (data) {
-                return <div>{moment(data?.createdAt).format("LL")}</div>
-            }
-        },
-        {
-            title: 'Status',
-            key: 24,
-            width: 100,
-            render: function (data) {
-                return <Tag color="#f50">{data?.status}</Tag>
-            }
-        },
-        {
-            title: 'Action',
-            key: 25,
-            width: 100,
-            render: function (data) {
-                return (
-                    <Link to={`/dashboard/appointments/${data.id}`}>
-                        <Button type='primary'>View</Button>
-                    </Link>
-                )
-            }
-        },
-    ];
+    
 
     const items = [
         {
             key: '1',
-            label: 'Appointment',
+            label: 'Cuộc hẹn',
             children: <CustomTable
                 loading={pIsLoading}
                 columns={appointmentColumns}
@@ -231,7 +233,7 @@ const PatientDashboard = () => {
         },
         {
             key: '2',
-            label: 'Prescription',
+            label: 'Đơn thuốc',
             children: <CustomTable
                 loading={prescriptionIsLoading}
                 columns={prescriptionColumns}
@@ -244,7 +246,7 @@ const PatientDashboard = () => {
         },
         {
             key: '3',
-            label: 'Billing',
+            label: 'Thanh toán',
             children: <CustomTable
                 loading={InvoicesIsLoading}
                 columns={InvoiceColumns}

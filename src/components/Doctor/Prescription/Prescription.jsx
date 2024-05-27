@@ -13,11 +13,11 @@ const Prescription = () => {
     const columns = [
         {
             title: 'Appointment Id',
-            dataIndex: "appointment",
+            dataIndex: "appointmentId",
             key: 1,
-            render: ({trackingId}) =>{
+            render: (data) =>{
                 return (
-                    <Tag color="#f50">{trackingId}</Tag>
+                    <Tag color="#f50">{data}</Tag>
                 )
             }
         },

@@ -14,7 +14,6 @@ import { clickToCopyClipBoard } from '../../../utils/copyClipBoard';
 const Appointments = () => {
     const { data, isError, isLoading } = useGetDoctorAppointmentsQuery({});
     const [updateAppointment, { isError: updateIsError, isSuccess, error }] = useUpdateAppointmentMutation();
-
     const updatedApppointmentStatus = (id, type) => {
         const changeObj = {
             status: type
@@ -33,11 +32,6 @@ const Appointments = () => {
         }
     }, [isSuccess, updateIsError, error])
 
-    const getInitPatientName = () => {
-        const fullName = `${data?.patient?.firstName ?? ''} ${data?.patient?.lastName ?? ''}`;
-        return fullName.trim() || "Private Patient";
-    }
-
     let content = null;
     if (!isLoading && isError) content = <div>Something Went Wrong !</div>
     if (!isLoading && !isError && data?.length === 0) content = <Empty />
@@ -49,10 +43,10 @@ const Appointments = () => {
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="d-flex align-items-center gap-3">
                                 <Link to={`/`} className="patient-img">
-                                    <img src={data?.patient?.img ? data?.patient?.img : img} alt="" />
+                                    <img src={item?.patient?.avatar ?? img} alt="" />
                                 </Link>
                                 <div className="patients-info">
-                                    <h5>{getInitPatientName()}</h5>
+                                    <h5>{item?.patient?.name}</h5>
                                     <Tooltip title="Copy Tracking Id">
                                         <Button>
                                             <h6>Tracking<Tag color="#87d068" className='ms-2 text-uppercase' onClick={() => clickToCopyClipBoard(item?.trackingId)}>{item?.trackingId}</Tag></h6>
@@ -60,16 +54,16 @@ const Appointments = () => {
                                     </Tooltip>
 
                                     <div className="info mt-2">
-                                        <p><FaClock className='icon' /> {moment(item?.appointmentTime).format("MMM Do YY")} </p>
+                                        <p><FaClock className='icon' /> {moment(item?.scheduleDate).format("MMM Do YY")} </p>
                                         {item?.patient?.address && <p><FaLocationArrow className='icon' /> {item?.patient?.address}</p>}
                                         {item?.patient?.email && <p><FaEnvelope className='icon' /> {item?.patient?.email}</p>}
-                                        {item?.patient?.address && <p><FaPhoneAlt className='icon' />{item?.patient?.address}</p>}
+                                        {item?.patient?.phone && <p><FaPhoneAlt className='icon' />{item?.patient?.phone}</p>}
 
                                     </div>
                                 </div>
                                 <div className='appointment-status card p-3 border-primary'>
-                                    <p>Current Status - <span><Tag color="#f50" className='text-uppercase'>{item?.status}</Tag></span></p>
-                                    <p>Patient Status - <span><Tag color="#2db7f5" className='text-uppercase'>{item?.patientType}</Tag></span></p>
+                                    {/* <p>Current Status - <span><Tag color="#f50" className='text-uppercase'>{item?.status}</Tag></span></p>
+                                    <p>Patient Status - <span><Tag color="#2db7f5" className='text-uppercase'>{item?.patientType}</Tag></span></p> */}
                                     <p>Is Follow Up - <span><Tag color="#f50" className='text-uppercase'>{item?.isFollowUp ? "Yes" : "No"}</Tag></span></p>
                                     <p> Is Paid - <span><Tag color="#87d068" className='text-uppercase'>{item?.paymentStatus}</Tag></span></p>
                                     <p> Prescribed - <span><Tag color="#2db7f5" className='text-uppercase'>{item?.prescriptionStatus}</Tag></span></p>

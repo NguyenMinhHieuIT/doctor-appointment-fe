@@ -16,12 +16,12 @@ const DoctorInvoice = () => {
             key: '1',
             width: 150,
             render: function (data) {
-                const fullName = `${data?.appointment?.patient?.firstName ?? ''} ${data?.appointment?.patient?.lastName ?? ''}`;
+                const fullName = `${data?.appointment?.patient?.name?? ''}`;
                 const patientName = fullName.trim() || "Private Patient";
                 return (
                     <div className="table-avatar">
                         <a className="avatar avatar-sm mr-2 d-flex gap-2">
-                            <img className="avatar-img rounded-circle" src={data?.appointment?.patient?.img ? data?.appointment?.patient?.img : img} alt="" />
+                            <img className="avatar-img rounded-circle" src={data?.appointment?.patient?.avatar ? data?.appointment?.patient?.avatar : img} alt="" />
                             <p className='p-0 m-0 text-nowrap'>{patientName}</p>
                         </a>
                     </div>

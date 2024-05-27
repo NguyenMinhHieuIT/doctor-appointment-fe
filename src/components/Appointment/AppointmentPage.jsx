@@ -15,8 +15,7 @@ import { useNavigate } from "react-router-dom";
 let initialValue = {
   paymentMethod: 'paypal',
   paymentType: 'creditCard',
-  firstName: '',
-  lastName: '',
+  name: '',
   email: '',
   phone: '',
   reasonForVisit: '',
@@ -33,14 +32,14 @@ const AppointmentPage = () => {
   const {data, role} = useAuthCheck();
   const [current, setCurrent] = useState(0);
   const [selectedDate, setSelectedDate] = useState('');
-  const [selectTime, setSelectTime] = useState('');
+  const [selectTimeStart, setSelectTimeStart] = useState('');
+  const [selectTimeEnd, setSelectTimeEnd] = useState('');
   const [isCheck, setIsChecked] = useState(false);
   const [selectValue, setSelectValue] = useState(initialValue);
   const [IsDisable, setIsDisable] = useState(true);
   const [isConfirmDisable, setIsConfirmDisable] = useState(true);
-  const [patientId, setPatientId] = useState('');
   const navigation = useNavigate();
-
+  
   const [createAppointmentByUnauthenticateUser, {data: appointmentData, isError, isSuccess, isLoading, error}] = useCreateAppointmentByUnauthenticateUserMutation()
 
   const handleChange = (e) => { setSelectValue({ ...selectValue, [e.target.name]: e.target.value }) };
@@ -49,8 +48,8 @@ const AppointmentPage = () => {
   const prev = () => { setCurrent(current - 1) };
 
   useEffect(() => {
-    const { firstName, lastName, email, phone, nameOnCard, cardNumber, expiredMonth, cardExpiredYear, cvv, reasonForVisit } = selectValue;
-    const isInputEmpty = !firstName || !lastName || !email || !phone || !reasonForVisit;
+    const { name, email, phone, nameOnCard, cardNumber, expiredMonth, cardExpiredYear, cvv, reasonForVisit } = selectValue;
+    const isInputEmpty = !name || !email || !phone || !reasonForVisit;
     const isConfirmInputEmpty = !nameOnCard || !cardNumber || !expiredMonth || !cardExpiredYear || !cvv || !isCheck;
     setIsDisable(isInputEmpty);
     setIsConfirmDisable(isConfirmInputEmpty);
@@ -59,23 +58,23 @@ const AppointmentPage = () => {
   const handleConfirmSchedule = () => {
     const obj = {};
     obj.patientInfo = {
-      firstName: selectValue.firstName,
-      lastName: selectValue.lastName,
+      name: selectValue.name,
       email: selectValue.email,
       phone: selectValue.phone,
       patientId: role !== '' && role === 'patient' ? data.id : undefined,
       scheduleDate: selectedDate,
-      scheduleTime: selectTime,
+      startTime: selectTimeStart,
+      endTime: selectTimeEnd,
     }
-    obj.payment = {
-      paymentType: selectValue.paymentType,
-      paymentMethod: selectValue.paymentMethod,
-      cardNumber: selectValue.cardNumber,
-      cardExpiredYear: selectValue.cardExpiredYear,
-      cvv: selectValue.cvv,
-      expiredMonth: selectValue.expiredMonth,
-      nameOnCard: selectValue.nameOnCard
-    }
+    // obj.payment = {
+    //   paymentType: selectValue.paymentType,
+    //   paymentMethod: selectValue.paymentMethod,
+    //   cardNumber: selectValue.cardNumber,
+    //   cardExpiredYear: selectValue.cardExpiredYear,
+    //   cvv: selectValue.cvv,
+    //   expiredMonth: selectValue.expiredMonth,
+    //   nameOnCard: selectValue.nameOnCard
+    // }
     createAppointmentByUnauthenticateUser(obj)
   }
 
@@ -99,13 +98,15 @@ const AppointmentPage = () => {
       content: <SelectApppointment
         handleDateChange={handleDateChange}
         selectedDate={selectedDate}
-        selectTime={selectTime}
-        setSelectTime={setSelectTime}
+        selectTimeStart={selectTimeStart}
+        setSelectTimeStart={setSelectTimeStart}
+        selectTimeEnd={selectTimeEnd}
+        setSelectTimeEnd={setSelectTimeEnd}
       />
     },
     {
       title: 'Patient Information',
-      content: <PersonalInformation handleChange={handleChange} selectValue={selectValue} setPatientId={setPatientId}/>
+      content: <PersonalInformation handleChange={handleChange} selectValue={selectValue} patientInfo={data}/>
     },
     {
       title: 'Payment',
@@ -116,7 +117,8 @@ const AppointmentPage = () => {
         setIsChecked={setIsChecked}
         data={false}
         selectedDate={selectedDate}
-        selectTime={selectTime}
+        selectTimeStart={selectTimeStart}
+        setSelectTimeEnd={setSelectTimeEnd}
       />,
     },
   ]
@@ -136,7 +138,7 @@ const AppointmentPage = () => {
           <div className='text-end mx-3' >
             {current < steps.length - 1 && (
               <Button type="primary" size="large"
-                disabled={current === 0 ? (selectTime ? false : true) : IsDisable || !selectTime}
+                disabled={current === 0 ? (selectTimeStart ? false : true) : IsDisable || !selectTimeStart}
                 onClick={() => next()}>Next</Button>)}
 
             {current === steps.length - 1 && (<Button type="primary" size="large" disabled={isConfirmDisable} loading={isLoading} onClick={handleConfirmSchedule}>Confirm</Button>)}

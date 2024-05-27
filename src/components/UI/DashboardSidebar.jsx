@@ -23,7 +23,7 @@ const DashboardSidebar = () => {
                 {
                     role === 'doctor' ?
                         <div className="profile-info text-center">
-                            <Link to={'/'}><img src={data?.img ? data?.img : img} alt="" /></Link>
+                            <Link to={'/'} className="my-3 patient-img"><img src={data?.avatar ? data?.avatar : img} alt="" className='' /></Link>
                             <div className='profile-details'>
                                 <h5 className='mb-0'>{data?.name}</h5>
                                 <div>
@@ -33,11 +33,11 @@ const DashboardSidebar = () => {
                         </div>
                         :
                         <div className="profile-info text-center">
-                            <Link to={'/'}><img src={data?.img ? data?.img : img} alt="" /></Link>
+                            <Link to={'/'} className="my-3 patient-img"><img src={data?.avatar ? data?.avatar : img} alt="" /></Link>
                             <div className='profile-details'>
                                 <h5 className='mb-0'>{data?.name}</h5>
                                 <div className='mt-2'>
-                                    <p className=' form-text m-0'>{data?.location ?? <>location is null</>}</p>
+                                    <p className=' form-text m-0'>{data?.address ?? <>location is null</>}</p>
                                     <p className=' form-text m-0'>{data?.email}</p>
                                 </div>
                             </div>
@@ -52,32 +52,32 @@ const DashboardSidebar = () => {
                             <li>
                                 <NavLink to={'/dashboard'} activeClassName="active" end>
                                     <FaTable className="icon" />
-                                    <span>Dashboard</span>
+                                    <span>Trang chủ</span>
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to={'/dashboard/favourite'} activeClassName="active">
                                     <FaHouseUser className="icon" />
-                                    <span>Favourites</span>
+                                    <span>Yêu thích</span>
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to={'/dashboard/profile-setting'} activeClassName="active">
                                     <FaUserCog className="icon" />
-                                    <span>Profile Settings</span>
+                                    <span>Hồ sơ</span>
                                 </NavLink>
                             </li>
 
                             <li>
                                 <NavLink to={'/dashboard/change-password'} activeClassName="active">
                                     <FaLock className="icon" />
-                                    <span>Change Password</span>
+                                    <span>Đổi mật khẩu</span>
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to={'/'}>
                                     <FaSignOutAlt className="icon" />
-                                    <span>Logout</span>
+                                    <span>Đăng xuất</span>
                                 </NavLink>
                             </li>
                         </ul>
@@ -86,19 +86,19 @@ const DashboardSidebar = () => {
                             <li>
                                 <NavLink to={'/dashboard'} activeClassName="active" end>
                                     <FaTable className="icon" />
-                                    <span>Dashboard</span>
+                                    <span>Trang chủ</span>
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to={'/dashboard/appointments'} activeClassName="active" end >
                                     <FaCalendarDay className="icon" />
-                                    <span>Appointments</span>
+                                    <span>Cuộc hẹn</span>
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to={'/dashboard/my-patients'} activeClassName="active" end>
                                     <FaUserInjured className="icon" />
-                                    <span>My Patients</span>
+                                    <span>Bệnh nhân của tôi</span>
                                 </NavLink>
                             </li>
                             <li>
@@ -110,47 +110,47 @@ const DashboardSidebar = () => {
                             <li>
                                 <NavLink to={'/dashboard/schedule'} activeClassName="active" end>
                                     <FaCalendarDay className="icon" />
-                                    <span>Schedule Timings</span>
+                                    <span>Lịch làm việc</span>
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to={'/dashboard/invoices'} activeClassName="active" end>
                                     <FaHourglassStart className="icon" />
-                                    <span>Invoices</span>
+                                    <span>Hóa đơn</span>
                                 </NavLink>
                             </li>
 
                             <li>
                                 <NavLink to={'/dashboard/reviews'} activeClassName="active" end>
                                     <FaRegStar className="icon" />
-                                    <span>Reviews</span>
+                                    <span>Đánh giá</span>
                                 </NavLink>
                             </li>
 
                             <li>
                                 <NavLink to={'/dashboard/profile-setting'} activeClassName="active" end>
                                     <FaUserCog className="icon" />
-                                    <span>Profile Settings</span>
+                                    <span>Hồ sơ</span>
                                 </NavLink>
                             </li>
 
                             <li>
                                 <NavLink to={'/dashboard/blogs'} activeClassName="active" end>
                                     <FaBlog className="icon" />
-                                    <span>Blogs (Will move to Admin)</span>
+                                    <span>Bài viết</span>
                                 </NavLink>
                             </li>
 
                             <li>
                                 <NavLink to={'/dashboard/change-password'} activeClassName="active" end>
                                     <FaLock className="icon" />
-                                    <span>Change Password</span>
+                                    <span>Đổi mật khẩu</span>
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to={'/'}>
                                     <FaSignOutAlt className="icon" end />
-                                    <span>Logout</span>
+                                    <span>Đăng xuất</span>
                                 </NavLink>
                             </li>
                         </ul>

@@ -5,16 +5,15 @@ import { useForm } from "react-hook-form";
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { useResetPasswordMutation, useUserLoginMutation } from '../../redux/api/authApi';
-import { message } from 'antd';
 import { useMessageEffect } from '../../utils/messageSideEffect';
-
+import { toast } from 'react-toastify';
 const SignIn = ({ handleResponse }) => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [infoError, setInfoError] = useState('');
     const [show, setShow] = useState(true);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    const [userLogin, { isError, isLoading, isSuccess, error }] = useUserLoginMutation();
+    const [userLogin, { isError, isLoading, isSuccess, error, data: dataLogin }] = useUserLoginMutation();
     const [forgotEmail, setForgotEmail] = useState('');
     const [resetPassword, { isError: resetIsError, isSuccess: resetIsSuccess, error: resetError, isLoading: resetIsLoading }] = useResetPasswordMutation();
 
@@ -35,12 +34,16 @@ const SignIn = ({ handleResponse }) => {
     useMessageEffect(resetIsLoading, resetIsSuccess, resetIsError, resetError, "Successfully Reset Password, Please check your Email!!")
     useEffect(() => {
         if (isError) {
-            message.error(error?.data?.message)
+            toast.error(error?.data?.message)
             setInfoError(error?.data?.message)
         }
         if (isSuccess) {
-            message.success('Successfully Logged in');
-            navigate('/')
+            toast.success('Đăng nhập thành công');
+            if(dataLogin?.user.role === 'admin'){
+                navigate('/admin/dashboard')
+            }else{
+                navigate('/')
+            }  
         }
     }, [isError, error, isSuccess, navigate])
 

@@ -23,10 +23,10 @@ const Reviews = () => {
                         <div className='d-flex gap-3 justify-content-between'>
                             <div className='d-flex gap-4'>
                                 <div className='review-img'>
-                                    <img className="" alt="" src={data?.patient?.img ? data?.patient?.img : img} />
+                                    <img className="" alt="" src={data?.patient?.avatar ? data?.patient?.avatar : img} />
                                 </div>
                                 <div>
-                                    <h5 className="text-nowrap text-capitalize">{item?.patient?.firstName + ' ' + item?.patient?.lastName}</h5>
+                                    <h5 className="text-nowrap text-capitalize">{item?.patient?.name}</h5>
                                     <p className="text-success"><FaRegThumbsUp /> {item?.isRecommended ? 'I recommend the doctor' : 'I do not recommend the doctor'}</p>
                                 </div>
                             </div>

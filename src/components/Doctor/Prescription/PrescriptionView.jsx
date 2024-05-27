@@ -64,7 +64,7 @@ const PrescriptionView = () => {
                             </div>
                             <div className="col-md-6">
                                 <p className="invoice-details">
-                                    <strong>Tracking Id:</strong> {data?.appointment?.trackingId} <br />
+                                    <strong>Tracking Id:</strong> {data?.appoint?.id} <br />
                                     <strong>Issued:</strong> {moment(data.createdAt).format('LL')}
                                 </p>
                             </div>
@@ -76,10 +76,10 @@ const PrescriptionView = () => {
                             <div className="col-md-12">
                                 <div className="invoice-info p-2 rounded" style={{ background: '#c9c9c92b' }}>
                                     <div className="invoice-details invoice-details-two " >
-                                        <h3>Dr.{data?.doctor?.firstName + ' ' + data?.doctor?.lastName}</h3>
-                                        <p>{data?.doctor?.designation} ,</p>
-                                        <p>{data?.doctor?.college}</p>
-                                        <span className="form-text">{data?.doctor?.address}, {data?.doctor?.state},{data?.doctor?.country}</span>
+                                        <h3>Dr.{data?.appoint?.doctor?.name}</h3>
+                                        <p>{data?.appoint?.doctor?.designation}</p>
+                                        <p>{data?.appoint?.doctor?.college}</p>
+                                        <span className="form-text">{data?.appoint?.doctor?.address}, {data?.appoint?.doctor?.state},{data?.appoint?.doctor?.phone}</span>
                                     </div>
                                 </div>
                             </div>
@@ -89,13 +89,13 @@ const PrescriptionView = () => {
                                     <div className="invoice-details invoice-details-two">
                                         <div className="d-flex justify-content-between patient-name">
                                             <div>
-                                                <h5 style={{ fontWeight: 700 }}>Patient Name : {data?.patient?.firstName + ' ' + data?.patient?.lastName}</h5>
-                                                <p className="form-text">Address: {data?.patient?.address}, {data?.patient?.city}, {data?.patient?.country}</p>
+                                                <h5 style={{ fontWeight: 700 }}>Patient Name : {data?.appoint?.patient?.name}</h5>
+                                                <p className="form-text">Address: {data?.appoint?.patient?.address}, {data?.appoint?.patient?.phone}</p>
                                             </div>
                                             <div>
-                                                <p>Sex : {data?.patient?.gender}</p>
-                                                <p>Age : {moment().diff(data?.patient?.dateOfBirth, 'years')}</p>
-                                                <p>Weight : {data?.patient?.weight}</p>
+                                                <p>Sex : {data?.appoint?.patient?.gender}</p>
+                                                <p>Age : {data?.appoint?.patient?.age}</p>
+                                                <p>Weight : {data?.appoint?.patient?.weight}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -119,14 +119,7 @@ const PrescriptionView = () => {
                                     <div>
                                         <h5>TESTS</h5>
                                         <p>{data?.test}</p>
-                                    </div>
-                                    <div>
-                                        <h5>NEXT APOINTMENT</h5>
-                                        <p>
-                                            <span>Date : {moment(data?.followUpdate).format('LL')}</span> <br />
-                                            <span>Time : {moment(data?.followUpdate).format('LT')}</span>
-                                        </p>
-                                    </div>
+                                    </div>                                   
                                     <div>
                                         <h5>ADVICE</h5>
                                         <p>{data?.instruction}</p>
@@ -134,7 +127,7 @@ const PrescriptionView = () => {
                                 </div>
                             </div>
                             <div className="col-md-9 col-xl-9 px-0">
-                                <Table columns={columns} dataSource={data?.medicines} pagination={false} />
+                                <Table columns={columns} dataSource={data?.medicine} pagination={false} />
                             </div>
                         </div>
                     </div>

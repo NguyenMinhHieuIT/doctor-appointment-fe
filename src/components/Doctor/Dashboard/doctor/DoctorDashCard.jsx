@@ -5,19 +5,19 @@ const DoctorDashCard = (props) => {
     const cardData = [
         {
             icon: <FaHospital className='icon' />,
-            title: 'Total Patient',
+            title: 'Tổng số bệnh nhân',
             amount: props.totalPatient,
             date: moment(new Date()).format('lll')
         },
         {
             icon: <FaHospitalUser className='icon active' />,
-            title: 'Today Patient',
+            title: 'Bệnh nhân hôm nay',
             amount: props.todayPatient,
             date: moment(new Date()).format('lll')
         },
         {
             icon: <FaCalendarAlt className='icon danger' />,
-            title: 'Appointments',
+            title: 'Cuộc hẹn',
             amount: props.totalAppoint,
             date: moment(new Date()).format('lll')
         }

@@ -1,8 +1,13 @@
 import DashboardLayout from '../DashboardLayout/DashboardLayout';
 import React, { useEffect, useState } from 'react';
 import { Space, Tag, Button, Empty, message } from 'antd';
-import { useCreateTimeSlotMutation, useGetDoctorTimeSlotQuery, useUpdateTimeSlotMutation } from '../../../redux/api/timeSlotApi';
-import { FaWindowClose, FaPlus } from "react-icons/fa";
+import {
+    useCreateTimeSlotMutation,
+    useGetDoctorTimeSlotQuery,
+    useUpdateTimeSlotMutation,
+    useDeleteScheduleDayMutation,
+} from '../../../redux/api/timeSlotApi';
+import { FaWindowClose, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import UseModal from '../../UI/UseModal';
 import TimePicer from '../../UI/form/TimePicer';
 import TabForm from '../../UI/form/TabForm';
@@ -15,6 +20,7 @@ const Schedule = () => {
     const [UpdateTimeSlot, { isError: uIsError, error: uError, isLoading: UIsLoading, isSuccess: uIsSuccess }] = useUpdateTimeSlotMutation();
     const { data, refetch, isLoading, isError } = useGetDoctorTimeSlotQuery({ day: key });
     const [createTimeSlot, { isError: AIsError, error, isLoading: AIsLoading, isSuccess }] = useCreateTimeSlotMutation();
+    const [deleteScheduleDay, { isError: schIsError, error: schError, isLoading: schIsLoading, isSuccess: schisSuccess }] = useDeleteScheduleDayMutation();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -37,14 +43,21 @@ const Schedule = () => {
         setIsEditModalOpen(UIsLoading ? true : false)
     };
 
+   
+
+
     useEffect(() => {
         if (!UIsLoading && uIsError) {
             message.error(uError?.data?.message)
         }
         if (uIsSuccess) {
-            message.success('Successfully Slot Updated')
+            message.success('cập nhật ca làm việc thành công')
         }
-    }, [uIsSuccess, uIsError, UIsLoading, uError?.data?.message])
+        if(schisSuccess){
+            message.success('xóa ca làm việc thành công')
+        }
+    }, [uIsSuccess, uIsError, UIsLoading, uError?.data?.message, schisSuccess])
+
 
 
     const handleEditStartTime = (id, time, timeString) => {
@@ -92,16 +105,23 @@ const Schedule = () => {
             timeSlot: timeSlot
         }
         createTimeSlot({ data });
-        setIsModalOpen(AIsLoading ? true : false)
+        setIsModalOpen(AIsLoading ? true : false);
     };
+
+    const handleDeleteSchedule = (id) => {
+        setTimeSlot(timeSlot.filter((item) => item.id !== id));
+        deleteScheduleDay(id);
+        refetch();
+    }
+
     useEffect(() => {
         if (!AIsLoading && AIsError) {
-            message.error(error?.data?.message)
+            message.error(error?.data?.message);
         }
         if (isSuccess) {
-            message.success('Successfully Add Time Slots')
+            message.success('Successfully Add Time Slots');
         }
-    }, [isSuccess, AIsError, error?.data?.message, AIsLoading])
+    }, [isSuccess, AIsError, error?.data?.message, AIsLoading]);
 
     const handleStartTime = (id, time, timeString) => {
         setAddTimeSlot(prev => (prev.map(item => item.id === id ? { ...item, startTime: timeString } : item)));
@@ -131,42 +151,45 @@ const Schedule = () => {
     }
 
     const removeFromAddTimeSlot = (id) => {
-        setAddTimeSlot(addTimeSlot.filter((item) => item.id !== id))
+        deleteScheduleDay(addTimeSlot.filter((item) => item.id !== id))
     }
     const addInAddTimeSlot = (e) => {
         const newId = addTimeSlot.length + 1;
         setAddTimeSlot([...addTimeSlot, { id: newId }])
         e.preventDefault();
     }
-
+    
     let content = null;
     if (!isLoading && isError) content = <div>Something Went Wrong !</div>
-    if (!isLoading && !isError && data?.length === 0) content = <Empty />
-    if (!isLoading && !isError && data?.length > 0) content =
+    if (!isLoading && !isError && !data) content = <Empty />
+    if (!isLoading && !isError && data) content =
         <>
             {
-                data && data.map((item, index) => (
-                    <div key={item.id + index}>
-                        <div>
-                            {item?.maximumPatient && <h6>Maximum Patient Limit : {item?.maximumPatient}</h6>}
-                        </div>
-                        <Space size={[0, 'small']} wrap>
-                            {
-                                item?.timeSlot && item?.timeSlot.map((time, index) => (
-                                    <Tag bordered={false} closable color="processing" key={index + 2}>
-                                        {time?.startTime} - {time?.endTime}
-                                    </Tag>
-                                ))
-                            }
-                        </Space>
+
+                <div key={data.id}>
+                    <div>
+                        {data?.maximumPatient && <h6>Maximum Patient Limit : {data?.maximumPatient}</h6>}
                     </div>
-                ))
+                    <Space size={[0, 'small']} wrap>
+                        {
+                            data?.timeSlot && data?.timeSlot.map((time, index) => (
+                                <Tag bordered={false} color="processing" key={index + 2}>
+                                    {time?.startTime} - {time?.endTime}
+                                    <a className="text-danger position-absolute text-end mb-3" onClick={()=>handleDeleteSchedule(time?.id)}>
+                                        <FaRegTrashAlt />
+                                    </a>
+                                </Tag>
+                            ))
+                        }
+                    </Space>
+                </div>
+
             }
         </>
     return (
         <>
             <DashboardLayout>
-                <div className="w-100 mb-3 rounded p-3" style={{ background: '#f8f9fa', height:'90vh' }}>
+                <div className="w-100 mb-3 rounded p-3" style={{ background: '#f8f9fa', height: '90vh' }}>
                     <h5 className='text-title'>Schedule Timings</h5>
                     <TabForm content={content} data={data} handleOnSelect={handleOnSelect} showEditModal={showEditModal} showModal={showModal} />
                 </div>

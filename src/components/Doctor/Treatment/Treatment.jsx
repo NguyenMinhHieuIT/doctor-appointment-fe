@@ -4,7 +4,7 @@ import { FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { Button, DatePicker, Space, message } from "antd";
 import dayjs from 'dayjs';
 import { useEffect, useState } from "react";
-import { DatePickerSinglePresets, DiagnosisOptions, DiseaseOptions, DosageOptions, FrequencyOptions, MedicalCheckupOptions, PatientStatus, appointemntStatusOption } from "../../../constant/global";
+import { DatePickerSinglePresets, DiagnosisOptions, DiseaseOptions, DosageOptions, FrequencyOptions, MedicalCheckupOptions, PatientStatus, StatusAppointOptions, appointemntStatusOption } from "../../../constant/global";
 import SelectForm from "../../UI/form/SelectForm";
 import TextArea from "antd/es/input/TextArea";
 import InputAutoCompleteForm from "../../UI/form/InputAutoCompleteForm";
@@ -19,21 +19,17 @@ const Treatment = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const { data } = useGetSingleAppointmentQuery(id)
-    const { handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm();
     const [isDisable, setIsDisable] = useState(true);
     const [selectAppointmentStatus, setSelectAppointmentStatus] = useState('');
-    const [patientStatus, setPatientStatus] = useState('');
-    const [daignosis, setDaignosis] = useState([]);
-    const [disease, setDisease] = useState([]);
     const [medicalCheckup, setMedicalCheckup] = useState([]);
     const [instruction, setInstruction] = useState('');
-    const [followUpDate, setFollowUpdate] = useState('');
     const [medicineList, setMedicineList] = useState([{ id: 1 }]);
 
     useEffect(() => {
-        const isInputEmpty = !selectAppointmentStatus || !patientStatus || !instruction || !followUpDate || !daignosis.length === 0 || !disease.length === 0 || !medicalCheckup.length === 0;
+        const isInputEmpty = !selectAppointmentStatus || !instruction || !medicalCheckup.length === 0;
         setIsDisable(isInputEmpty);
-    }, [selectAppointmentStatus, patientStatus, followUpDate, instruction, medicineList, daignosis, disease, medicalCheckup]);
+    }, [selectAppointmentStatus, instruction, medicineList, medicalCheckup]);
 
     const [createPrescription, { isSuccess, isLoading, isError, error }] = useCreatePrescriptionMutation();
 
@@ -42,28 +38,21 @@ const Treatment = () => {
         setMedicineList([...medicineList, { id: medicineList.length + 1 }])
     }
 
-    const removeFromAddTimeSlot = (id) => {
-        setMedicineList(medicineList.filter((item) => item.id !== id))
+    const removeFromMedicineList = (id) => {
+        setMedicineList(medicineList.filter((item) => item.medicine !== id))
     }
 
-    const handleFollowUpChange = (date) => {
-        if (date) {
-            setFollowUpdate(dayjs(date).format());
-        }
-    };
 
     const onSubmit = (data) => {
         const obj = {};
         obj.status = selectAppointmentStatus;
-        obj.patientType = patientStatus;
-
-        daignosis.length && (obj["daignosis"] = daignosis.join(','))
-        disease.length && (obj["disease"] = disease.join(','))
+        obj.patientStatus = data.patientStatus;
+        obj.daignosis = data.daignosis;
+        obj.disease = data.disease;
         medicalCheckup.length && (obj["test"] = medicalCheckup.join(','))
-        obj.followUpdate = followUpDate;
         obj.instruction = instruction;
         obj.medicine = medicineList;
-        obj.appointmentId = id;
+        obj.appointmentId = +id;
 
         createPrescription({ data: obj });
     }
@@ -75,12 +64,8 @@ const Treatment = () => {
         if (isSuccess) {
             message.success('Successfully Changed Saved !');
             setSelectAppointmentStatus("");
-            setPatientStatus("");
-            setDaignosis([]);
-            setDisease([]);
             setMedicalCheckup([]);
             setInstruction('');
-            setFollowUpdate('');
             setMedicineList([{ id: 1 }]);
             navigate('/dashboard/prescription')
         }
@@ -102,7 +87,7 @@ const Treatment = () => {
                             </div>
                             <SelectForm
                                 showSearch={true}
-                                options={appointemntStatusOption}
+                                options={StatusAppointOptions}
                                 setSelectData={setSelectAppointmentStatus}
                             />
                         </div>
@@ -113,11 +98,7 @@ const Treatment = () => {
                             <div className="mb-2">
                                 <h6 className="card-title text-secondary">Change Patient Status</h6>
                             </div>
-                            <SelectForm
-                                showSearch={true}
-                                options={PatientStatus}
-                                setSelectData={setPatientStatus}
-                            />
+                            <input required {...register("patientStatus")} className="form-control" placeholder='Patient Status'/>
                         </div>
                     </div>
 
@@ -127,28 +108,14 @@ const Treatment = () => {
 
                             <div className="row">
                                 <div className="col-md-6">
-                                    <div className="form-group mb-3">
-                                        <div>
-                                            <label>Daignosis</label>
-                                        </div>
-                                        <SelectForm
-                                            mode={true}
-                                            options={DiagnosisOptions}
-                                            setSelectData={setDaignosis}
-                                        />
+                                    <div className="form-group mb-3">                                      
+                                        <input required {...register("daignosis")} className="form-control" placeholder='Daignosis'/>
                                     </div>
                                 </div>
 
                                 <div className="col-md-6">
                                     <div className="form-group mb-3">
-                                        <div>
-                                            <label>Disease</label>
-                                        </div>
-                                        <SelectForm
-                                            mode={true}
-                                            options={DiseaseOptions}
-                                            setSelectData={setDisease}
-                                        />
+                                    <input required {...register("disease")} className="form-control" placeholder='disease'/>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +128,6 @@ const Treatment = () => {
                             <h6 className="card-title text-secondary">Medical Checkup</h6>
                             <div className="row form-row">
                                 <div className="form-group mb-2 card-label">
-                                    <label>Medical Checkup</label>
                                     <SelectForm
                                         mode={true}
                                         setSelectData={setMedicalCheckup}
@@ -184,6 +150,7 @@ const Treatment = () => {
                                             <div className="form-group mb-2">
                                                 <InputAutoCompleteForm
                                                     id={item.id}
+                                                    keyName={"medicine"}
                                                     medicineList={medicineList}
                                                     setMedicineList={setMedicineList}
                                                 />
@@ -193,10 +160,9 @@ const Treatment = () => {
                                         <div className="col-md-6 mb-3">
                                             <label>Dosage</label>
                                             <div className="form-group mb-2">
-                                                <SelectFormForMedicine
+                                                <InputAutoCompleteForm
                                                     id={item.id}
                                                     keyName={"dosage"}
-                                                    options={DosageOptions}
                                                     medicineList={medicineList}
                                                     setMedicineList={setMedicineList}
                                                 />
@@ -206,10 +172,9 @@ const Treatment = () => {
                                         <div className="col-md-6 mb-3">
                                             <label>Frequency</label>
                                             <div className="form-group mb-2">
-                                                <SelectFormForMedicine
+                                                <InputAutoCompleteForm
                                                     id={item.id}
                                                     keyName={"frequency"}
-                                                    options={FrequencyOptions}
                                                     medicineList={medicineList}
                                                     setMedicineList={setMedicineList}
                                                 />
@@ -231,7 +196,7 @@ const Treatment = () => {
                                         </div>
 
                                         <a className="text-danger position-absolute text-end mb-3"
-                                            onClick={() => removeFromAddTimeSlot(item?.id)} style={{ top: '-35px' }}>
+                                            onClick={() => removeFromMedicineList(item?.id)} style={{ top: '-35px' }}>
                                             <FaRegTrashAlt />
                                         </a>
                                     </div>
@@ -246,7 +211,7 @@ const Treatment = () => {
                         </div>
                     </div>
 
-                    <div className="col-md-12 mb-3">
+                    {/* <div className="col-md-12 mb-3">
                         <label>Follow Up Date</label>
                         <div className="form-group mb-2">
                             <DatePicker
@@ -257,7 +222,7 @@ const Treatment = () => {
                                 style={{ width: '100%' }}
                             />
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="col-md-12 mb-3">
                         <div className="form-group mb-2">

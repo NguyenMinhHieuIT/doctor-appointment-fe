@@ -1,7 +1,7 @@
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi"
 
-const PRESCRIPTION_URL = '/prescription'
+const PRESCRIPTION_URL = '/pres'
 
 export const prescriptionApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
@@ -21,21 +21,21 @@ export const prescriptionApi = baseApi.injectEndpoints({
         }),
         createPrescription: build.mutation({
             query: ({ data }) => ({
-                url: `${PRESCRIPTION_URL}/create`,
+                url: `${PRESCRIPTION_URL}`,
                 method: 'POST',
                 data: data
             }),
             invalidatesTags: [tagTypes.prescription]
         }),
         deletePrescription: build.mutation({
-            query: () => ({
-                url: `${PRESCRIPTION_URL}/`,
+            query: (id) => ({
+                url: `${PRESCRIPTION_URL}/${id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: [tagTypes.prescription]
         }),
         updatePrescription: build.mutation({
-            query: ({ id, data }) => ({
+            query: ({id, data}) => ({
                 url: `${PRESCRIPTION_URL}/${id}`,
                 method: 'PATCH',
                 data: data
@@ -74,6 +74,6 @@ export const {
     useDeletePrescriptionMutation,
     useGetDoctorPrescriptionQuery,
     useGetPatientPrescriptionQuery,
-    useUpdatePrescriptionQuery,
+    useUpdatePrescriptionMutation,
     useUpdatePrescriptionAndAppointmentMutation
 } = prescriptionApi;

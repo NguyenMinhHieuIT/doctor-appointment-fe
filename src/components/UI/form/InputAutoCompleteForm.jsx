@@ -4,13 +4,14 @@ const mockVal = (str, repeat = 1) => ({
     value: str.repeat(repeat),
 });
 
-const InputAutoCompleteForm = ({ id, medicineList,setMedicineList, defaultValue=undefined }) => {
+const InputAutoCompleteForm = ({ id, medicineList, keyName, setMedicineList, defaultValue }) => {
     const [options, setOptions] = useState([]);
     const getPanelValue = (searchText) => !searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)];
 
     const onChange = (e) => {
         const findIndex = medicineList.find((item) => item.id === id);
-        const updateItem = {...findIndex, medicine: e}
+        const updateItem = {...findIndex}
+        updateItem[keyName] = e;
         setMedicineList(prev => {
             const indexToUpdate = prev.findIndex(item => item.id === id)
             if(indexToUpdate !== -1){
@@ -30,7 +31,7 @@ const InputAutoCompleteForm = ({ id, medicineList,setMedicineList, defaultValue=
             onChange={onChange}
             onSearch={(text) => setOptions(getPanelValue(text))}
             size='large'
-            placeholder="Medicine..."
+            placeholder={keyName}
             defaultValue={defaultValue}
         />
     )

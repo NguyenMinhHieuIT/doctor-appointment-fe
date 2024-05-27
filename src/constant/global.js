@@ -15,7 +15,24 @@ export const genderOptions = gender.map((data) => {
         value: data
     }
 })
-export const daysArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+export const daysArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+const StatusAppointArray = ['cancel','confirmed','pending','in_progress','completed'];
+export const StatusAppointOptions = StatusAppointArray.map(data => {
+    return {
+        label: data,
+        value: data
+    }
+})
+export const StatusAppoint = {
+    CANCEL : 'cancel',
+    CONFIRMED : 'confirmed',
+    PENDING : 'pending',
+    IN_PROGRESS : 'in_progress',
+    COMPLETED : 'completed',
+}
+
+
+  
 
 export const doctorSpecialistArray = [
     { id: 1, value: "Cardiologist" }, // tim mach
@@ -38,6 +55,7 @@ export const Special = {
     Cardiologist: 'Cardiologist',
     Dentist: 'Dentist',
 }
+
 
 export const SpecialOptions = [
     {
@@ -202,7 +220,35 @@ const medicalCheckupList = [
     "Psychological Assessment",
     "Annual Checkup with General Practitioner"
 ];
-
+// "Kiểm tra thể chất",1
+//     "Đo huyết áp",2
+//     "Xét nghiệm máu",3
+//     "Bảng cholesterol",4
+//     "Xét nghiệm đường huyết",5
+//     "Công thức máu toàn bộ (CBC)",6
+//     "Xét nghiệm chức năng tuyến giáp",7
+//     "Xét nghiệm chức năng gan",8
+//     "Xét nghiệm chức năng thận",9
+//     "Phân tích nước tiểu",10
+//     "Đo chỉ số khối cơ thể (BMI)",11
+//     "Kiểm tra thị giác",12
+//     "Kiểm tra nghe",13
+//     "Khám răng",14
+//     "Kiểm tra da",15
+//     "Sàng lọc ung thư (ví dụ: Chụp quang tuyến vú, Xét nghiệm Pap, Kháng nguyên đặc hiệu tuyến tiền liệt)",16
+//     "Kiểm tra mật độ xương",17
+//     "Điện tâm đồ (ECG hoặc EKG)",18
+//     "X-quang ngực",19
+//     "Xét nghiệm chức năng phổi",20
+//     "Nội soi đại tràng",21
+//     "Xét nghiệm phân để phát hiện ung thư đại trực tràng",22
+//     "Quét DEXA (Đo hấp thụ tia X năng lượng kép)",23
+//     "Kiểm tra hiv",24
+//     "Sàng lọc các bệnh lây truyền qua đường tình dục (STI)",25
+//     "Tiêm chủng và tiêm chủng",26
+//     "Kiểm tra mắt",27
+//     "Đánh giá tâm lý",28
+//     "Khám sức khỏe hàng năm với bác sĩ đa khoa"29
 const dosageList = [
     "250 mg",
     "1000 mg",

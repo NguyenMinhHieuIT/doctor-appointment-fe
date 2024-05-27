@@ -5,6 +5,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import swal from 'sweetalert';
 import { useDoctorSignUpMutation, usePatientSignUpMutation } from '../../redux/api/authApi';
 import { message } from 'antd';
+import { toast } from 'react-toastify';
 
 // password regex
 // ^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$
@@ -49,11 +50,7 @@ const SignUp = ({ setSignUp }) => {
             handleSignUpSuccess();
             setLoading(false);
             setLoading(false);
-            swal({
-                icon: 'success',
-                text: `Successfully Account Created Please Verify Your email`,
-                timer: 5000
-            });
+            toast.success('Đăng kí tài khoản thành công')
         }
 
         // Patient account
@@ -65,11 +62,7 @@ const SignUp = ({ setSignUp }) => {
             handleSignUpSuccess();
             setLoading(false);
             setSignUp(false);
-            // swal({
-            //     icon: 'success',
-            //     text: `Successfully ${userType === 'doctor' ? 'Doctor' : 'Patient'} Account Created Please Login`,
-            //     timer: 2000
-            // })
+            toast.success('Đăng kí tài khoản thành công')
         }
 
     }, [dIsError, dError, pError, pIsError, , pIsLoading, dIsLoading, pData, dData, setSignUp, setLoading, dIsSuccess])

@@ -17,7 +17,7 @@ const OurDoctors = () => {
                     <div className="col-lg-6 mt-3" key={key + 2}>
                         <div className="member d-flex align-items-start">
                             <div className="pic">
-                                {item.img ? <img src={item.img} className="img-fluid" alt="" /> : <img src={avatar} className="img-fluid" alt="" />}
+                                {item.avatar ? <img src={item.avatar} className="" alt="" /> : <img src={avatar} className="img-fluid" alt="" />}
                             </div>
                             <div className="member-info">
                                 <h4>Dr. {item?.name}</h4>

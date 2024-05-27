@@ -8,7 +8,7 @@ import avatar from '../../../images/avatar.jpg';
 import { Button, message } from 'antd';
 import { loggedOut } from '../../../service/auth.service';
 import HeaderNav from './HeaderNav';
-
+import { toast } from 'react-toastify';
 const Header = () => {
     const navigate = useNavigate();
     const { authChecked, data } = useAuthCheck();
@@ -36,7 +36,7 @@ const Header = () => {
 
     const hanldeSignOut = () => {
         loggedOut();
-        message.success("Successfully Logged Out")
+        toast.success("Đăng xuất thành công")
         setIsLogged(false)
         navigate('/')
     }
@@ -47,10 +47,10 @@ const Header = () => {
             <div className='my-2'>
                 <h5 className='text-capitalize'>{data?.name}</h5>
                 <p className='my-0'>{data?.email}</p>
-                <Link to="/dashboard">Deshboard</Link>
+                <Link to="/dashboard">Trang cá nhân</Link>
             </div>
             <Button variant="outline-danger" className='w-100' size="sm" onClick={hanldeSignOut}>
-                Logged Out
+                Đăng xuất
             </Button>
         </div >
     );
@@ -64,11 +64,10 @@ const Header = () => {
 
                     <Link to={'/'} className="logo me-auto">
                         <img src={logo} alt="" className="img-fluid" />
-                        <span style={{color: '#3291e6'}}>DoctorApp</span>
+                        <span style={{color: '#1977cc'}}>DoctorApp</span>
                     </Link>
                     <HeaderNav isLoggedIn={isLoggedIn} data={data}
                         avatar={avatar} content={content} open={open} setOpen={setOpen} />
-                    <Link to={'/appointment'} className="appointment-btn scrollto"><span className="d-none d-md-inline">Make an</span> Appointment</Link>
                 </div>
             </header>
         </>

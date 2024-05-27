@@ -12,6 +12,11 @@ import { clickToCopyClipBoard } from '../../utils/copyClipBoard';
 const BookingSuccess = () => {
     const { id } = useParams();
     const { data } = useGetSingleAppointmentQuery(id);
+    const start = moment(data?.startTime, 'hh:mm a');
+    const end = moment(data?.endTime, 'hh:mm a');
+
+    const duration = moment.duration(end.diff(start));
+    const minutes = duration.asMinutes();
 
     const navigate = useNavigate();
 
@@ -56,23 +61,19 @@ const BookingSuccess = () => {
                                 </div>
                                 <div className='d-flex gap-3 mb-1'>
                                     <FaBriefcase style={{ fontSize: '1rem' }} />
-                                    <p>With Doctor</p>
+                                    <p>Doctor: { data?.doctor?.name }</p>
                                 </div>
                                 <div className='d-flex gap-3 mb-1'>
                                     <FaRegClock style={{ fontSize: '1rem' }} />
-                                    <p>30 Min</p>
+                                    <p>{minutes} Min</p>
                                 </div>
                                 <div className='d-flex gap-3 mb-1'>
                                     <div><FaLocationArrow style={{ fontSize: '1rem' }} /></div>
-                                    <p className='text-start'>Sylhet, Bangladesh<br /><span className="form-text">1020BD, Amertam, NorthEast,Srimongol</span></p>
-                                </div>
-                                <div className='d-flex gap-3 mb-2'>
-                                    <div><FaLink style={{ fontSize: '1rem' }} /></div>
-                                    <div><a href='https://meet.google.com/udx-kieq-sng' target='_blank' rel='noreferrer'>https://meet.google.com/udx-kieq-sng</a></div>
+                                    <p className='text-start'>{data?.address}</p>
                                 </div>
                                 <div className='d-flex gap-3'>
                                     <div><FaCalendarAlt style={{ fontSize: '1rem' }} /> </div>
-                                    <p>{(data.scheduleDate && data.scheduleTime) && moment(data.scheduleDate).format('LL') + ' ' + data.scheduleTime}</p>
+                                    <p>{(data?.scheduleDate && data?.startTime && data?.endTime) && moment(data.scheduleDate).format('LL') + ': ' + data?.startTime + ' _ ' + data?.endTime}</p>
                                 </div>
                             </div>
                         </div>

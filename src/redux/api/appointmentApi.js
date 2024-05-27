@@ -1,13 +1,13 @@
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi"
 
-const APPOINTMENT_URL = '/appointment'
+const APPOINTMENT_URL = '/appoint'
 
 export const appointmentApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
         createAppointment: build.mutation({
             query: (data) => ({
-                url: `${APPOINTMENT_URL}/create`,
+                url: `${APPOINTMENT_URL}`,
                 method: 'POST',
                 data: data
             }),
@@ -38,7 +38,7 @@ export const appointmentApi = baseApi.injectEndpoints({
         }),
         getPatientAppointments: build.query({
             query: () => ({
-                url: `${APPOINTMENT_URL}/patient/appointments`,
+                url: `${APPOINTMENT_URL}/patient`,
                 method: 'GET'
             }),
             providesTags: [tagTypes.appointments]
@@ -59,9 +59,9 @@ export const appointmentApi = baseApi.injectEndpoints({
         }),
         getDoctorAppointments: build.query({
             query: (arg) => ({
-                url: `${APPOINTMENT_URL}/doctor/appointments`,
+                url: `${APPOINTMENT_URL}/doctor`,
                 method: 'GET',
-                params: arg
+                // params: arg
             }),
             providesTags: [tagTypes.appointments]
         }),

@@ -9,8 +9,13 @@ import { doctorSpecialistOptions, SpecialOptions } from '../../../constant/globa
 import ImageUpload from '../../UI/form/ImageUpload';
 import dImage from '../../../images/avatar.jpg';
 import { DatePicker } from 'antd';
+import './index.css';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { GenderOptions } from '../../../constant/user.constant';
 
 const DoctorProfileSetting = () => {
+    const navigate = useNavigate()
     const [selectedItems, setSelectedItems] = useState('');
     const [updateDoctor, { isLoading, isSuccess, isError, error }] = useUpdateDoctorMutation()
     const { data } = useAuthCheck();
@@ -30,8 +35,9 @@ const DoctorProfileSetting = () => {
     }, [data]);
 
     const handleChange = (e) => {
-        setSelectValue({ ...selectValue, [e.target.name]: e.target.value })
+        setSelectValue({ ...selectValue, [e.target.name]: e.target.value === 'Nam' ? 'male' : 'female' })
     }
+
     const onChange = (date, dateString) => { 
         setDate(moment(dateString).format());
     };
@@ -59,19 +65,23 @@ const DoctorProfileSetting = () => {
             message.error(error?.data?.message);
         }
         if (isSuccess) {
-            message.success('Successfully Changed Saved !')
+
+            toast.success('Cập nhật hồ sơ thành công'); 
+            setTimeout(()=>{
+                window.location.reload();
+            }, 3000);
         }
     }, [isLoading, isError, error, isSuccess]);
     return (
         <div style={{ marginBottom: '10rem' }}>
             <div className="w-100 mb-3 rounded mb-5 p-2" style={{ background: '#f8f9fa' }}>
-                <h5 className="text-title mb-2 mt-3">Update Your Information</h5>
+                <h5 className="text-title mb-2 mt-3">Cập nhật hồ sơ của bạn</h5>
                 <form className="row form-row" onSubmit={handleSubmit(onSubmit)}>
                     <div className="col-md-12 mb-5">
                         <div className="form-group">
                             <div className="change-avatar d-flex gap-2 align-items-center">
                                 <Link to={'/'} className="my-3 patient-img">
-                                    <img src={selectedImage ? selectedImage : data?.img || dImage} alt="" />
+                                    <img src={selectedImage ? selectedImage : data?.avatar || dImage} alt=""/>
                                 </Link>
                                 <div className='mt-3'>
                                     <ImageUpload setSelectedImage={setSelectedImage} setFile={setFile} />
@@ -103,11 +113,11 @@ const DoctorProfileSetting = () => {
 
                     <div className="col-md-6">
                         <div className="form-group mb-2 card-label">
-                            <label>Gender {data?.gender ? '--->' + data?.gender : null}</label>
+                            <label>Giới tính:  {GenderOptions[data?.gender]}</label>
                             <select className="form-control select" onChange={handleChange} name='gender'>
-                                <option value={''}>Select</option>
-                                <option className='text-capitalize'>male</option>
-                                <option className='text-capitalize'>female</option>
+                                <option value={''}>---</option>
+                                <option className='text-capitalize'>Nam</option>
+                                <option className='text-capitalize'>Nữ</option>
                             </select>
                         </div>
                     </div>
@@ -125,7 +135,7 @@ const DoctorProfileSetting = () => {
                                 <h6 className="card-title text-secondary">About Me</h6>
                                 <div className="form-group mb-2 card-label">
                                     <label>Biography</label>
-                                    <textarea defaultValue={data?.biography} {...register("biography")} className="form-control" rows={5} />
+                                    <textarea defaultValue={data?.description} {...register("description")} className="form-control" rows={5} />
                                 </div>
                             </div>
                         </div>
@@ -268,7 +278,7 @@ const DoctorProfileSetting = () => {
 
                     <div className='text-center my-3'>
                         <Button htmlType='submit' type="primary" size='large' loading={isLoading} disabled={isLoading ? true : false} >
-                            {isLoading ? 'Saving ...' : 'Save Changes'}
+                            {isLoading ? 'Đang lưu ...' : 'Lưu thay đổi'}
                         </Button>
                     </div>
                 </form>

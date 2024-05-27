@@ -7,10 +7,11 @@ import { Button, Tag, message } from 'antd';
 import CustomTable from '../../../UI/component/CustomTable';
 import { Tabs } from 'antd';
 import { Link } from 'react-router-dom';
+import { StatusAppoint } from '../../../../constant/global';
 
 const DashboardPage = () => {
     const [sortBy, setSortBy] = useState("upcoming");
-    const { data, refetch, isLoading } = useGetDoctorAppointmentsQuery({ sortBy });
+    const { data, refetch, isLoading } = useGetDoctorAppointmentsQuery({});
     const [updateAppointment, { isError, isSuccess, error }] = useUpdateAppointmentMutation();
 
     const handleOnselect = (value) => {
@@ -40,13 +41,13 @@ const DashboardPage = () => {
 
     const upcomingColumns = [
         {
-            title: 'Patient Name',
+            title: 'Bệnh nhân',
             key: '1',
             width: 100,
             render: function (data) {
-                const fullName = `${data?.patient?.firstName ?? ''} ${data?.patient?.lastName ?? ''}`;
+                const fullName = `${data?.patient?.name ?? ''}`;
                 const patientName = fullName.trim() || "Un Patient";
-                const imgdata = data?.patient?.img ? data?.patient?.img : img
+                const imgdata = data?.patient?.avatar ?? img;
                 return <>
                     <div className="table-avatar">
                         <a className="avatar avatar-sm mr-2 d-flex gap-2">
@@ -63,17 +64,17 @@ const DashboardPage = () => {
             }
         },
         {
-            title: 'App Date',
+            title: 'Ngày đặt',
             key: '2',
             width: 100,
             render: function (data) {
                 return (
-                    <div>{moment(data?.scheduleDate).format("LL")} <span className="d-block text-info">{data?.scheduleTime}</span></div>
+                    <div>{moment(data?.scheduleDate).format("LL")} <span className="d-block text-info">{data?.startTime + ' _ ' + data?.endTime }</span></div>
                 )
             }
         },
         {
-            title: 'Status',
+            title: 'Trạng Thái',
             key: '4',
             width: 100,
             render: function (data) {
@@ -83,7 +84,7 @@ const DashboardPage = () => {
             }
         },
         {
-            title: 'Action',
+            title: 'Hành động',
             key: '5',
             width: 100,
             render: function (data) {
@@ -104,8 +105,8 @@ const DashboardPage = () => {
                         {
                             data?.status === 'pending' &&
                             <>
-                                <Button type="primary" icon={<FaCheck />} size="small" onClick={() => updatedApppointmentStatus(data, 'accept')}>Accept</Button>
-                                <Button type='primary' icon={<FaTimes />} size='small' danger onClick={() => updatedApppointmentStatus(data, 'cancel')}>Cancel</Button>
+                                <Button type="primary" icon={<FaCheck />} size="small" onClick={() => updatedApppointmentStatus(data, StatusAppoint.CONFIRMED)}>Accept</Button>
+                                <Button type='primary' icon={<FaTimes />} size='small' danger onClick={() => updatedApppointmentStatus(data, StatusAppoint.CANCEL)}>Cancel</Button>
                             </>
                         }
                     </div>
@@ -117,7 +118,7 @@ const DashboardPage = () => {
     const items = [
         {
             key: '1',
-            label: 'upcoming',
+            label: 'Sắp tới',
             children: <CustomTable
                 loading={isLoading}
                 columns={upcomingColumns}
@@ -129,7 +130,7 @@ const DashboardPage = () => {
         },
         {
             key: '2',
-            label: 'today',
+            label: 'Hôm nay',
             children: <CustomTable
                 loading={isLoading}
                 columns={upcomingColumns}

@@ -100,15 +100,7 @@ const SearchDoctor = () => {
         <div className="container-fluid">
           <div className="row">
             <SearchSidebar
-              setSearchTerm={(value) => {
-                setSearchTerm(value);
-                if (value === '') {
-                  const newQuery = { ...query };
-                  const index = newQuery.searchFields.indexOf('name');
-                  if (index !== -1) newQuery.searchFields.splice(index, 1);
-                  setQuery(newQuery);
-                }
-              }}
+              setSearchTerm={setSearchTerm}
               setSorByGender={setSorByGender}
               setSpecialist={setSpecialist}
               setPriceRange={setPriceRange}

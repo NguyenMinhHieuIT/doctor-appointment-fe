@@ -22,8 +22,7 @@ const DoctorBooking = () => {
     let initialValue = {
         paymentMethod: 'paypal',
         paymentType: 'creditCard',
-        firstName: '',
-        lastName: '',
+        name: '',
         email: '',
         phone: '',
         reasonForVisit: '',
@@ -39,7 +38,8 @@ const DoctorBooking = () => {
     const [current, setCurrent] = useState(0);
     const [selectedDate, setSelectedDate] = useState('');
     const [selectDay, setSelecDay] = useState('');
-    const [selectTime, setSelectTime] = useState('');
+    const [selectTimeStart, setSelectTimeStart] = useState('');
+    const [selectTimeEnd, setSelectTimeEnd] = useState('');
     const [isCheck, setIsChecked] = useState(false);
     const [patientId, setPatientId] = useState('');
     const [createAppointment, { data: appointmentData, isSuccess: createIsSuccess, isError: createIsError, error: createError, isLoading: createIsLoading }] = useCreateAppointmentMutation();
@@ -55,8 +55,8 @@ const DoctorBooking = () => {
     const handleChange = (e) => { setSelectValue({ ...selectValue, [e.target.name]: e.target.value }) }
 
     useEffect(() => {
-        const { firstName, lastName, email, phone, nameOnCard, cardNumber, expiredMonth, cardExpiredYear, cvv, reasonForVisit } = selectValue;
-        const isInputEmpty = !firstName || !lastName || !email || !phone || !reasonForVisit;
+        const { name, email, phone, nameOnCard, cardNumber, expiredMonth, cardExpiredYear, cvv, reasonForVisit } = selectValue;
+        const isInputEmpty = !name || !email || !phone || !reasonForVisit;
         const isConfirmInputEmpty = !nameOnCard || !cardNumber || !expiredMonth || !cardExpiredYear || !cvv || !isCheck;
         setIsDisable(isInputEmpty);
         setIsConfirmDisable(isConfirmInputEmpty);
@@ -69,7 +69,10 @@ const DoctorBooking = () => {
         refetch();
     }
     const disabledDateTime = (current) => current && (current < moment().add(1, 'day').startOf('day') || current > moment().add(8, 'days').startOf("day"))
-    const handleSelectTime = (date) => { setSelectTime(date) }
+    const handleSelectTime = (date) => { 
+        setSelectTimeStart(date.timeStart);
+        setSelectTimeEnd(date.timeEnd);
+     }
 
     const next = () => { setCurrent(current + 1) };
     const prev = () => { setCurrent(current - 1) };
@@ -77,13 +80,18 @@ const DoctorBooking = () => {
     let dContent = null;
     if (dIsLoading) dContent = <div>Loading ...</div>
     if (!dIsLoading && dIsError) dContent = <div>Something went Wrong!</div>
-    if (!dIsLoading && !dIsError && time.length === 0) dContent = <Empty children="Doctor Is not Available" />
-    if (!dIsLoading && !dIsError && time.length > 0) dContent =
+    if (!dIsLoading && !dIsError && time?.length === 0) dContent = <Empty children="Doctor Is not Available" />
+    if (!dIsLoading && !dIsError && time?.length > 0) dContent =
         <>
             {
                 time && time.map((item, id) => (
                     <div className="col-md-4" key={id + 155}>
-                        <Button type={item?.slot?.time === selectTime ? "primary" : "default"} shape="round" size='large' className='mb-3' onClick={() => handleSelectTime(item?.slot?.time)}> {item?.slot?.time} </Button>
+                        <Button type={item?.slot?.startTime === selectTimeStart ? "primary" : "default"} shape="round" size='large' className='mb-3' onClick={() => handleSelectTime({
+                            timeStart: item?.slot?.startTime,
+                            timeEnd: item?.slot?.endTime}
+                        )}>                        
+                            {item?.slot?.startTime} - {item?.slot?.endTime}
+                        </Button>
                     </div>
                 ))
             }
@@ -105,7 +113,6 @@ const DoctorBooking = () => {
                 </div>
             </div>
         </>
-        console.log(data)
     const steps = [
         {
             title: 'Select Appointment Date & Time',
@@ -115,12 +122,13 @@ const DoctorBooking = () => {
                 disabledDateTime={disabledDateTime}
                 selectedDate={selectedDate}
                 dContent={dContent}
-                selectTime={selectTime}
+                selectTimeStart={selectTimeStart}
+                selectTimeEnd={selectTimeEnd}
             />
         },
         {
             title: 'Patient Information',
-            content: <PersonalInformation handleChange={handleChange} selectValue={selectValue} setPatientId={setPatientId}/>
+            content: <PersonalInformation handleChange={handleChange} selectValue={selectValue}/>
         },
         {
             title: 'Payment',
@@ -131,7 +139,7 @@ const DoctorBooking = () => {
                 setIsChecked={setIsChecked}
                 data={data}
                 selectedDate={selectedDate}
-                selectTime={selectTime}
+                selectTimeStart={selectTimeStart}
             />,
         },
     ]
@@ -142,26 +150,26 @@ const DoctorBooking = () => {
     }))
 
     const handleConfirmSchedule = () => {
-        const obj = {};
-        obj.patientInfo = {
-            firstName: selectValue.firstName,
-            lastName: selectValue.lastName,
+        const obj = {
+            name: selectValue.name,
             email: selectValue.email,
             phone: selectValue.phone,
             scheduleDate: selectedDate,
-            scheduleTime: selectTime,
-            doctorId: doctorId,
-            patientId: role !== '' && role === 'patient' ? patientId : undefined,
-        }
-        obj.payment = {
-            paymentType: selectValue.paymentType,
-            paymentMethod: selectValue.paymentMethod,
-            cardNumber: selectValue.cardNumber,
-            cardExpiredYear: selectValue.cardExpiredYear,
-            cvv: selectValue.cvv,
-            expiredMonth: selectValue.expiredMonth,
-            nameOnCard: selectValue.nameOnCard
-        }
+            startTime: selectTimeStart,
+            endTime: selectTimeEnd,
+            doctorId: +doctorId,
+            reasonForVisit: selectValue.reasonForVisit,
+        };
+    
+        // obj.payment = {
+        //     paymentType: selectValue.paymentType,
+        //     paymentMethod: selectValue.paymentMethod,
+        //     cardNumber: selectValue.cardNumber,
+        //     cardExpiredYear: selectValue.cardExpiredYear,
+        //     cvv: selectValue.cvv,
+        //     expiredMonth: selectValue.expiredMonth,
+        //     nameOnCard: selectValue.nameOnCard
+        // }
         createAppointment(obj);
     }
 
@@ -184,7 +192,7 @@ const DoctorBooking = () => {
                 <div className='mb-5 mt-3 mx-3'>{steps[current].content}</div>
                 <div className='text-end mx-3' >
                     {current < steps.length - 1 && (<Button type="primary"
-                        disabled={current === 0 ? (selectTime ? false : true) : IsdDisable || !selectTime}
+                        disabled={current === 0 ? (selectTimeStart ? false : true) : (IsdDisable || !selectTimeStart)}
                         onClick={() => next()}>Next</Button>)}
 
                     {current === steps.length - 1 && (<Button type="primary" disabled={IsConfirmDisable} loading={createIsLoading} onClick={handleConfirmSchedule}>Confirm</Button>)}

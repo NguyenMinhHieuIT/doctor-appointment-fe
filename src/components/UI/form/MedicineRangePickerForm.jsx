@@ -3,7 +3,7 @@ import { DateRangePresets } from '../../../constant/global';
 import { DatePicker } from "antd";
 
 const { RangePicker } = DatePicker;
-const MedicineRangePickerForm = ({ id, medicineList, setMedicineList }) => {
+const MedicineRangePickerForm = ({ id, medicineList, setMedicineList, defaultValue }) => {
     const onRangeChange = (dates, dateStrings) => {
         if (dates) {
             const durationData = dateStrings[0] + ',' + dateStrings[1];
@@ -29,6 +29,7 @@ const MedicineRangePickerForm = ({ id, medicineList, setMedicineList }) => {
             onChange={onRangeChange}
             size="large"
             style={{ width: '100%' }}
+            defaultValue={defaultValue}
         />
     )
 }
