@@ -27,6 +27,12 @@ export default function useAuthCheck() {
                 setData(doctorData)
                 setRole(localAuth.role)
                 setAuthChecked(dIsSuccess && !isError)
+            } else if(localAuth.role === 'admin'){
+                setUserId(localAuth?.userId)
+                setIsSkip(false);
+                setData(patientData)
+                setRole(localAuth.role)
+                setAuthChecked(pIsSuccess && !pIsError)
             }
         }
     }, [patientData, doctorData, isError, dIsSuccess, pIsError, pIsSuccess]);

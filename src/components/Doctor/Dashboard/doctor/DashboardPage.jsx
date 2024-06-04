@@ -47,11 +47,9 @@ const DashboardPage = () => {
             render: function (data) {
                 const fullName = `${data?.patient?.name ?? ''}`;
                 const patientName = fullName.trim() || "Un Patient";
-                const imgdata = data?.patient?.avatar ?? img;
                 return <>
                     <div className="table-avatar">
-                        <a className="avatar avatar-sm mr-2 d-flex gap-2">
-                            <img className="avatar-img rounded-circle" src={imgdata} alt="" />
+                        <a className="avatar-sm mr-2 d-flex gap-2">
                             <div>
                                 <p className='p-0 m-0 text-nowrap'>
                                     {patientName}

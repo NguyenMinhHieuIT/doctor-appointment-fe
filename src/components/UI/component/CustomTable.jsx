@@ -10,15 +10,19 @@ const CustomTable = ({
     showPagination = true,
     onPaginationChange,
     onTableChange,
-    showSizeChanger
+    showSizeChanger,
+    onShowSizeChange,
+    currentPage,
 }) => {
     const paginationConfig = showPagination ? {
         pageSize: pageSize,
         total: totalPages,
-        pageSizeOptions: [5, 10, 20],
+        pageSizeOptions: [1,2,3,5, 10, 20, 30],
         showSizeChanger: showSizeChanger,
         onChange: onPaginationChange,
-        showPagination: true
+        onShowSizeChange:onShowSizeChange,
+        showPagination: true,
+        current: currentPage
     } : false;
     return (
         <Table

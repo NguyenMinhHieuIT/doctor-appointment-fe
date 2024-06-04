@@ -5,6 +5,7 @@ import showImg1 from '../../../images/specialities/specialities-02.png'
 import showImg2 from '../../../images/specialities/specialities-03.png'
 import showImg3 from '../../../images/specialities/specialities-04.png'
 import showImg4 from '../../../images/specialities/specialities-05.png'
+import avatar from '../../../images/avatar.jpg';
 import StarRatings from 'react-star-ratings';
 import { Tag } from 'antd';
 import './index.css';
@@ -37,7 +38,7 @@ const SearchContent = ({ data }) => {
             <div className='d-flex p-3 justify-content-between'>
                 <div className='d-flex gap-3'>
                     <div className='doc-img-fluid d-flex align-items-center'>
-                        { data?.img && <img src={data?.img} className="" alt="User Image" />}
+                        <img src={ data?.avatar ? data?.avatar : avatar } className="" alt="User Image" />
                     </div>
                     <div className="doc-info">
                         <h5 className='mb-0'><Link to={`/doctors/profile/${data?.id}`}>Dr. {data?.name}</Link></h5>
@@ -76,12 +77,6 @@ const SearchContent = ({ data }) => {
                                 </li>
                             </ul>
                         </div>
-                        {
-                            services?.map((item, id) => (
-                                <Tag key={id + 51}>{item}</Tag>
-
-                            ))
-                        }
                     </div>
                 </div>
                 <div className="doc-info-right me-3">

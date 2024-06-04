@@ -71,8 +71,9 @@ const SearchDoctor = () => {
   };
 
   const { data, isLoading, isError } = useGetDoctorsQuery(query);
-  const doctorsData = data?.data || [];
+  const doctorsData = data?.data;
   const meta = data?.meta;
+
 
   let content = <></>;
   if (isLoading) content = <>Loading ...</>;
@@ -81,7 +82,7 @@ const SearchDoctor = () => {
   if (!isLoading && !isError && doctorsData.length > 0) content = (
     <>
       {doctorsData.map((item, id) => (
-        <SearchContent key={id + item.id} data={item} />
+        <SearchContent key={item.id} data={item} />
       ))}
     </>
   );
@@ -109,7 +110,7 @@ const SearchDoctor = () => {
               onSearch={buildQuery}
             />
             <div className="col-md-12 col-lg-8 col-xl-9">
-              {content}
+              { content }
               <div className='text-center mt-5 mb-5'>
                 <Pagination
                   showSizeChanger

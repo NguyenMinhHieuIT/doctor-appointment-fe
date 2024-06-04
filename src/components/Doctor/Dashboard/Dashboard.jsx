@@ -4,7 +4,6 @@ import useAuthCheck from '../../../redux/hooks/useAuthCheck';
 import DashboardLayout from '../DashboardLayout/DashboardLayout';
 import DashboardPage from './doctor/DashboardPage';
 import PatientDashboard from './PatientDashboard';
-
 const Dashboard = () => {
     const { role, data } = useAuthCheck();
     return (

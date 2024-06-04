@@ -19,8 +19,12 @@
 	transition: all 0.2s ease-in-out;
 }
 .header .header-left .logo {
-	display: inline-block;
-	line-height: 60px;
+	font-size: 30px;
+    margin: 0;
+    padding: 0;
+    line-height: center;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 .header .header-left .logo img {
     max-height: 40px;
@@ -269,4 +273,12 @@ html.menu-opened body {
     display: block;
     left: 0;
     position: absolute;
+}
+
+.avatar {
+	height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 6px solid #efefef;
+    object-fit: cover;
 }

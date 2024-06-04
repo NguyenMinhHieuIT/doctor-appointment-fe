@@ -12,10 +12,7 @@ const AdminLayout = ({ children }) => {
                     <div className="page-header">
                         <div className="row">
                             <div className="col-sm-12">
-                                <h3 className="page-title">Welcome Admin!</h3>
-                                <ul className="breadcrumb">
-                                    <li className="breadcrumb-item active">Dashboard</li>
-                                </ul>
+                                <h3 className="page-title">Trang quản trị (Admin Dashboard)</h3>
                             </div>
                         </div>
                     </div>
