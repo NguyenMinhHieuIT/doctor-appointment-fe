@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import logo from '../../../images/logo.png';
+import logo from '../../../images/logo.webp';
 import Footer from "../../Shared/Footer/Footer";
 import Header from "../../Shared/Header/Header";
 import { useGetPrescriptionQuery } from "../../../redux/api/prescriptionApi";
@@ -17,32 +17,24 @@ const PrescriptionView = () => {
 
     const columns = [
         {
-            title: 'Medicine',
+            title: 'Thuốc',
             dataIndex: 'medicine',
             key: 'medicine',
         },
         {
-            title: 'Dosage',
+            title: 'Liều lượng',
             dataIndex: 'dosage',
             key: 'dosage',
         },
         {
-            title: 'Frequency',
+            title: 'Tần suất',
             dataIndex: 'frequency',
             key: 'frequency',
         },
         {
-            title: 'Period',
+            title: 'Giai đoạn',
             key: 'duration',
-            render: function (data) {
-                const duratinDate = data.duration.split(',');
-                const endDate = moment(duratinDate[0]);
-                const startDate = moment(duratinDate[1]);
-                const getDiffrent = endDate.diff(startDate, "days");
-                return (
-                    <>{getDiffrent} days</>
-                )
-            }
+            dataIndex: 'duration',
         },
 
     ];
@@ -64,8 +56,7 @@ const PrescriptionView = () => {
                             </div>
                             <div className="col-md-6">
                                 <p className="invoice-details">
-                                    <strong>Tracking Id:</strong> {data?.appoint?.id} <br />
-                                    <strong>Issued:</strong> {moment(data.createdAt).format('LL')}
+                                    <strong>Ngày cấp:</strong> {moment(data.createdAt).format('LL')}
                                 </p>
                             </div>
                         </div>
@@ -79,23 +70,23 @@ const PrescriptionView = () => {
                                         <h3>Dr.{data?.appoint?.doctor?.name}</h3>
                                         <p>{data?.appoint?.doctor?.designation}</p>
                                         <p>{data?.appoint?.doctor?.college}</p>
-                                        <span className="form-text">{data?.appoint?.doctor?.address}, {data?.appoint?.doctor?.state},{data?.appoint?.doctor?.phone}</span>
+                                        <p>{data?.appoint?.doctor?.clinicName}-{data?.appoint?.doctor?.clinicAddress}</p>
+                                        <span className="form-text">{data?.appoint?.doctor?.phone}</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-md-12">
                                 <div className="invoice-info">
-                                    <strong className="customer-text text-secondary">Patient Information:</strong>
+                                    <strong className="customer-text text-secondary">Thông tin bệnh nhân:</strong>
                                     <div className="invoice-details invoice-details-two">
                                         <div className="d-flex justify-content-between patient-name">
                                             <div>
-                                                <h5 style={{ fontWeight: 700 }}>Patient Name : {data?.appoint?.patient?.name}</h5>
-                                                <p className="form-text">Address: {data?.appoint?.patient?.address}, {data?.appoint?.patient?.phone}</p>
+                                                <h5 style={{ fontWeight: 700 }}>Tên bệnh nhân : {data?.appoint?.name}</h5>
+                                                <p className="form-text">Địa chỉ: {data?.appoint?.address},</p>
                                             </div>
                                             <div>
-                                                <p>Sex : {data?.appoint?.patient?.gender}</p>
-                                                <p>Age : {data?.appoint?.patient?.age}</p>
-                                                <p>Weight : {data?.appoint?.patient?.weight}</p>
+                                                <p>Số điện thoại :  {data?.appoint?.phone}</p>
+                                                <p>Email : {data?.appoint?.email}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -109,19 +100,19 @@ const PrescriptionView = () => {
                             <div className="col-md-3 col-xl-3 border-end border-2 symptoms-section">
                                 <div className="mt-3">
                                     <div>
-                                        <h5>SYMPTOMS</h5>
+                                        <h5>Triệu chứng</h5>
                                         <p>{data?.disease}</p>
                                     </div>
                                     <div>
-                                        <h5>DAIGNOSIS</h5>
+                                        <h5>Bệnh</h5>
                                         <p>{data?.daignosis}</p>
                                     </div>
                                     <div>
-                                        <h5>TESTS</h5>
+                                        <h5>Khám</h5>
                                         <p>{data?.test}</p>
                                     </div>                                   
                                     <div>
-                                        <h5>ADVICE</h5>
+                                        <h5>Chỉ định</h5>
                                         <p>{data?.instruction}</p>
                                     </div>
                                 </div>

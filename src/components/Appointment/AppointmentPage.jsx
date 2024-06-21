@@ -90,7 +90,7 @@ const AppointmentPage = () => {
     }
 }, [isSuccess, isError, isLoading, appointmentData])
 
-  const handleDateChange = (date) => { setSelectedDate(moment(date).format('YYYY-MM-DD HH:mm:ss')) }
+  const handleDateChange = (date) => { setSelectedDate(moment(date).format('YYYY-MM-DD')) }
 
   const steps = [
     {

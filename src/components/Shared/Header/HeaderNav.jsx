@@ -18,11 +18,11 @@ const HeaderNav = ({ open, setOpen, isLoggedIn, data, avatar, content }) => {
                 <ul>
                     <li><NavLink to={'/'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}>Trang chủ</NavLink></li>
                     <li><NavLink to={'/about'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}>Về chúng tôi</NavLink></li>
-                    <li><NavLink to={'/service'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}>Dịch vụ</NavLink></li>
                     <li><NavLink to={'/doctors'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}>Bác sĩ</NavLink></li>
                     <li><NavLink to={'/contact'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}>Liên hệ</NavLink></li>
-                    <li><NavLink to={'/blog'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}>Bài viết</NavLink></li>
+                  
                     {!isLoggedIn && <li><Link to={'/login'} className="nav-link scrollto">Đăng nhập</Link></li>}
+                    {data?.role === 'admin' && isLoggedIn && <li><Link to={'/admin/dashboard'} className="nav-link scrollto">Admin</Link></li>}
                 </ul>
                 {isLoggedIn &&
                     <div>
@@ -46,11 +46,11 @@ const HeaderNav = ({ open, setOpen, isLoggedIn, data, avatar, content }) => {
                 <ul className="mobile-menu-nav">
                     <li><NavLink to={'/'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}><FaHome className="icon" />Trang chủ</NavLink></li>
                     <li><NavLink to={'/about'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}><FaAddressBook className="icon" />Về chúng tôi</NavLink></li>
-                    <li><NavLink to={'/service'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}><FaWrench className="icon" />Dịch vụ</NavLink></li>
                     <li><NavLink to={'/doctors'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}><FaUserMd className="icon" />Bác sĩ</NavLink></li>
                     <li><NavLink to={'/contact'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}><FaPhoneAlt className="icon" />Liên hệ</NavLink></li>
-                    <li><NavLink to={'/blog'} className={({ isActive }) => isActive ? "nav-link scrollto active" : ""}><FaBloggerB className="icon" />Bài viết</NavLink></li>
+                    
                     {!isLoggedIn && <li><Link to={'/login'} className="nav-link scrollto"><FaSignInAlt className="icon" />Đăng nhập</Link></li>}
+                    {data?.role === 'admin' && isLoggedIn && <li><Link to={'/admin/dashboard'} className="nav-link scrollto">Admin</Link></li>}
                 </ul>
             </Drawer>
         </>

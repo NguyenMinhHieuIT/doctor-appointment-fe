@@ -7,7 +7,7 @@ import { Button, Tabs, Tag, Tooltip } from 'antd';
 import CustomTable from '../../UI/component/CustomTable';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { FaRegEye } from "react-icons/fa";
+import { FaRegEye, FaBriefcaseMedical } from "react-icons/fa";
 import { clickToCopyClipBoard } from '../../../utils/copyClipBoard';
 
 const PatientDashboard = () => {
@@ -22,13 +22,10 @@ const PatientDashboard = () => {
             width: 150,
             render: function (data) {
                 return <>
-                    <div className="avatar avatar-sm mr-2 d-flex gap-2">
-                        <div>
-                            <img className="avatar-img rounded-circle" src={data?.doctor?.avatar ?? img} alt="" />
-                        </div>
+                    <div className="mr-2 d-flex gap-2">
                         <div>
                             <h6 className='text-nowrap mb-0'>{data?.doctor?.name}</h6>
-                            <p className='form-text'>{data?.doctor?.designation}</p>
+                            <p className='form-text'>{data?.doctor?.specialization}</p>
                         </div>
                     </div>
                 </>
@@ -47,7 +44,7 @@ const PatientDashboard = () => {
         {
             title: 'Ngày đặt',
             key: 22,
-            width: 100,
+            width: 50,
             render: function (data) {
                 return <div>{moment(data?.createdAt).format("LL")}</div>
             }
@@ -55,7 +52,7 @@ const PatientDashboard = () => {
         {
             title: 'Trạng thái',
             key: 24,
-            width: 100,
+            width: 50,
             render: function (data) {
                 return <Tag color="#f50">{data?.status}</Tag>
             }
@@ -66,9 +63,17 @@ const PatientDashboard = () => {
             width: 100,
             render: function (data) {
                 return (
+                    <div className='d-flex'>
                     <Link to={`/dashboard/appointments/${data.id}`}>
-                        <Button type='primary'>View</Button>
+                        <Button className='mx-3' type='primary'>Xem</Button>
                     </Link>
+                    {data?.prescription && 
+                    <Link to={`/dashboard/prescription/${data?.prescription[0].id}`}>
+                        <Button type="primary" icon={<FaBriefcaseMedical />}>Đơn thuốc</Button>
+                    </Link>
+                    }
+                    
+                    </div>
                 )
             }
         },

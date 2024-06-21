@@ -7,7 +7,6 @@ import BookingSuccess from './components/Booking/BookingSuccess';
 import BookingInvoice from './components/Booking/BookingInvoice/BookingInvoice';
 import DoctorProfile from './components/Doctor/DoctorProfile/DoctorProfile';
 import Appointments from './components/Doctor/Appointments/Appointments';
-import MyPatients from './components/Doctor/MyPatients/MyPatients';
 import Reviews from './components/Doctor/Reviews/Reviews';
 import Schedule from './components/Doctor/Schedule/Schedule';
 import ProfileSetting from './components/Doctor/ProfileSetting/ProfileSetting';
@@ -23,14 +22,8 @@ import AdminReviews from './components/Admin/Reviews/Reviews'
 import PatientFavouriteDoctor from './components/Doctor/PatientFavourite/PatientFavourite';
 import DoctorInvoice from './components/Doctor/Invoice/DoctorInvoice';
 import SearchDoctor from './components/Doctor/SearchDoctor/SearchDoctor';
-import Blogs from './components/Doctor/Blogs/Blogs';
-import BlogsEdit from './components/Doctor/Blogs/BlogsEdit';
-import AddBlog from './components/Doctor/Blogs/AddBlog';
-import Blog from './components/Blog/Blog';
-import BlogDetails from './components/Blog/BlogDetails';
 import Contact from './components/Contact/Contact';
 import About from './components/About/About';
-import Service from './components/Service/Service';
 import AppointmentPage from './components/Appointment/AppointmentPage';
 import TrackAppointment from './components/TrackAppointment/TrackAppointment';
 import Treatment from './components/Doctor/Treatment/Treatment';
@@ -54,9 +47,7 @@ function App() {
         <Routes>
           {/* Private route */}
           <Route element={<PrivateOutlet />}>
-            <Route path='/dashboard/blogs' element={<Blogs />} />
             <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/dashboard/my-patients' element={<MyPatients />} />
             <Route path='/dashboard/reviews' element={<Reviews />} />
             <Route path='/dashboard/schedule' element={<Schedule />} />
             <Route path='/dashboard/appointments' element={<Appointments />} />
@@ -87,18 +78,13 @@ function App() {
           {/* Public Route */}
           <Route path='/login' element={<SignInForm />} />
           <Route path='/' element={<Home />} />
-          <Route path='/blog' element={<Blog />} />
-          <Route path='/blog/:id' element={<BlogDetails />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/about' element={<About />} />
-          <Route path='/service' element={<Service />} />
           <Route path='/reset-password/:userId/:uniqueString' element={<ForgotPassword />} />
           <Route path='/appointment' element={<AppointmentPage />} />
           <Route path='/track-appointment' element={<TrackAppointment />} />
           <Route path='/doctors' element={<SearchDoctor />} />
           <Route path='/doctors/profile/:id' element={<DoctorProfile />} />
-          <Route path='/dashboard/blogs/:id' element={<BlogsEdit />} />
-          <Route path='/dashboard/blogs/create' element={<AddBlog />} />
 
           <Route path='*' element={<NotFound />} />
         </Routes>

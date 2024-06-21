@@ -23,38 +23,6 @@ const TreatmentOverview = ({ data, isAppointment = false }) => {
                             </div>
                         </div>
                     </div>
-
-                    <div className="col-7 px-5">
-                        <h5>Patient Overview</h5>
-                        <hr />
-                        <div className="p-2 rounded" style={{ background: 'rgb(218 218 219)' }}>
-                            <p className="form-text text-start m-0">{isAppointment ? data?.description : null }</p>
-                        </div>
-
-                        <div className="text-start mt-3">
-                            <h6>Patient Type : 
-                                <span className="btn-status btn-st-success">
-                                    <Tag color="#87d068" className='ms-2 text-uppercase'>{isAppointment ? data?.appointment?.patientType : data?.patientType}</Tag>
-                                </span>
-                            </h6>
-                            <h6>Current Status : 
-                                <span className="btn-status btn-st-danger">
-                                    <Tag color="#f50" className='ms-2 text-uppercase'>{isAppointment ? data?.status : null}</Tag>
-                                </span>
-                            </h6>
-                            {/* <h6>Payment Status : 
-                                <span className="btn-status btn-st-success">
-                                    <Tag color="#87d068" className='ms-2 text-uppercase'>{isAppointment ? data?.appointment?.paymentStatus : data?.paymentStatus}</Tag>
-                                </span>
-                            </h6> */}
-                            <h6>Prescription Status : 
-                                <span className="btn-status btn-st-danger">
-                                    <Tag color="#2db7f5" className='ms-2 text-uppercase'>{isAppointment ? data?.prescriptionStatus:null}</Tag>
-                                </span>
-                            </h6>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </>

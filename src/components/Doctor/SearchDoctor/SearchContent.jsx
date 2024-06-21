@@ -13,23 +13,23 @@ import { FaLocationArrow, FaRegThumbsUp, FaDollarSign, FaComment } from "react-i
 import { truncate } from '../../../utils/truncate';
 import { Special } from '../../../constant/global';
 
-const SearchContent = ({ data }) => {
+const SearchContent = ({ data, userData }) => {
     const services = data?.services?.split(',');
     let imgSpecial = null;
     switch(data?.specialization){
-        case Special.Urology:
+        case Special[0]:
             imgSpecial = showImg;
             break;
-        case Special.Neurology:
+        case Special[1]:
             imgSpecial = showImg1;
             break;
-        case Special.Orthopedic:
+        case Special[2]:
             imgSpecial = showImg2;
             break;
-        case Special.Cardiologist:
+        case Special[3]:
             imgSpecial = showImg3;
             break;
-        case Special.Dentist:
+        case Special[4]:
             imgSpecial = showImg4;
             break;
     }
@@ -42,7 +42,7 @@ const SearchContent = ({ data }) => {
                     </div>
                     <div className="doc-info">
                         <h5 className='mb-0'><Link to={`/doctors/profile/${data?.id}`}>Dr. {data?.name}</Link></h5>
-                        <p className='m-0 form-text'>{data?.designation}</p>               
+                        <p className='m-0 form-text'>{data?.email}</p>               
                         <p className="doc-department m-0"><img src={imgSpecial} className="img-fluid" alt="Speciality" />
                         {data?.specialization}</p>
                              
@@ -61,7 +61,8 @@ const SearchContent = ({ data }) => {
                         </div>
 
                         <div className="clinic-details">
-                            <p className="form-text text-secondary"><FaLocationArrow /> {data?.address}</p>
+                            <p className="form-text text-secondary"><FaLocationArrow /> { data?.clinicName } <br />
+                            Địa chỉ: {data?.clinicAddress}</p>
                             <ul className="clinic-gallery mt-3">
                                 <li>
                                     <img src={imgSpecial} alt="Feature" style={{ maxWidth: "30px" }} />
@@ -83,14 +84,13 @@ const SearchContent = ({ data }) => {
                     <div className="clini-infos">
                         <ul>
                             <li><FaRegThumbsUp />  97%</li>
-                            <li><FaComment /> 4 Feedback</li>
-                            {/* <li><FaLocationArrow />{truncate(data?.clinicAddress, 20)}</li>
-                            <li><FaDollarSign /> {data?.price ? truncate(data?.price, 4) : 60} (Per Hour)</li> */}
+                            <li><FaComment /> 4 Nhận xét</li>
+                            <li><FaDollarSign /> {data?.price} vnđ/30p</li>
                         </ul>
                     </div>
                     <div className="clinic-booking">
-                        <Link to={`/doctors/profile/${data?.id}`} className="view-pro-btn">View Profile</Link>
-                        <Link to={`/booking/${data?.id}`} className="apt-btn">Book Appointment</Link>
+                        <Link to={`/doctors/profile/${data?.id}`} className="view-pro-btn">Thông tin cá nhân</Link>
+                        {userData?.role === 'doctor' ? null : <Link to={`/booking/${data?.id}`} className="apt-btn">Đặt lịch khám</Link>}
                     </div>
                 </div>
             </div>

@@ -17,19 +17,20 @@ export const genderOptions = gender.map((data) => {
 })
 export const daysArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 const StatusAppointArray = ['cancel','confirmed','pending','in_progress','completed'];
-export const StatusAppointOptions = StatusAppointArray.map(data => {
+export const StatusAppoint = {
+    CANCEL : 'Bỏ qua',
+    CONFIRMED : 'Xác nhận',
+    PENDING : 'Đang chờ',
+    IN_PROGRESS : 'Đang khám',
+    COMPLETED : 'Hoàn tất',
+}
+export const StatusAppointOptions = Object.keys(StatusAppoint).map(key => {
     return {
-        label: data,
-        value: data
+        label: StatusAppoint[key],
+        value: StatusAppoint[key]
     }
 })
-export const StatusAppoint = {
-    CANCEL : 'cancel',
-    CONFIRMED : 'confirmed',
-    PENDING : 'pending',
-    IN_PROGRESS : 'in_progress',
-    COMPLETED : 'completed',
-}
+
 
 
   
@@ -48,39 +49,21 @@ export const doctorSpecialistArray = [
     { id: 11, value: "Orthopedic" } // 
 ]
 
-export const Special = {
-    Urology: 'Urology',
-    Neurology: 'Neurology',
-    Orthopedic: 'Orthopedic',
-    Cardiologist: 'Cardiologist',
-    Dentist: 'Dentist',
-}
+export const Special = [
+    'Tiết niệu',
+    'Thần kinh học',
+    'Chỉnh hình',
+    'Tim mạch',
+    'Nha khoa',
+]
 
 
-export const SpecialOptions = [
-    {
-        label: Special.Urology,
-        value: Special.Urology,
-    },
-    {
-        label: Special.Neurology,
-        value: Special.Neurology,
-    },
-    {
-        label: Special.Orthopedic,
-        value: Special.Orthopedic,
-    },
-    {
-        label: Special.Cardiologist,
-        value: Special.Cardiologist,
-    },
-    {
-        label: Special.Dentist,
-        value: Special.Dentist,
-    },
-
-];
-
+export const SpecialOptions = Special.map(item => {
+    return {
+        label: item,
+        value: item,
+    }
+});
 
 export const doctorSpecialistOptions = doctorSpecialistArray.map(data => {
     return {
@@ -190,77 +173,27 @@ const medical_diseases = [
 ];
 
 const medicalCheckupList = [
-    "Physical Examination",
-    "Blood Pressure Measurement",
-    "Blood Tests",
-    "Cholesterol Panel",
-    "Blood Glucose Test",
+    "Kiểm tra thể chất",
+    "Đo huyết áp",
+    "Xét nghiệm máu",
+    "Xét nghiệm Cholesterol",
+    "Xét nghiệm đường huyết",
     "Complete Blood Count (CBC)",
-    "Thyroid Function Tests",
-    "Liver Function Tests",
-    "Kidney Function Tests",
-    "Urinalysis",
-    "Body Mass Index (BMI) Measurement",
-    "Vision Test",
-    "Hearing Test",
-    "Dental Checkup",
-    "Skin Examination",
-    "Cancer Screenings (e.g., Mammogram, Pap Smear, Prostate Specific Antigen)",
-    "Bone Density Test",
-    "Electrocardiogram (ECG or EKG)",
-    "Chest X-ray",
-    "Pulmonary Function Tests",
-    "Colonoscopy",
-    "Stool Test for Colorectal Cancer",
-    "DEXA Scan (Dual-Energy X-ray Absorptiometry)",
-    "HIV Test",
-    "Sexually Transmitted Infections (STI) Screenings",
-    "Immunizations and Vaccinations",
-    "Eye Exam",
-    "Psychological Assessment",
-    "Annual Checkup with General Practitioner"
+    "Xét nghiệm chức năng tuyến giáp",
+    "Xét nghiệm chức năng gan",
+    "Xét nghiệm chức năng thận",
+    "Phân tích nước tiểu",
+    "Đo chỉ số khối cơ thể (BMI",
+    "Kiểm tra thị giác",
+    "Kiểm tra nghe",
+    "Khám răng",
+    "Kiểm tra da",
+    "Sàng lọc ung thư (ví dụ: Chụp quang tuyến vú, Xét nghiệm Pap, Kháng nguyên đặc hiệu tuyến tiền liệt)",
+    "Kiểm tra mật độ xươngt",
+    "Điện tâm đồ (ECG hoặc EKG)",
 ];
-// "Kiểm tra thể chất",1
-//     "Đo huyết áp",2
-//     "Xét nghiệm máu",3
-//     "Bảng cholesterol",4
-//     "Xét nghiệm đường huyết",5
-//     "Công thức máu toàn bộ (CBC)",6
-//     "Xét nghiệm chức năng tuyến giáp",7
-//     "Xét nghiệm chức năng gan",8
-//     "Xét nghiệm chức năng thận",9
-//     "Phân tích nước tiểu",10
-//     "Đo chỉ số khối cơ thể (BMI)",11
-//     "Kiểm tra thị giác",12
-//     "Kiểm tra nghe",13
-//     "Khám răng",14
-//     "Kiểm tra da",15
-//     "Sàng lọc ung thư (ví dụ: Chụp quang tuyến vú, Xét nghiệm Pap, Kháng nguyên đặc hiệu tuyến tiền liệt)",16
-//     "Kiểm tra mật độ xương",17
-//     "Điện tâm đồ (ECG hoặc EKG)",18
-//     "X-quang ngực",19
-//     "Xét nghiệm chức năng phổi",20
-//     "Nội soi đại tràng",21
-//     "Xét nghiệm phân để phát hiện ung thư đại trực tràng",22
-//     "Quét DEXA (Đo hấp thụ tia X năng lượng kép)",23
-//     "Kiểm tra hiv",24
-//     "Sàng lọc các bệnh lây truyền qua đường tình dục (STI)",25
-//     "Tiêm chủng và tiêm chủng",26
-//     "Kiểm tra mắt",27
-//     "Đánh giá tâm lý",28
-//     "Khám sức khỏe hàng năm với bác sĩ đa khoa"29
-const dosageList = [
-    "250 mg",
-    "1000 mg",
-    "75 mg",
-    "50 mg",
-    "5 mg",
-    "150 mg",
-    "300 mg",
-    "200 mg",
-    "10 mg",
-    "20 mg"
-];
+
+
 const frequenciesList = [
     "Once Daily (QD)",
     "Twice Daily (BID)",
@@ -308,12 +241,6 @@ export const MedicalCheckupOptions = medicalCheckupList.map((item) => {
     return { label: item, value: item }
 })
 
-export const DosageOptions = dosageList.map((item) => {
-    return {
-        label: item,
-        value: item
-    }
-})
 
 export const FrequencyOptions = frequenciesList.map((item) => {
     return {

@@ -19,13 +19,9 @@ const PersonalInformation = ({ handleChange, selectValue}) => {
     return (
         <form className="rounded p-3 mt-5" style={{ background: "#f8f9fa" }}>
             <div className="row">
-                <Checkbox checked={checked} onChange={onChange}>
-                    Allready Have an Account ?
-                </Checkbox>
-
                 <div className="col-md-6 col-sm-12">
                     <div className="form-group card-label mb-3">
-                        <label>name</label>
+                        <label>Họ và tên</label>
                         <input onChange={(e) => handleChange(e)} name='name' value={name && name} className="form-control" type="text" />
                     </div>
                 </div>
@@ -37,25 +33,25 @@ const PersonalInformation = ({ handleChange, selectValue}) => {
                 </div>
                 <div className="col-md-6 col-sm-12">
                     <div className="form-group card-label mb-3">
-                        <label>Phone</label>
+                        <label>Số điện thoại</label>
                         <input onChange={(e) => handleChange(e)} name='phone' value={phone && phone} className="form-control" type="text" />
                     </div>
                 </div>
                 <div className="col-md-6 col-sm-12">
                     <div className="form-group card-label mb-3">
-                        <label>Address</label>
+                        <label>Địa chỉ</label>
                         <input onChange={(e) => handleChange(e)} name='address' value={address && address} className="form-control" type="text" />
                     </div>
                 </div>
                 <div className="col-md-6 col-sm-12">
                     <div className="form-group card-label mb-3">
-                        <label>Reason For Visit</label>
+                        <label>Lý do thăm khám</label>
                         <textarea rows={8} onChange={(e) => handleChange(e)} name='reasonForVisit' value={reasonForVisit && reasonForVisit} className="form-control" type="text" />
                     </div>
                 </div>
                 <div className="col-md-6 col-sm-12">
                     <div className="form-group card-label mb-3">
-                        <label>Description</label>
+                        <label>Mô tả</label>
                         <textarea rows={8} onChange={(e) => handleChange(e)} name='description' value={description && description} className="form-control" type="text" />
                     </div>
                 </div>

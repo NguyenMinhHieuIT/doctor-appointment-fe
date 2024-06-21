@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { loggedOut } from '../../../service/auth.service';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 const ChangePassword = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [userChangePass, { isError, isLoading, isSuccess, error }] = useChangePassMutation();
@@ -14,7 +15,7 @@ const ChangePassword = () => {
     const navigate = useNavigate()
     const onSubmit = async (data) => {
         if (data?.confirmPassword !== data?.newPassword) {
-            message.error('confirmPassword not like newPassword');
+             toast.error('Mật khẩu xác nhận không đúng!');
             return;
         }
         userChangePass({
@@ -29,7 +30,7 @@ const ChangePassword = () => {
             navigate('/'); 
             return;   
         }
-        message.error('password or newPassword wrong');
+        if(isError) toast.error('Mật khẩu cũ không hợp lệ!')
         setLoad(false);
     }, [isSuccess, isError])
     return (

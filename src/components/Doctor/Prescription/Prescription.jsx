@@ -9,51 +9,44 @@ import { useDeletePrescriptionMutation, useGetAllPrescriptionsQuery } from '../.
 const Prescription = () => {
     const { data, isLoading } = useGetAllPrescriptionsQuery();
     const [deleteBlog] = useDeletePrescriptionMutation();
-
+    console.log('data>>>>', data);
     const columns = [
         {
-            title: 'Appointment Id',
-            dataIndex: "appointmentId",
+            title: 'Bệnh nhân',
+            dataIndex: "appoint",
             key: 1,
             render: (data) =>{
                 return (
-                    <Tag color="#f50">{data}</Tag>
+                    <>
+                    <Tag color="#f50">{data?.name}</Tag>
+                    <span>{data?.email}</span>
+                    </>
                 )
             }
         },
         {
-            title: 'Disease',
-            sorter: true,
+            title: 'Bệnh',
             dataIndex: "disease",
             key: 3,
         },
         {
-            title: 'Follow-Update',
-            dataIndex: "followUpdate",
+            title: 'status',
+            dataIndex: "appoint",
             key: 4,
             render: function (data) {
-                return <Tag color="#87d068">{dayjs(data).format('MMM D, YYYY hh:mm A')}</Tag>;
-            }
-        },
-        {
-            title: 'Archived',
-            dataIndex: "isArchived",
-            key: 4,
-            render: function ({isArchived}) {
-                return <Tag color={isArchived ? "#f50" : "#108ee9"}>{isArchived ? "Yes" :"Under Treatment"}</Tag>;
+                return <Tag color="#108ee9">{data?.status}</Tag>;
             }
         },
         {
             title: 'createdAt',
             dataIndex: 'createdAt',
             key: 5,
-            sorter: true,
             render: function (data) {
                 return data && dayjs(data).format('MMM D, YYYY hh:mm A');
             }
         },
         {
-            title: 'Action',
+            title: 'Hành động',
             key: 4,
             render: function (data) {
                 return (

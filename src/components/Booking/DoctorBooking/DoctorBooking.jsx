@@ -105,17 +105,18 @@ const DoctorBooking = () => {
         <>
             <div className="booking-doc-img my-3 mb-3 rounded">
                 <Link to={`/doctors/${data?.id}`}>
-                    <img src={img} alt="" />
+                    <img src={data?.avatar ? data?.avatar : img} alt="" />
                 </Link>
                 <div className='text-start'>
                     <Link to={`/doctors/${data?.id}`} style={{ textDecoration: 'none' }}>Dr. {data?.name}</Link>
-                    <p className="form-text mb-0"><FaArchway /> {data?.specialization + ',' + data?.experienceHospitalName}</p>
+                    <p className="form-text mb-0"><FaArchway /> {data?.specialization + ', ' + data?.clinicName + ', ' 
+                    + data?.clinicAddress}</p>
                 </div>
             </div>
         </>
     const steps = [
         {
-            title: 'Select Appointment Date & Time',
+            title: 'Chọn ngày khám và thời gian khám',
             content: <SelectDateAndTime
                 content={content}
                 handleDateChange={handleDateChange}
@@ -127,11 +128,11 @@ const DoctorBooking = () => {
             />
         },
         {
-            title: 'Patient Information',
+            title: 'Thông tin bệnh nhân',
             content: <PersonalInformation handleChange={handleChange} selectValue={selectValue}/>
         },
         {
-            title: 'Payment',
+            title: 'Thông tin thanh toán',
             content: <CheckoutPage
                 handleChange={handleChange}
                 selectValue={selectValue}
@@ -140,6 +141,7 @@ const DoctorBooking = () => {
                 data={data}
                 selectedDate={selectedDate}
                 selectTimeStart={selectTimeStart}
+                selectTimeEnd={selectTimeEnd}
             />,
         },
     ]
@@ -193,10 +195,10 @@ const DoctorBooking = () => {
                 <div className='text-end mx-3' >
                     {current < steps.length - 1 && (<Button type="primary"
                         disabled={current === 0 ? (selectTimeStart ? false : true) : (IsdDisable || !selectTimeStart)}
-                        onClick={() => next()}>Next</Button>)}
+                        onClick={() => next()}>Tiếp</Button>)}
 
-                    {current === steps.length - 1 && (<Button type="primary" disabled={IsConfirmDisable} loading={createIsLoading} onClick={handleConfirmSchedule}>Confirm</Button>)}
-                    {current > 0 && (<Button style={{ margin: '0 8px', }} onClick={() => prev()} >Previous</Button>)}
+                    {current === steps.length - 1 && (<Button type="primary" disabled={IsConfirmDisable} loading={createIsLoading} onClick={handleConfirmSchedule}>Xác nhận</Button>)}
+                    {current > 0 && (<Button style={{ margin: '0 8px', }} onClick={() => prev()} >Quay lại</Button>)}
                 </div>
             </div>
             <Footer />

@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 // At least one special character, (?=.*?[#?!@$%^&*-])
 // Minimum eight in length .{8,} (with the anchors)
 
-const SignUp = ({ setSignUp }) => {
+const SignUp = ({ setSignUp, setModalOtp, setEmail }) => {
     const [error, setError] = useState({});
     const [infoError, setInfoError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -37,32 +37,34 @@ const SignUp = ({ setSignUp }) => {
 
     const handleSignUpSuccess = () => {
         setLoading(false);
-        setUser(formField)
+        setUser(formField);
     }
     useEffect(() => {
         // doctor account
         if (dIsError && dError) {
-            message.error("Email Already Exist !!")
+            toast.error('Tài khoản không hợp lệ');
             setLoading(false);
         }
 
         if (!dIsError && dIsSuccess) {
             handleSignUpSuccess();
             setLoading(false);
-            setLoading(false);
-            toast.success('Đăng kí tài khoản thành công')
+            setSignUp(false);
+            setModalOtp(true);
+            setEmail(user.email);
         }
 
         // Patient account
         if (pIsError && pError) {
-            message.error("Email Already Exist !!");
+            toast.error('Tài khoản không hợp lệ');
             setLoading(false);
         }
         if (!pIsError && pIsSuccess) {
             handleSignUpSuccess();
             setLoading(false);
             setSignUp(false);
-            toast.success('Đăng kí tài khoản thành công')
+            setModalOtp(true);
+            setEmail(user.email);
         }
 
     }, [dIsError, dError, pError, pIsError, , pIsLoading, dIsLoading, pData, dData, setSignUp, setLoading, dIsSuccess])
@@ -122,7 +124,7 @@ const SignUp = ({ setSignUp }) => {
             doctorSignUp(user);
         } else {
             user['role'] = 'patient';
-            patientSignUp(user)
+            patientSignUp(user);
         }
     }
 

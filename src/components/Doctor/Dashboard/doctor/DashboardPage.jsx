@@ -8,11 +8,17 @@ import CustomTable from '../../../UI/component/CustomTable';
 import { Tabs } from 'antd';
 import { Link } from 'react-router-dom';
 import { StatusAppoint } from '../../../../constant/global';
+import { toast } from 'react-toastify';
+
 
 const DashboardPage = () => {
     const [sortBy, setSortBy] = useState("upcoming");
     const { data, refetch, isLoading } = useGetDoctorAppointmentsQuery({});
     const [updateAppointment, { isError, isSuccess, error }] = useUpdateAppointmentMutation();
+    const { data: tData, tRefetch, tIsLoading } = useGetDoctorAppointmentsQuery({
+        type: 'today'
+    });
+    
 
     const handleOnselect = (value) => {
         // eslint-disable-next-line eqeqeq
@@ -32,7 +38,7 @@ const DashboardPage = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            message.success("Succcessfully Appointment Updated")
+            toast.success('Cập nhật cuộc hẹn thành công');
         }
         if (isError) {
             message.error(error?.data?.message);
@@ -89,22 +95,21 @@ const DashboardPage = () => {
                 return (
                     <div className='d-flex gap-2'>
                         {
-                            data.prescriptionStatus === 'notIssued'
+                            !data.prescriptionStatus
                                 ?
                                 <Link to={`/dashboard/appointment/treatment/${data?.id}`}>
-                                    <Button type="primary" icon={<FaBriefcaseMedical />} size="small">Treatment</Button>
+                                    <Button type="primary" icon={<FaBriefcaseMedical />} size="small">Đơn thuốc</Button>
                                 </Link>
-
                                 :
                                 <Link to={`/dashboard/prescription/${data?.prescription[0]?.id}`}>
                                     <Button type="primary" shape="circle" icon={<FaEye />} size="small" />
                                 </Link>
                         }
                         {
-                            data?.status === 'pending' &&
+                            data?.status === 'Đang chờ' &&
                             <>
-                                <Button type="primary" icon={<FaCheck />} size="small" onClick={() => updatedApppointmentStatus(data, StatusAppoint.CONFIRMED)}>Accept</Button>
-                                <Button type='primary' icon={<FaTimes />} size='small' danger onClick={() => updatedApppointmentStatus(data, StatusAppoint.CANCEL)}>Cancel</Button>
+                                <Button type="primary" icon={<FaCheck />} size="small" onClick={() => updatedApppointmentStatus(data, StatusAppoint.CONFIRMED)}>{StatusAppoint.CONFIRMED}</Button>
+                                <Button type='primary' icon={<FaTimes />} size='small' danger onClick={() => updatedApppointmentStatus(data, StatusAppoint.CANCEL)}>{StatusAppoint.CANCEL}</Button>
                             </>
                         }
                     </div>
@@ -132,7 +137,7 @@ const DashboardPage = () => {
             children: <CustomTable
                 loading={isLoading}
                 columns={upcomingColumns}
-                dataSource={data}
+                dataSource={tData}
                 showPagination={true}
                 pageSize={10}
                 showSizeChanger={true}

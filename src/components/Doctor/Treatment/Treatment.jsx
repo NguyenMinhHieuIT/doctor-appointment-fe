@@ -39,7 +39,7 @@ const Treatment = () => {
     }
 
     const removeFromMedicineList = (id) => {
-        setMedicineList(medicineList.filter((item) => item.medicine !== id))
+        setMedicineList(medicineList.filter((item) => item.id !== id));
     }
 
 
@@ -76,46 +76,38 @@ const Treatment = () => {
             <TreatmentOverview data={data} />
             <div className="w-100 mb-3 rounded p-3 bg-gray-g">
                 <div className="text-center mb-2 d-flex justify-content-center">
-                    <h5 className="border-success border-bottom w-25 pb-2 border-5">Start Treatment</h5>
+                    <h5 className="border-success border-bottom w-25 pb-2 border-5">Tạo đơn thuốc</h5>
                 </div>
 
                 <form className="row form-row" onSubmit={handleSubmit(onSubmit)}>
                     <div className="col-md-6">
                         <div className="form-group mb-4">
                             <div className="mb-2">
-                                <h6 className="card-title text-secondary">Change Appointment Status</h6>
+                                <h6 className="card-title text-secondary">Trạng thái cuộc hẹn</h6>
                             </div>
                             <SelectForm
                                 showSearch={true}
                                 options={StatusAppointOptions}
                                 setSelectData={setSelectAppointmentStatus}
+                                defaultValue={data?.status}
                             />
-                        </div>
-                    </div>
-
-                    <div className="col-md-6">
-                        <div className="form-group mb-4">
-                            <div className="mb-2">
-                                <h6 className="card-title text-secondary">Change Patient Status</h6>
-                            </div>
-                            <input required {...register("patientStatus")} className="form-control" placeholder='Patient Status'/>
                         </div>
                     </div>
 
                     <div className="col-md-12">
                         <div className="card p-3 mb-3">
-                            <h6 className="card-title text-secondary">Identify Disease & Symtomps</h6>
+                            <h6 className="card-title text-secondary">Xác định bệnh & triệu chứng</h6>
 
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="form-group mb-3">                                      
-                                        <input required {...register("daignosis")} className="form-control" placeholder='Daignosis'/>
+                                        <input required {...register("daignosis")} className="form-control" placeholder='bệnh'/>
                                     </div>
                                 </div>
 
                                 <div className="col-md-6">
                                     <div className="form-group mb-3">
-                                    <input required {...register("disease")} className="form-control" placeholder='disease'/>
+                                    <input required {...register("disease")} className="form-control" placeholder='triệu chứng'/>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +117,7 @@ const Treatment = () => {
 
                     <div className="col-md-12 mb-3">
                         <div className="card mb-2 p-3 mt-2">
-                            <h6 className="card-title text-secondary">Medical Checkup</h6>
+                            <h6 className="card-title text-secondary">Kiểm tra sức khỏe</h6>
                             <div className="row form-row">
                                 <div className="form-group mb-2 card-label">
                                     <SelectForm
@@ -133,7 +125,6 @@ const Treatment = () => {
                                         setSelectData={setMedicalCheckup}
                                         options={MedicalCheckupOptions}
                                     />
-                                    <small className="form-text text-muted">Note : Type & Press enter to add new services</small>
                                 </div>
                             </div>
                         </div>
@@ -141,12 +132,12 @@ const Treatment = () => {
 
                     <div className="col-md-12">
                         <div className="card mb-2 p-3 mt-2">
-                            <h6 className="card-title text-secondary">Medicine</h6>
+                            <h6 className="card-title text-secondary">Thuốc</h6>
                             {
                                 medicineList?.map((item, index) => (
                                     <div className="row form-row mb-4 position-relative border border-success rounded m-2 p-2" key={index + 1}>
                                         <div className="col-md-6 mb-3">
-                                            <label>Medicine Name</label>
+                                            <label>Tên thuốc</label>
                                             <div className="form-group mb-2">
                                                 <InputAutoCompleteForm
                                                     id={item.id}
@@ -158,7 +149,7 @@ const Treatment = () => {
                                         </div>
 
                                         <div className="col-md-6 mb-3">
-                                            <label>Dosage</label>
+                                            <label>Liều lượng</label>
                                             <div className="form-group mb-2">
                                                 <InputAutoCompleteForm
                                                     id={item.id}
@@ -170,7 +161,7 @@ const Treatment = () => {
                                         </div>
 
                                         <div className="col-md-6 mb-3">
-                                            <label>Frequency</label>
+                                            <label>Tần suất</label>
                                             <div className="form-group mb-2">
                                                 <InputAutoCompleteForm
                                                     id={item.id}
@@ -182,7 +173,7 @@ const Treatment = () => {
                                         </div>
 
                                         <div className="col-md-6 mb-3">
-                                            <label>Start Date / End Date</label>
+                                            <label>Ngày bắt đầu / ngày kết thúc</label>
                                             <div className="form-group mb-2">
                                                 <Space direction="vertical" size={12}>
                                                     <MedicineRangePickerForm
@@ -196,7 +187,7 @@ const Treatment = () => {
                                         </div>
 
                                         <a className="text-danger position-absolute text-end mb-3"
-                                            onClick={() => removeFromMedicineList(item?.id)} style={{ top: '-35px' }}>
+                                            onClick={() => removeFromMedicineList(item.id)} style={{ top: '-35px' }}>
                                             <FaRegTrashAlt />
                                         </a>
                                     </div>
@@ -226,7 +217,7 @@ const Treatment = () => {
 
                     <div className="col-md-12 mb-3">
                         <div className="form-group mb-2">
-                            <label>Instruction</label>
+                            <label>Chỉ dẫn</label>
                             <TextArea rows={4} placeholder="Instruction text ..." onChange={(e) => setInstruction(e.target.value)} />
                         </div>
                     </div>

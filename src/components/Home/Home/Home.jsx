@@ -1,5 +1,4 @@
-import React from 'react';
-import Blog from '../Blog/Blog';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../Shared/Footer/Footer';
 import Testimonial from '../Testimonial/Testimonial';
 import ClinicAndSpecialities from '../ClinicAndSpecialities/ClinicAndSpecialities';
@@ -13,15 +12,13 @@ import OurDoctors from '../OurDoctor/OurDoctors';
 const Home = () => {
     return (
         <>
-            <Header />
+            <Header/>
             <HeroSection />
             <InfoPage />
             <Service />
             <ClinicAndSpecialities />
-            <Blog />
             <OurDoctors/>
             <Testimonial />
-            <Gallery/>
             <Footer />
         </>
     );

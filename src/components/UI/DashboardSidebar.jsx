@@ -74,12 +74,6 @@ const DashboardSidebar = () => {
                                     <span>Đổi mật khẩu</span>
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink to={'/'}>
-                                    <FaSignOutAlt className="icon" />
-                                    <span>Đăng xuất</span>
-                                </NavLink>
-                            </li>
                         </ul>
                         :
                         <ul>
@@ -95,16 +89,16 @@ const DashboardSidebar = () => {
                                     <span>Cuộc hẹn</span>
                                 </NavLink>
                             </li>
-                            <li>
+                            {/* <li>
                                 <NavLink to={'/dashboard/my-patients'} activeClassName="active" end>
                                     <FaUserInjured className="icon" />
                                     <span>Bệnh nhân của tôi</span>
                                 </NavLink>
-                            </li>
+                            </li> */}
                             <li>
                                 <NavLink to={'/dashboard/prescription'} activeClassName="active" end>
                                     <FaUserInjured className="icon" />
-                                    <span>Prescription</span>
+                                    <span>Đơn thuốc</span>
                                 </NavLink>
                             </li>
                             <li>
@@ -135,22 +129,9 @@ const DashboardSidebar = () => {
                             </li>
 
                             <li>
-                                <NavLink to={'/dashboard/blogs'} activeClassName="active" end>
-                                    <FaBlog className="icon" />
-                                    <span>Bài viết</span>
-                                </NavLink>
-                            </li>
-
-                            <li>
                                 <NavLink to={'/dashboard/change-password'} activeClassName="active" end>
                                     <FaLock className="icon" />
                                     <span>Đổi mật khẩu</span>
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to={'/'}>
-                                    <FaSignOutAlt className="icon" end />
-                                    <span>Đăng xuất</span>
                                 </NavLink>
                             </li>
                         </ul>

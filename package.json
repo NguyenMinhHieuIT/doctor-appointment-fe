@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
     "antd": "^5.12.5",
+    "antd-input-otp": "^2.1.0",
     "axios": "^1.6.2",
     "bootstrap": "^5.0.2",
     "dotenv": "^8.2.0",

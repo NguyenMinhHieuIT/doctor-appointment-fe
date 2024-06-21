@@ -47,6 +47,34 @@ export const authApi = baseApi.injectEndpoints({
                 data,
             }),
         }),
+        verifyOtp: build.mutation({
+            query: (data) => ({
+                url: `${AUTH_URL}/verify-otp`,
+                method: 'POST',
+                data,
+            }),
+        }),
+        sendOtp: build.mutation({
+            query: (data) => ({
+                url: `${AUTH_URL}/send-otp`,
+                method: 'POST',
+                data,
+            }),
+        }),
+        forgotPass: build.mutation({
+            query: (data) => ({
+                url: `${AUTH_URL}/forgot-pass`,
+                method: 'POST',
+                data,
+            }),
+        }),
+        recoverPass: build.mutation({
+            query: (data) => ({
+                url: `${AUTH_URL}/recover-pass`,
+                method: 'POST',
+                data,
+            }),
+        }),
     })
 })
 
@@ -55,5 +83,9 @@ export const {
     useDoctorSignUpMutation, 
     usePatientSignUpMutation,
     useResetPasswordMutation, 
-    useResetConfirmMutation
+    useResetConfirmMutation,
+    useVerifyOtpMutation,
+    useSendOtpMutation,
+    useForgotPassMutation,
+    useRecoverPassMutation,
 } = authApi;

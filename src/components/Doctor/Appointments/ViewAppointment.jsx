@@ -9,7 +9,7 @@ import { Button, Tag } from 'antd';
 import { clickToCopyClipBoard } from '../../../utils/copyClipBoard';
 import { FaPrint } from "react-icons/fa";
 import ReactToPrint from "react-to-print";
-import avatar from '../../../images/avatar.jpg'
+import avatar from '../../../images/avatar.jpg';
 const ViewAppointment = () => {
     const ref = useRef();
     const { id } = useParams();
@@ -27,11 +27,8 @@ const ViewAppointment = () => {
                     </div>
 
                     <div style={{ fontWeight: 500 }}>
-                        {data?.patientType &&
-                        <p className='mb-1'>Patient Type : <Tag bordered={false} color="processing">{data?.patientType}</Tag></p>}
-                        <p className='mb-1'>Current Status:  <Tag bordered={false} color="orange">{data?.status}</Tag></p>
+                        <p className='mb-1'>Status:  <Tag bordered={false} color="orange">{data?.status}</Tag></p>
                         <p className='mb-1'>Payment : <Tag bordered={false} color="success">{data?.paymentStatus}</Tag></p>
-                        <p className='mb-1'>Prescription Status : <Tag bordered={false} color="green">{data?.prescriptionStatus}</Tag></p>
                     </div>
                 </div>
 
@@ -77,11 +74,10 @@ const ViewAppointment = () => {
                         </div>
                         <div>
 
-                            <h4 className="mb-1">{data?.patient?.name}</h4>
-                            <p className="mb-1 form-text">Tuổi : {data?.patient?.age}</p>
-                            <p className="mb-1 form-text">Nhóm máu : {data?.patient?.bloodGroup}</p>
-                            <p className="mb-1 form-text">Trạng thái : {data?.patient?.state}</p>
-                            <p className="mb-1 form-text">Địa chỉ: {data?.patient?.address}</p>
+                            <h4 className="mb-1">{data?.name}</h4>
+                            <p className="mb-1 form-text">email : {data?.email}</p>
+                            <p className="mb-1 form-text">Sđt : {data?.phone}</p>
+                            <p className="mb-1 form-text">Địa chỉ: {data?.address}</p>
 
                             <div className='mt-2'>
                                 <p>Lý do thăm khám - <span className='text-warning'>{data?.reasonForVisit}</span></p>

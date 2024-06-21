@@ -15,7 +15,6 @@ const Header = () => {
     const [isLoggedIn, setIsLogged] = useState(false);
     const [show, setShow] = useState(true);
     const [open, setOpen] = useState(false);
-
     // const lastScrollRef = useRef(0);
     const handleScroll = () => {
         const currentScroll = window.scrollY;
@@ -29,18 +28,16 @@ const Header = () => {
     }
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
-        return (() => window.removeEventListener('scroll', handleScroll));
+        return (() => window.removeEventListener('scroll', handleScroll));   
     }, [])
 
     useEffect(() => { authChecked && setIsLogged(true) }, [authChecked]);
-
     const hanldeSignOut = () => {
         loggedOut();
         toast.success("Đăng xuất thành công")
         setIsLogged(false)
         navigate('/')
     }
-
 
     const content = (
         <div className='nav-popover'>
@@ -66,8 +63,11 @@ const Header = () => {
                         <img src={logo} alt="" className="img-fluid" />
                         <span style={{color: '#1977cc'}}>DoctorApp</span>
                     </Link>
-                    <HeaderNav isLoggedIn={isLoggedIn} data={data}
+                    <div>
+                        <HeaderNav isLoggedIn={isLoggedIn} data={data}
                         avatar={avatar} content={content} open={open} setOpen={setOpen} />
+                    </div>
+                    
                 </div>
             </header>
         </>

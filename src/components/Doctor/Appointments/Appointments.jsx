@@ -9,7 +9,7 @@ import { Button, Empty, message, Tag, Tooltip } from 'antd';
 import { FaEye, FaCheck, FaTimes } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { FaClock, FaEnvelope, FaLocationArrow, FaPhoneAlt, FaBriefcaseMedical } from "react-icons/fa";
-import { clickToCopyClipBoard } from '../../../utils/copyClipBoard';
+import { appointStatusDsc } from '../../../constant/appointmentStatus';
 
 const Appointments = () => {
     const { data, isError, isLoading } = useGetDoctorAppointmentsQuery({});
@@ -47,11 +47,7 @@ const Appointments = () => {
                                 </Link>
                                 <div className="patients-info">
                                     <h5>{item?.patient?.name}</h5>
-                                    <Tooltip title="Copy Tracking Id">
-                                        <Button>
-                                            <h6>Tracking<Tag color="#87d068" className='ms-2 text-uppercase' onClick={() => clickToCopyClipBoard(item?.trackingId)}>{item?.trackingId}</Tag></h6>
-                                        </Button>
-                                    </Tooltip>
+                              
 
                                     <div className="info mt-2">
                                         <p><FaClock className='icon' /> {moment(item?.scheduleDate).format("MMM Do YY")} </p>
@@ -62,26 +58,22 @@ const Appointments = () => {
                                     </div>
                                 </div>
                                 <div className='appointment-status card p-3 border-primary'>
-                                    {/* <p>Current Status - <span><Tag color="#f50" className='text-uppercase'>{item?.status}</Tag></span></p>
-                                    <p>Patient Status - <span><Tag color="#2db7f5" className='text-uppercase'>{item?.patientType}</Tag></span></p> */}
-                                    <p>Is Follow Up - <span><Tag color="#f50" className='text-uppercase'>{item?.isFollowUp ? "Yes" : "No"}</Tag></span></p>
-                                    <p> Is Paid - <span><Tag color="#87d068" className='text-uppercase'>{item?.paymentStatus}</Tag></span></p>
-                                    <p> Prescribed - <span><Tag color="#2db7f5" className='text-uppercase'>{item?.prescriptionStatus}</Tag></span></p>
+                                    <p>Status - <span><Tag color="#f50" className='text-uppercase'>{item?.status}</Tag></span></p>
                                 </div>
                             </div>
                             <div className='d-flex gap-2'>
                                 <Link to={`/dashboard/appointments/${item?.id}`}>
-                                    <Button type="primary" icon={<FaEye />} size="small">View</Button>
+                                    <Button type="primary" icon={<FaEye />} size="small">Xem</Button>
                                 </Link>
                                 {
-                                    item.prescriptionStatus === 'notIssued'
+                                    !item.prescriptionStatus
                                         ?
                                         <Link to={`/dashboard/appointment/treatment/${item?.id}`}>
-                                            <Button type="primary" icon={<FaBriefcaseMedical />} size="small">Treatment</Button>
+                                            <Button type="primary" icon={<FaBriefcaseMedical />} size="small">Đơn thuốc</Button>
                                         </Link>
                                         :
                                         <Link to={`/dashboard/prescription/${item?.prescription[0]?.id}`}>
-                                            <Button type="primary" icon={<FaEye />} size="small" >Prescription</Button>
+                                            <Button type="primary" icon={<FaEye />} size="small" >Đơn thuốc</Button>
                                         </Link>
                                 }
                                 {
@@ -91,10 +83,10 @@ const Appointments = () => {
                                 }
 
                                 {
-                                    item?.status === 'pending' &&
+                                    item?.status === 'Đang chờ' &&
                                     <>
-                                        <Button type="primary" icon={<FaCheck />} size="small" onClick={() => updatedApppointmentStatus(item.id, 'scheduled')}>Accept</Button>
-                                        <Button type='primary' icon={<FaTimes />} size="small" danger onClick={() => updatedApppointmentStatus(item.id, 'cancel')}>Cancel</Button>
+                                        <Button type="primary" icon={<FaCheck />} size="small" onClick={() => updatedApppointmentStatus(item.id, 'scheduled')}>Chấp nhận</Button>
+                                        <Button type='primary' icon={<FaTimes />} size="small" danger onClick={() => updatedApppointmentStatus(item.id, 'cancel')}>Bỏ qua</Button>
                                     </>
                                 }
                             </div>

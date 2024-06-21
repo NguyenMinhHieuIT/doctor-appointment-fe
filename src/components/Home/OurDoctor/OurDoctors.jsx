@@ -21,8 +21,10 @@ const OurDoctors = () => {
                             </div>
                             <div className="member-info">
                                 <h4>Dr. {item?.name}</h4>
+                                <span>{item?.specialization}</span>
                                 <span>{item?.designation}</span>
-                                <p>{item?.specialization}</p>
+                                <p>{item?.clinicName}</p>
+                                <p>{item?.clinicAddress}</p>
                                 <div className="social">
                                     <a><FaFacebookSquare className='icon' /></a>
                                     <a><FaInstagramSquare className='icon' /></a>
@@ -38,8 +40,7 @@ const OurDoctors = () => {
         <section id="doctors" className="doctors">
             <div className="container">
                 <div className="section-title text-center mb-3">
-                    <h2>OUR DOCTORS</h2>
-                    <p className='form-text'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus, adipisci?</p>
+                    <h2>Các bác sĩ</h2>
                 </div>
 
                 <div className="row">

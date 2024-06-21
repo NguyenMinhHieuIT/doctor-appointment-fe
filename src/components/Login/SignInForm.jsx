@@ -6,10 +6,18 @@ import register from '../../images/doc/register.svg';
 import SignIn from './SignIn';
 import './SignInForm.css';
 import SignUp from './SignUp';
+import ModalOtp from './ModalOtp';
 
 const SignInForm = () => {
     const [isSignUp, setSignUp] = useState(false);
+    const [showModalOtp, setShowModalOtp] = useState(false);
+    const [email, setEmail] = useState('');
+    const handleClose = () => {
+        setShowModalOtp(false);
+    }
     return (
+        <>
+        <ModalOtp show={showModalOtp} handleClose={handleClose} email={email}/>
         <div className={`${isSignUp ? "signin-signup-container sign-up-mode" : "signin-signup-container"}`}>
             <Link to="/">
                 <span className="pageCloseBtn"><FaTimes /></span>
@@ -17,7 +25,7 @@ const SignInForm = () => {
             <div className="forms-container">
                 <div className="signIn-singUp">
                     <SignIn />
-                    <SignUp setSignUp={setSignUp} />
+                    <SignUp setSignUp={setSignUp} setModalOtp={setShowModalOtp} setEmail={setEmail}/>
                 </div>
             </div>
 
@@ -41,6 +49,7 @@ const SignInForm = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

@@ -6,6 +6,7 @@ import { useGetDoctorsQuery } from '../../../redux/api/doctorApi';
 import { Empty, Pagination } from 'antd';
 import Header from '../../Shared/Header/Header';
 import SubHeader from '../../Shared/SubHeader';
+import useAuthCheck from '../../../redux/hooks/useAuthCheck';
 
 const SearchDoctor = () => {
   const [query, setQuery] = useState({});
@@ -13,10 +14,12 @@ const SearchDoctor = () => {
   const [size, setSize] = useState(10);
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchName, setSearchName] = useState("");
+  const [searchAddress, setSearchAddress] = useState("");
   const [sortByGender, setSorByGender] = useState("");
   const [specialist, setSpecialist] = useState("");
   const [priceRange, setPriceRange] = useState({});
+  const {authChecked, data: userData} = useAuthCheck();
 
   const buildQuery = () => {
     const newQuery = {
@@ -40,10 +43,16 @@ const SearchDoctor = () => {
       else newQuery.search += ',' + specialist;
     }
 
-    if (searchTerm !== '') {
+    if (searchName !== '') {
       newQuery.searchFields.push('name');
-      if (newQuery.search === '') newQuery.search = searchTerm;
-      else newQuery.search += ',' + searchTerm;
+      if (newQuery.search === '') newQuery.search = searchName;
+      else newQuery.search += ',' + searchName;
+    }
+
+    if (searchAddress !== '') {
+      newQuery.searchFields.push('clinicAddress');
+      if (newQuery.search === '') newQuery.search = searchAddress;
+      else newQuery.search += ',' + searchAddress;
     }
 
     if (Object.keys(priceRange)?.length !== 0) {
@@ -56,14 +65,15 @@ const SearchDoctor = () => {
 
   useEffect(() => {
     buildQuery();
-  }, [page, size, sortBy, sortOrder, searchTerm, sortByGender, specialist, priceRange]);
+  }, [page, size, sortBy, sortOrder, searchName, sortByGender, specialist, priceRange, searchAddress]);
 
   const resetFilter = () => {
     setPage(1);
     setSize(10);
     setSortBy("");
     setSortOrder("");
-    setSearchTerm("");
+    setSearchName("");
+    setSearchAddress('');
     setSorByGender("");
     setSpecialist("");
     setPriceRange({});
@@ -82,7 +92,7 @@ const SearchDoctor = () => {
   if (!isLoading && !isError && doctorsData.length > 0) content = (
     <>
       {doctorsData.map((item, id) => (
-        <SearchContent key={item.id} data={item} />
+        <SearchContent key={item.id} data={item} userData={userData} />
       ))}
     </>
   );
@@ -96,12 +106,12 @@ const SearchDoctor = () => {
   return (
     <div>
       <Header />
-      <SubHeader title='Doctors' subtitle='Lorem ipsum dolor sit amet.' />
-      <div className="container" style={{ marginBottom: 200, marginTop: 80 }}>
+      <div className="container" style={{ marginBottom: 200, marginTop: 150 }}>
         <div className="container-fluid">
           <div className="row">
             <SearchSidebar
-              setSearchTerm={setSearchTerm}
+              setSearchName={setSearchName}
+              setSearchAddress={setSearchAddress}
               setSorByGender={setSorByGender}
               setSpecialist={setSpecialist}
               setPriceRange={setPriceRange}

@@ -40,24 +40,13 @@ const BookingSuccess = () => {
 
                             <div className='border-bottom my-2'>
                                 <FaCalendarCheck style={{ fontSize: '2.5rem' }} className='text-success' />
-                                <h6 className='py-2'>Meeting is scheduled</h6>
-                                <p className='text-secondary border rounded-pill form-text text-success border-success'>Check your Inbox an email with all details!</p>
+                                <h6 className='py-2'>Cuộc hẹn đã được lên lịch</h6>
                             </div>
-
-
-                            <div>
-                                <Tooltip title="Copy Tracking Id">
-                                    <Button>
-                                        <h6>Tracking<Tag color="#87d068" className='ms-2 text-uppercase' onClick={() => clickToCopyClipBoard(data?.trackingId)}>{data?.trackingId}</Tag></h6>
-                                    </Button>
-                                </Tooltip>
-                            </div>
-
 
                             <div className='card border-0 p-3 rounded mb-5'>
                                 <div className='d-flex gap-3 mb-2 align-items-center'>
                                     <FaAlignLeft style={{ fontSize: '1rem' }}/>
-                                    <Link to={`/dashboard/appointments/${id}`}><h5 className='text-primary'>View Appointment Details</h5></Link>
+                                    <Link to={`/dashboard/appointments/${id}`}><h5 className='text-primary'>Xem chi tiết cuộc hẹn</h5></Link>
                                 </div>
                                 <div className='d-flex gap-3 mb-1'>
                                     <FaBriefcase style={{ fontSize: '1rem' }} />
@@ -65,15 +54,15 @@ const BookingSuccess = () => {
                                 </div>
                                 <div className='d-flex gap-3 mb-1'>
                                     <FaRegClock style={{ fontSize: '1rem' }} />
-                                    <p>{minutes} Min</p>
+                                    <p>{minutes} phút</p>
                                 </div>
                                 <div className='d-flex gap-3 mb-1'>
                                     <div><FaLocationArrow style={{ fontSize: '1rem' }} /></div>
-                                    <p className='text-start'>{data?.address}</p>
+                                    <p className='text-start'>{data?.doctor?.clinicAddress}</p>
                                 </div>
                                 <div className='d-flex gap-3'>
                                     <div><FaCalendarAlt style={{ fontSize: '1rem' }} /> </div>
-                                    <p>{(data?.scheduleDate && data?.startTime && data?.endTime) && moment(data.scheduleDate).format('LL') + ': ' + data?.startTime + ' _ ' + data?.endTime}</p>
+                                    <p>{(data?.scheduleDate && data?.startTime && data?.endTime) && moment(data.scheduleDate).format('LL') + '/ ' + data?.startTime + ' - ' + data?.endTime}</p>
                                 </div>
                             </div>
                         </div>
