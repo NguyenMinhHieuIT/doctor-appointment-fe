@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import Footer from '../../Shared/Footer/Footer'
-import img from '../../../images/doc/doctor 3.jpg'
+import React, { useEffect, useState } from 'react';
+import Footer from '../../Shared/Footer/Footer';
+import img from '../../../images/doc/doctor 3.jpg';
 import './index.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Empty, Button, message, Steps } from 'antd';
@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { addInvoice } from '../../../redux/feature/invoiceSlice';
 import Header from '../../Shared/Header/Header';
 import useAuthCheck from '../../../redux/hooks/useAuthCheck';
+import { toast } from 'react-toastify';
 
 const DoctorBooking = () => {
     const dispatch = useDispatch();
@@ -33,8 +34,8 @@ const DoctorBooking = () => {
         expiredMonth: '',
         cardExpiredYear: '',
         cvv: '',
-    }
-    const {data:loggedInUser, role} = useAuthCheck();
+    };
+    const { data: loggedInUser, role } = useAuthCheck();
     const [current, setCurrent] = useState(0);
     const [selectedDate, setSelectedDate] = useState('');
     const [selectDay, setSelecDay] = useState('');
@@ -52,7 +53,9 @@ const DoctorBooking = () => {
     const [IsdDisable, setIsDisable] = useState(true);
     const [IsConfirmDisable, setIsConfirmDisable] = useState(true);
 
-    const handleChange = (e) => { setSelectValue({ ...selectValue, [e.target.name]: e.target.value }) }
+    const handleChange = (e) => {
+        setSelectValue({ ...selectValue, [e.target.name]: e.target.value });
+    };
 
     useEffect(() => {
         const { name, email, phone, nameOnCard, cardNumber, expiredMonth, cardExpiredYear, cvv, reasonForVisit } = selectValue;
@@ -60,60 +63,83 @@ const DoctorBooking = () => {
         const isConfirmInputEmpty = !nameOnCard || !cardNumber || !expiredMonth || !cardExpiredYear || !cvv || !isCheck;
         setIsDisable(isInputEmpty);
         setIsConfirmDisable(isConfirmInputEmpty);
-    }, [selectValue, isCheck])
-
+    }, [selectValue, isCheck]);
 
     const handleDateChange = (_date, dateString) => {
-        setSelectedDate(dateString)
+        setSelectedDate(dateString);
         setSelecDay(moment(dateString).format('dddd').toLowerCase());
-        refetch();
-    }
-    const disabledDateTime = (current) => current && (current < moment().add(1, 'day').startOf('day') || current > moment().add(8, 'days').startOf("day"))
-    const handleSelectTime = (date) => { 
+    };
+
+    useEffect(() => {
+        if (selectedDate && selectDay) {
+            refetch();
+            setSelectTimeStart('');
+            setSelectTimeEnd('');
+        }
+    }, [selectedDate, selectDay, refetch]);
+
+    const disabledDateTime = (current) => current && (current < moment().add(1, 'day').startOf('day') || current > moment().add(8, 'days').startOf("day"));
+
+    const handleSelectTime = (date) => {
         setSelectTimeStart(date.timeStart);
         setSelectTimeEnd(date.timeEnd);
-     }
+    };
 
-    const next = () => { setCurrent(current + 1) };
-    const prev = () => { setCurrent(current - 1) };
+    const next = () => {
+        setCurrent(current + 1);
+    };
+    const prev = () => {
+        setCurrent(current - 1);
+    };
 
     let dContent = null;
-    if (dIsLoading) dContent = <div>Loading ...</div>
-    if (!dIsLoading && dIsError) dContent = <div>Something went Wrong!</div>
-    if (!dIsLoading && !dIsError && time?.length === 0) dContent = <Empty children="Doctor Is not Available" />
-    if (!dIsLoading && !dIsError && time?.length > 0) dContent =
-        <>
-            {
-                time && time.map((item, id) => (
+    if (dIsLoading) {
+        dContent = <div>Loading ...</div>;
+    } else if (!dIsLoading && dIsError) {
+        dContent = <div>Bác sĩ không có lịch làm việc vào ngày này</div>;
+    } else if (!dIsLoading && !dIsError && time?.length === 0) {
+        dContent = <Empty description="Doctor Is not Available" />;
+    } else if (!dIsLoading && !dIsError && time?.length > 0) {
+        dContent = (
+            <>
+                {time && time.map((item, id) => (
                     <div className="col-md-4" key={id + 155}>
                         <Button type={item?.slot?.startTime === selectTimeStart ? "primary" : "default"} shape="round" size='large' className='mb-3' onClick={() => handleSelectTime({
                             timeStart: item?.slot?.startTime,
-                            timeEnd: item?.slot?.endTime}
-                        )}>                        
+                            timeEnd: item?.slot?.endTime
+                        })}>
                             {item?.slot?.startTime} - {item?.slot?.endTime}
                         </Button>
                     </div>
-                ))
-            }
-        </>
+                ))}
+            </>
+        );
+    }
 
-    //What to render
+    // What to render
     let content = null;
-    if (!isLoading && isError) content = <div>Something Went Wrong!</div>
-    if (!isLoading && !isError && data?.id === undefined) content = <Empty />
-    if (!isLoading && !isError && data?.id) content =
-        <>
-            <div className="booking-doc-img my-3 mb-3 rounded">
-                <Link to={`/doctors/${data?.id}`}>
-                    <img src={data?.avatar ? data?.avatar : img} alt="" />
-                </Link>
-                <div className='text-start'>
-                    <Link to={`/doctors/${data?.id}`} style={{ textDecoration: 'none' }}>Dr. {data?.name}</Link>
-                    <p className="form-text mb-0"><FaArchway /> {data?.specialization + ', ' + data?.clinicName + ', ' 
-                    + data?.clinicAddress}</p>
+    if (!isLoading && isError) {
+        content = <div>Something Went Wrong!</div>;
+    } else if (!isLoading && !isError && data?.id === undefined) {
+        content = <Empty />;
+    } else if (!isLoading && !isError && data?.id) {
+        content = (
+            <>
+                <div className="booking-doc-img my-3 mb-3 rounded">
+                    <Link to={`/doctors/${data?.id}`}>
+                        <img src={data?.avatar ? data?.avatar : img} alt="" />
+                    </Link>
+                    <div className='text-start'>
+                        <Link to={`/doctors/${data?.id}`} style={{ textDecoration: 'none' }}>Dr. {data?.name}</Link>
+                        <p className="form-text mb-0"><FaArchway /> {data?.specialization}</p>
+                        <p className="form-text mb-0"> {data?.clinicName}</p>
+                        <p className="form-text mb-0"> {data?.clinicAddress}</p>
+                    </div>
                 </div>
-            </div>
-        </>
+            </>
+        );
+    }
+
     const steps = [
         {
             title: 'Chọn ngày khám và thời gian khám',
@@ -125,11 +151,12 @@ const DoctorBooking = () => {
                 dContent={dContent}
                 selectTimeStart={selectTimeStart}
                 selectTimeEnd={selectTimeEnd}
+                doctorId={+doctorId}
             />
         },
         {
             title: 'Thông tin bệnh nhân',
-            content: <PersonalInformation handleChange={handleChange} selectValue={selectValue}/>
+            content: <PersonalInformation handleChange={handleChange} selectValue={selectValue} />
         },
         {
             title: 'Thông tin thanh toán',
@@ -144,12 +171,12 @@ const DoctorBooking = () => {
                 selectTimeEnd={selectTimeEnd}
             />,
         },
-    ]
+    ];
 
     const items = steps.map((item) => ({
         key: item.title,
         title: item.title,
-    }))
+    }));
 
     const handleConfirmSchedule = () => {
         const obj = {
@@ -162,30 +189,22 @@ const DoctorBooking = () => {
             doctorId: +doctorId,
             reasonForVisit: selectValue.reasonForVisit,
         };
-    
-        // obj.payment = {
-        //     paymentType: selectValue.paymentType,
-        //     paymentMethod: selectValue.paymentMethod,
-        //     cardNumber: selectValue.cardNumber,
-        //     cardExpiredYear: selectValue.cardExpiredYear,
-        //     cvv: selectValue.cvv,
-        //     expiredMonth: selectValue.expiredMonth,
-        //     nameOnCard: selectValue.nameOnCard
-        // }
+
         createAppointment(obj);
-    }
+    };
 
     useEffect(() => {
         if (createIsSuccess) {
-            message.success("Succcessfully Appointment Scheduled")
+            toast.success(" Đặt lịch hẹn thành công ");
             setSelectValue(initialValue);
-            dispatch(addInvoice({ ...appointmentData }))
-            navigation(`/booking/success/${appointmentData.id}`)
+            dispatch(addInvoice({ ...appointmentData }));
+            navigation(`/booking/success/${appointmentData.id}`);
         }
         if (createIsError) {
             message.error(error?.data?.message);
         }
-    }, [createIsSuccess, createError])
+    }, [createIsSuccess, createError]);
+
     return (
         <>
             <Header />
@@ -203,7 +222,7 @@ const DoctorBooking = () => {
             </div>
             <Footer />
         </>
-    )
-}
+    );
+};
 
-export default DoctorBooking
+export default DoctorBooking;

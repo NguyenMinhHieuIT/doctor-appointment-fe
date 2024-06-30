@@ -14,8 +14,8 @@ export const timeSlotApi = baseApi.injectEndpoints({
             invalidatesTags: [tagTypes.timeSlot]
         }),
         getAllTimeSlot: build.query({
-            query: () => ({
-                url: `${TIMELOT_URL}/`,
+            query: (id) => ({
+                url: `${TIMELOT_URL}/my-slot-all/${id}`,
                 method: 'GET'
             }),
             providesTags: [tagTypes.timeSlot]

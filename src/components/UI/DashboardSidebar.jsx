@@ -26,8 +26,12 @@ const DashboardSidebar = () => {
                             <Link to={'/'} className="my-3 patient-img"><img src={data?.avatar ? data?.avatar : img} alt="" className='' /></Link>
                             <div className='profile-details'>
                                 <h5 className='mb-0'>{data?.name}</h5>
+                                <h5 className='mb-0'>{data?.email}</h5>
                                 <div>
                                     <p className="mb-0">{data?.designation}</p>
+                                    <p className="mb-0">{data?.specialization}</p>
+                                    <p className="mb-0">{data?.clinicName}</p>
+                                    <p className="mb-0">{data?.clinicAddress}</p>
                                 </div>
                             </div>
                         </div>
@@ -36,9 +40,9 @@ const DashboardSidebar = () => {
                             <Link to={'/'} className="my-3 patient-img"><img src={data?.avatar ? data?.avatar : img} alt="" /></Link>
                             <div className='profile-details'>
                                 <h5 className='mb-0'>{data?.name}</h5>
+                                <h5 className='mb-0'>{data?.email}</h5>
                                 <div className='mt-2'>
-                                    <p className=' form-text m-0'>{data?.address ?? <>location is null</>}</p>
-                                    <p className=' form-text m-0'>{data?.email}</p>
+                                    <p className=' form-text m-0'>{data?.address}</p>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +50,18 @@ const DashboardSidebar = () => {
 
             </div>
             <nav className="dashboard-menu">
+                
                 {
+                    role === 'admin' ? 
+                    <ul>
+                        <li>
+                                <NavLink to={'/dashboard/profile-setting'} activeClassName="active">
+                                    <FaUserCog className="icon" />
+                                    <span>Hồ sơ</span>
+                                </NavLink>
+                            </li>       
+                    </ul>
+                    :
                     role === 'patient' ?
                         <ul>
                             <li>

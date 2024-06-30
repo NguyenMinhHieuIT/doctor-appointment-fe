@@ -9,12 +9,15 @@ import { Button, message } from 'antd';
 import { loggedOut } from '../../../service/auth.service';
 import HeaderNav from './HeaderNav';
 import { toast } from 'react-toastify';
+import { useLogoutMutation } from '../../../redux/api/authApi';
+import { localeData } from 'moment';
 const Header = () => {
     const navigate = useNavigate();
     const { authChecked, data } = useAuthCheck();
     const [isLoggedIn, setIsLogged] = useState(false);
     const [show, setShow] = useState(true);
     const [open, setOpen] = useState(false);
+    const [logout, {isSuccess: lIsSuccess, isError: lIsError}] = useLogoutMutation();
     // const lastScrollRef = useRef(0);
     const handleScroll = () => {
         const currentScroll = window.scrollY;
@@ -33,11 +36,19 @@ const Header = () => {
 
     useEffect(() => { authChecked && setIsLogged(true) }, [authChecked]);
     const hanldeSignOut = () => {
-        loggedOut();
-        toast.success("Đăng xuất thành công")
-        setIsLogged(false)
-        navigate('/')
+        logout();
     }
+
+    useEffect(()=>{
+        if(lIsSuccess){
+            loggedOut();
+            setIsLogged(false);
+            navigate('/');
+            toast.success("Đăng xuất thành công");
+        }
+        
+        if(lIsError)  toast.error("Đăng xuất thất bại");
+    },[lIsSuccess, lIsError]);
 
     const content = (
         <div className='nav-popover'>

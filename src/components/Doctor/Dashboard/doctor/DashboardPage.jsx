@@ -14,6 +14,8 @@ import { toast } from 'react-toastify';
 const DashboardPage = () => {
     const [sortBy, setSortBy] = useState("upcoming");
     const { data, refetch, isLoading } = useGetDoctorAppointmentsQuery({});
+    const [pageSize, setPageSize] = useState(5);
+    const [pageNumber, setPageNumber] = useState(1);
     const [updateAppointment, { isError, isSuccess, error }] = useUpdateAppointmentMutation();
     const { data: tData, tRefetch, tIsLoading } = useGetDoctorAppointmentsQuery({
         type: 'today'
@@ -26,6 +28,10 @@ const DashboardPage = () => {
         refetch()
     }
 
+    const onPaginationChange = (page, pageSize) => {
+        setPageNumber(page);
+        setPageSize(pageSize);
+    }
 
     const updatedApppointmentStatus = (data, type) => {
         const changeObj = {
@@ -127,8 +133,10 @@ const DashboardPage = () => {
                 columns={upcomingColumns}
                 dataSource={data}
                 showPagination={true}
-                pageSize={10}
+                pageSize={pageSize}
+                currentPage={pageNumber}
                 showSizeChanger={true}
+                onPaginationChange={onPaginationChange}
             />,
         },
         {

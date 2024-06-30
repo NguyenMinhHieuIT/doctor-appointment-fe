@@ -16,6 +16,17 @@ export const genderOptions = gender.map((data) => {
     }
 })
 export const daysArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+export const Days = {
+    'sunday': 'Chủ nhật',
+    'monday': 'Thứ hai',
+    'tuesday': 'Thứ ba',
+    'wednesday': 'Thứ tư',
+    'thursday': 'Thứ năm',
+    'friday': 'Thứ sáu',
+    'saturday': 'Thứ bảy'
+};
+
 const StatusAppointArray = ['cancel','confirmed','pending','in_progress','completed'];
 export const StatusAppoint = {
     CANCEL : 'Bỏ qua',

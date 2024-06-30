@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { Button, Space } from "antd";
 import { useEffect, useState } from "react";
-import {  MedicalCheckupOptions, appointemntStatusOption } from "../../../constant/global";
+import {  MedicalCheckupOptions, appointemntStatusOption, StatusAppointOptions } from "../../../constant/global";
 import SelectForm from "../../UI/form/SelectForm";
 import TextArea from "antd/es/input/TextArea";
 import InputAutoCompleteForm from "../../UI/form/InputAutoCompleteForm";
@@ -36,6 +36,7 @@ const TreatmentEdit = () => {
         setMedicineList(medicineList.filter((item) => item.id !== id))
     }
 
+    const dataQuery = data;
 
     const onSubmit = (data) => {
         const obj = {};
@@ -46,7 +47,7 @@ const TreatmentEdit = () => {
         medicalCheckup.length && (obj["test"] = medicalCheckup.join(','))
         obj.instruction = instruction;
         obj.medicine = medicineList;
-        obj.appointmentId = data?.appoint?.id;
+        obj.appointId = +dataQuery?.appoint?.id;
         const filteredData = Object.fromEntries(Object.entries(obj).filter(([key, value]) => value !== ''))
         updatePrescription({id: id, data: filteredData});
     }
@@ -64,26 +65,26 @@ const TreatmentEdit = () => {
     }, [data, presIsSuccess]);
 
   
-    useMessageEffect(presIsloading, presIsSuccess, presIsError, presError, 'Successfully Prescription Updated!');
+    useMessageEffect(presIsloading, presIsSuccess, presIsError, presError, 'Đã cập nhật đơn thuốc thành công!');
 
     return (
         <DashboardLayout>
             <TreatmentOverview data={data?.appoint} isAppointment={true} />
             <div className="w-100 mb-3 rounded p-3 bg-gray-g">
                 <div className="text-center mb-2 d-flex justify-content-center">
-                    <h5 className="border-success border-bottom w-25 pb-2 border-5">Edit Treatment</h5>
+                    <h5 className="border-success border-bottom w-25 pb-2 border-5">Sửa đơn thuốc</h5>
                 </div>
 
                 <form className="row form-row" onSubmit={handleSubmit(onSubmit)}>
                     <div className="col-md-6">
                         <div className="form-group mb-4">
                             <div className="mb-2">
-                                <h6 className="card-title text-secondary">Change Appointment Status</h6>
+                                <h6 className="card-title text-secondary">Trạng thái cuộc hẹn</h6>
                             </div>
                             {isReadyData &&
                                 <SelectForm
                                     showSearch={true}
-                                    options={appointemntStatusOption}
+                                    options={StatusAppointOptions}
                                     setSelectData={setSelectAppointmentStatus}
                                     defaultValue={data?.appoint?.status}
                                 />
@@ -91,19 +92,11 @@ const TreatmentEdit = () => {
                         </div>
                     </div>
 
-                    <div className="col-md-6">
-                        <div className="form-group mb-4">
-                            <div className="mb-2">
-                                <h6 className="card-title text-secondary">Change Patient Status</h6>
-                            </div>
-                            <input defaultValue={data?.appoint?.patientStatus} required {...register("patientStatus")} className="form-control" placeholder='Patient Status' />
-                        </div>
-                    </div>
 
 
                     <div className="col-md-12">
                         <div className="card p-3 mb-3">
-                            <h6 className="card-title text-secondary">Identify Disease & Symtomps</h6>
+                            <h6 className="card-title text-secondary">Xác định bệnh & triệu chứng</h6>
 
                             <div className="row">
                                 <div className="col-md-6">
@@ -123,10 +116,9 @@ const TreatmentEdit = () => {
 
                     <div className="col-md-12 mb-3">
                         <div className="card mb-2 p-3 mt-2">
-                            <h6 className="card-title text-secondary">Medical Checkup</h6>
+                            <h6 className="card-title text-secondary">Kiểm tra sức khỏe</h6>
                             <div className="row form-row">
                                 <div className="form-group mb-2 card-label">
-                                    <label>Medical Checkup</label>
                                     {isReadyData &&
                                         <SelectForm
                                             mode={true}
@@ -135,7 +127,6 @@ const TreatmentEdit = () => {
                                             defaultValue={defatulTests}
                                         />
                                     }
-                                    <small className="form-text text-muted">Note : Type & Press enter to add new services</small>
                                 </div>
                             </div>
                         </div>
@@ -143,12 +134,12 @@ const TreatmentEdit = () => {
 
                     <div className="col-md-12">
                         <div className="card mb-2 p-3 mt-2">
-                            <h6 className="card-title text-secondary">Medicine</h6>
+                            <h6 className="card-title text-secondary">Thuốc</h6>
                             {
                                 isReadyData && medicineList?.map((item, index) => (
                                     <div className="row form-row mb-4 position-relative border border-success rounded m-2 p-2" key={index + 1}>
                                         <div className="col-md-6 mb-3">
-                                            <label>Medicine Name</label>
+                                            <label>Tên loại thuốc</label>
                                             <div className="form-group mb-2">
                                                 <InputAutoCompleteForm
                                                     id={item.id}
@@ -161,7 +152,7 @@ const TreatmentEdit = () => {
                                         </div>
 
                                         <div className="col-md-6 mb-3">
-                                            <label>Dosage</label>
+                                            <label>Liều lượng</label>
                                             <div className="form-group mb-2">
                                                 <InputAutoCompleteForm
                                                     id={item.id}
@@ -174,7 +165,7 @@ const TreatmentEdit = () => {
                                         </div>
 
                                         <div className="col-md-6 mb-3">
-                                            <label>Frequency</label>
+                                            <label>Tần suất</label>
                                             <div className="form-group mb-2">
                                                 <InputAutoCompleteForm
                                                     id={item.id}
@@ -187,7 +178,7 @@ const TreatmentEdit = () => {
                                         </div>
 
                                         <div className="col-md-6 mb-3">
-                                            <label>Start Date / End Date : {item.duration}</label>
+                                            <label>Ngày bắt đầu / ngày kết thúc {item.duration}</label>
                                             <div className="form-group mb-2">
                                                 <Space direction="vertical" size={12}  >
                                                     <MedicineRangePickerForm
@@ -217,7 +208,7 @@ const TreatmentEdit = () => {
 
                     <div className="col-md-12 mb-3">
                         <div className="form-group mb-2">
-                            <label>Instruction</label>
+                            <label>Chỉ dẫn</label>
                             {isReadyData &&
                                 <TextArea rows={4} placeholder="Instruction text ..." onChange={(e) => setInstruction(e.target.value)} defaultValue={data?.instruction} />
                             }

@@ -9,11 +9,19 @@ import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { FaRegEye, FaBriefcaseMedical } from "react-icons/fa";
 import { clickToCopyClipBoard } from '../../../utils/copyClipBoard';
+import { useState } from 'react';
 
 const PatientDashboard = () => {
     const { data, isLoading: pIsLoading } = useGetPatientAppointmentsQuery();
     const { data: prescriptionData, prescriptionIsLoading } = useGetPatientPrescriptionQuery();
     const { data: invoices, isLoading: InvoicesIsLoading } = useGetPatientInvoicesQuery();
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+
+    const onPaginationChange = (page, pageSize) => {
+        setPage(page);
+        setPageSize(pageSize);
+    }
 
     const appointmentColumns = [
         {
@@ -25,7 +33,8 @@ const PatientDashboard = () => {
                     <div className="mr-2 d-flex gap-2">
                         <div>
                             <h6 className='text-nowrap mb-0'>{data?.doctor?.name}</h6>
-                            <p className='form-text'>{data?.doctor?.specialization}</p>
+                            <p className='form-text mb-0'>{data?.doctor?.email}</p>
+                            <p className='form-text mb-0'>{data?.doctor?.specialization}</p>
                         </div>
                     </div>
                 </>
@@ -68,8 +77,12 @@ const PatientDashboard = () => {
                         <Button className='mx-3' type='primary'>Xem</Button>
                     </Link>
                     {data?.prescription && 
-                    <Link to={`/dashboard/prescription/${data?.prescription[0].id}`}>
-                        <Button type="primary" icon={<FaBriefcaseMedical />}>Đơn thuốc</Button>
+                    <Link to={`/dashboard/prescription/${data?.prescription[0]?.id}`}>
+                        {   data?.prescription[0]?.id ? 
+                            <Button type="primary" icon={<FaBriefcaseMedical />}>Đơn thuốc</Button>
+                            : 
+                            <Button type="primary" disabled icon={<FaBriefcaseMedical />}>Đơn thuốc</Button>
+                        } 
                     </Link>
                     }
                     
@@ -232,32 +245,21 @@ const PatientDashboard = () => {
                 columns={appointmentColumns}
                 dataSource={data}
                 showPagination={true}
-                pageSize={10}
+                pageSize={pageSize}
+                currentPage={page}
                 showSizeChanger={true}
+                onPaginationChange={onPaginationChange}
             />,
         },
         {
             key: '2',
-            label: 'Đơn thuốc',
-            children: <CustomTable
-                loading={prescriptionIsLoading}
-                columns={prescriptionColumns}
-                dataSource={prescriptionData}
-                showPagination={true}
-                pageSize={10}
-                showSizeChanger={true}
-            />
-
-        },
-        {
-            key: '3',
             label: 'Thanh toán',
             children: <CustomTable
                 loading={InvoicesIsLoading}
                 columns={InvoiceColumns}
                 dataSource={invoices}
                 showPagination={true}
-                pageSize={10}
+                // pageSize={10}
                 showSizeChanger={true}
             />
         },

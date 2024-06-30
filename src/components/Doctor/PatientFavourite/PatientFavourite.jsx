@@ -43,7 +43,7 @@ const PatientFavouriteDoctor = () => {
                         <div className='p-2'>
                             <h5 className="d-flex align-items-center gap-2 mb-0" style={{ color: '#1977cc' }}>
                                 <Link to={`/doctors/profile/${item?.doctor?.id}`}>
-                                    {item?.doctor?.firstName + ' ' + item?.doctor?.lastName}
+                                    {item?.doctor?.name}
                                 </Link>
                                 <FaCheckCircle className='verified text-success' />
                             </h5>

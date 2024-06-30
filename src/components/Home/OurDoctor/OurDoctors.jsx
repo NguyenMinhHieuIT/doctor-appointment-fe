@@ -40,7 +40,7 @@ const OurDoctors = () => {
         <section id="doctors" className="doctors">
             <div className="container">
                 <div className="section-title text-center mb-3">
-                    <h2>Các bác sĩ</h2>
+                    <h2>Bác sĩ</h2>
                 </div>
 
                 <div className="row">

@@ -9,7 +9,6 @@ import { useDeletePrescriptionMutation, useGetAllPrescriptionsQuery } from '../.
 const Prescription = () => {
     const { data, isLoading } = useGetAllPrescriptionsQuery();
     const [deleteBlog] = useDeletePrescriptionMutation();
-    console.log('data>>>>', data);
     const columns = [
         {
             title: 'Bệnh nhân',

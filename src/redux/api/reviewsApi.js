@@ -22,7 +22,7 @@ export const reviewApi = baseApi.injectEndpoints({
         }),
         getDoctorReviews: build.query({
             query: (id) => ({
-                url: `${REVIEW_URL}/doctor-review/${id}`,
+                url: `${REVIEW_URL}/doctor`,
                 method: 'GET'
             }),
             providesTags: [tagTypes.reviews]

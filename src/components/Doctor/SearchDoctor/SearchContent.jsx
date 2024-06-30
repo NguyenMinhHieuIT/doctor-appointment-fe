@@ -49,7 +49,7 @@ const SearchContent = ({ data, userData }) => {
                         <div className='d-flex align-items-center'>
                             <div>
                                 <StarRatings
-                                    rating={5}
+                                    rating={data?.like*5/100}
                                     starRatedColor="#f4c150"
                                     numberOfStars={5}
                                     name='rating'
@@ -57,7 +57,7 @@ const SearchContent = ({ data, userData }) => {
                                     starSpacing="2px"
                                 />
                             </div>
-                            <div>(4)</div>
+                            <div>({data?.totalReview})</div>
                         </div>
 
                         <div className="clinic-details">
@@ -83,8 +83,8 @@ const SearchContent = ({ data, userData }) => {
                 <div className="doc-info-right me-3">
                     <div className="clini-infos">
                         <ul>
-                            <li><FaRegThumbsUp />  97%</li>
-                            <li><FaComment /> 4 Nhận xét</li>
+                            <li><FaRegThumbsUp /> {data?.like} %</li>
+                            <li><FaComment /> {data?.totalReview} Nhận xét</li>
                             <li><FaDollarSign /> {data?.price} vnđ/30p</li>
                         </ul>
                     </div>

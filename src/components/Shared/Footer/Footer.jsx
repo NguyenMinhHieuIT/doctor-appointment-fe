@@ -18,20 +18,20 @@ const Footer = () => {
 									</Link>
 								</div>
 								<div className="footer-about-content">
-									<p className='form-text' style={{maxWidth:200}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<p className='form-text' style={{maxWidth:200}}>Điều quan trọng là phải chăm sóc bệnh nhân, được bệnh nhân yêu mến, nhưng điều đó sẽ phải đánh đổi bằng rất nhiều sức khỏe thể chất và tinh thần.</p>
 								</div>
 							</div>
 						</div>
 
 						<div className="col-6 col-md-6 col-lg-3">
 							<div className="footer-widget footer-menu">
-								<h2 className="footer-title">For Patients</h2>
+								<h2 className="footer-title">Tính năng cho bệnh nhân</h2>
 								<ul>
-									<li><Link to={'/doctors'}><FaAngleDoubleRight className='icon' />  Search for Doctors</Link></li>
-									<li><Link to={'/login'}><FaAngleDoubleRight className='icon' />  Login</Link></li>
-									<li><Link to={'/login'}><FaAngleDoubleRight className='icon' />  Register</Link></li>
-									<li><Link to={'/doctors'}><FaAngleDoubleRight className='icon' />  Booking</Link></li>
-									<li><Link to={'/'}><FaAngleDoubleRight className='icon' />  Patient Dashboard</Link></li>
+									<li><Link to={'/doctors'}><FaAngleDoubleRight className='icon' />  Tìm kiếm bác sĩ</Link></li>
+									<li><Link to={'/login'}><FaAngleDoubleRight className='icon' />  Đăng nhập & Đăng kí</Link></li>
+									<li><Link to={'/login'}><FaAngleDoubleRight className='icon' />  Đặt lịch hẹn</Link></li>
+									<li><Link to={'/doctors'}><FaAngleDoubleRight className='icon' />  Đánh giá bác sĩ</Link></li>
+									<li><Link to={'/'}><FaAngleDoubleRight className='icon' />  Trang cá nhân</Link></li>
 								</ul>
 							</div>
 						</div>
@@ -39,31 +39,30 @@ const Footer = () => {
 						<div className="col-6 col-md-6 col-lg-3">
 
 							<div className="footer-widget footer-menu">
-								<h2 className="footer-title">For Doctors</h2>
+								<h2 className="footer-title">Tính năng cho bác sĩ</h2>
 								<ul>
-									<li><Link to={'/'}><FaAngleDoubleRight className='icon' /> Appointments</Link></li>
-									<li><Link to={'/login'}><FaAngleDoubleRight className='icon' /> Login</Link></li>
-									<li><Link to={'/register'}><FaAngleDoubleRight className='icon' /> Register</Link></li>
-									<li><Link to={'/dashboard'}><FaAngleDoubleRight className='icon' /> Doctor Dashboard</Link></li>
+									<li><Link to={'/'}><FaAngleDoubleRight className='icon' /> Quản lý lịch hẹn</Link></li>
+									<li><Link to={'/login'}><FaAngleDoubleRight className='icon' /> Đăng nhập & Đăng kí</Link></li>
+									<li><Link to={'/register'}><FaAngleDoubleRight className='icon' /> Tạo đơn thuốc cho bệnh nhân</Link></li>
+									<li><Link to={'/dashboard'}><FaAngleDoubleRight className='icon' /> Trang cá nhân</Link></li>
 								</ul>
 							</div>
 						</div>
 
 						<div className="col-6 col-md-6 col-lg-3">
 							<div className="footer-widget footer-contact">
-								<h2 className="footer-title mt-3 mt-md-0">Contact Us</h2>
+								<h2 className="footer-title mt-3 mt-md-0">Liên hệ với chúng tôi</h2>
 								<div className="footer-contact-info">
 									<div className="footer-address">
 										<span><i className="fas fa-map-marker-alt"></i></span>
-										<p> 121, Mirzapure Union office,<br /> Sylhet, Bangladesh 03214 </p>
 									</div>
 									<p>
 										<i className="fas fa-phone-alt"></i>
-										0971790548
+										Phone: 0971790548
 									</p>
 									<p className="mb-0">
 										<i className="fas fa-envelope"></i>
-										hieukd01yc@gmail.com
+										Email: hieukd01yc@gmail.com
 									</p>
 								</div>
 							</div>
@@ -71,33 +70,6 @@ const Footer = () => {
 					</div>
 				</div>
 			</div>
-			<div className="footer-bottom">
-				<div className="container-fluid">
-
-					<div className="copyright">
-						<div className="row">
-							<div className="col-md-6 col-lg-6">
-								<div className="copyright-text">
-									<p className="mb-0"><a href="templateshub.net">
-										<div className="copyRight text-center">
-											<p>Copyright {(new Date()).getFullYear()} All Rights Reserved</p>
-										</div></a></p>
-								</div>
-							</div>
-							<div className="col-md-6 col-lg-6">
-								<div className="copyright-menu">
-									<ul className="policy-menu d-flex gap-2 justify-content-center">
-										<Link to={'/'} className='text-white'>Terms and Conditions</Link>
-										<Link to={'/'} className='text-white'>Policy</Link>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
 		</footer>
 	);
 };

@@ -10,8 +10,6 @@ import useAuthCheck from '../../../redux/hooks/useAuthCheck';
 
 const SearchDoctor = () => {
   const [query, setQuery] = useState({});
-  const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [searchName, setSearchName] = useState("");
@@ -20,11 +18,19 @@ const SearchDoctor = () => {
   const [specialist, setSpecialist] = useState("");
   const [priceRange, setPriceRange] = useState({});
   const {authChecked, data: userData} = useAuthCheck();
+  const { data, isLoading, isError } = useGetDoctorsQuery(query);
+
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
+
+
+  let doctorsData = data?.data;
+  let meta = data?.meta;
 
   const buildQuery = () => {
     const newQuery = {
-      pageSize: size,
-      pageNumber: page,
+      pageSize: pageSize,
+      pageNumber: pageNumber,
       sortBy,
       sortOrder,
       search: '',
@@ -65,11 +71,13 @@ const SearchDoctor = () => {
 
   useEffect(() => {
     buildQuery();
-  }, [page, size, sortBy, sortOrder, searchName, sortByGender, specialist, priceRange, searchAddress]);
+    doctorsData = data?.data;
+    meta = data?.meta;
+  }, [pageSize, pageNumber, sortBy, sortOrder, searchName, sortByGender, specialist, priceRange, searchAddress]);
 
   const resetFilter = () => {
-    setPage(1);
-    setSize(10);
+    setPageSize(3);
+    setPageNumber(1);
     setSortBy("");
     setSortOrder("");
     setSearchName("");
@@ -80,9 +88,7 @@ const SearchDoctor = () => {
     setQuery({});
   };
 
-  const { data, isLoading, isError } = useGetDoctorsQuery(query);
-  const doctorsData = data?.data;
-  const meta = data?.meta;
+
 
 
   let content = <></>;
@@ -97,10 +103,19 @@ const SearchDoctor = () => {
     </>
   );
 
-  const onShowSizeChange = (current, pageSize) => {
-    setPage(current);
-    setSize(pageSize);
+  const onPaginationChange = (page, pageSizee) => {
+    if (page !== pageNumber) {
+      setPageNumber(page);
+      setPageSize(pageSizee);
+    }
+
+    if (pageSizee !== pageSize) {
+      setPageNumber(1);
+      setPageSize(pageSizee);
+    }
     buildQuery();
+    doctorsData = data?.data;
+    meta = data?.meta;
   };
 
   return (
@@ -124,9 +139,11 @@ const SearchDoctor = () => {
               <div className='text-center mt-5 mb-5'>
                 <Pagination
                   showSizeChanger
-                  onShowSizeChange={onShowSizeChange}
-                  total={meta?.total}
-                  pageSize={size}
+                  onChange={onPaginationChange}
+                  total={meta?.totalPages * meta?.pageSize}
+                  pageSizeOptions={[1, 2, 3, 5, 10, 20, 30]} 
+                  current={pageNumber}
+                  pageSize={pageSize}
                 />
               </div>
             </div>

@@ -4,7 +4,6 @@ import 'react-vertical-timeline-component/style.min.css';
 import { FaBriefcase } from "react-icons/fa";
 
 const OverView = ({data}) => {
-    console.log(data)
     return (
         <div className="col-md-12 col-lg-9">
             <div className='mb-3'>
@@ -31,29 +30,6 @@ const OverView = ({data}) => {
                         </p>
                     </VerticalTimelineElement>
                 </VerticalTimeline>
-
-            </div>
-            <div>
-                <h5 className='overview-text'>Services</h5>
-                <ul>
-                    <li>Tooth cleaning </li>
-                    <li>Root Canal Therapy</li>
-                    <li>Implants</li>
-                    <li>Composite Bonding</li>
-                    <li>Fissure Sealants</li>
-                    <li>Surgical Extractions</li>
-                </ul>
-            </div>
-            <div>
-                <h5 className='overview-text'>Specializations</h5>
-                <ul className="clearfix">
-                    <li>Children Care</li>
-                    <li>Dental Care</li>
-                    <li>Oral and Maxillofacial Surgery </li>
-                    <li>Orthodontist</li>
-                    <li>Periodontist</li>
-                    <li>Prosthodontics</li>
-                </ul>
             </div>
         </div>
     )

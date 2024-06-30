@@ -14,7 +14,7 @@ export const doctorApi = baseApi.injectEndpoints({
         }),
         getDoctor: build.query({
             query: (id) => ({
-                url: `/user/me`,
+                url: `/doctor/${id}`,
                 method: 'GET',
             }),
             providesTags: [tagTypes.doctor]

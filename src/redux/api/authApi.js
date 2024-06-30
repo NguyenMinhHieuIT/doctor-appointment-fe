@@ -26,6 +26,12 @@ export const authApi = baseApi.injectEndpoints({
                 data,
             }),
         }),
+        logout: build.mutation({
+            query: () => ({
+                url: `${AUTH_URL}/logout`,
+                method: 'POST',
+            }),
+        }),
         doctorSignUp: build.mutation({
             query: (data) => ({
                 url: `${AUTH_URL}/register`,
@@ -88,4 +94,5 @@ export const {
     useSendOtpMutation,
     useForgotPassMutation,
     useRecoverPassMutation,
+    useLogoutMutation,
 } = authApi;

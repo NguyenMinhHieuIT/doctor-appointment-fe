@@ -61,7 +61,6 @@ function ModalOtpForgotPass(props) {
       otp: value.join(''),
       newPassword: password
     });
-    console.log('passC>>', email);
   };
 
   
