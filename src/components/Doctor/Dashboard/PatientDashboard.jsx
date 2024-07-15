@@ -13,8 +13,6 @@ import { useState } from 'react';
 
 const PatientDashboard = () => {
     const { data, isLoading: pIsLoading } = useGetPatientAppointmentsQuery();
-    const { data: prescriptionData, prescriptionIsLoading } = useGetPatientPrescriptionQuery();
-    const { data: invoices, isLoading: InvoicesIsLoading } = useGetPatientInvoicesQuery();
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
 
@@ -41,7 +39,7 @@ const PatientDashboard = () => {
             }
         },
         {
-            title: 'Ngày tạo',
+            title: 'Thời gian',
             key: 22,
             width: 100,
             render: function (data) {
@@ -251,18 +249,18 @@ const PatientDashboard = () => {
                 onPaginationChange={onPaginationChange}
             />,
         },
-        {
-            key: '2',
-            label: 'Thanh toán',
-            children: <CustomTable
-                loading={InvoicesIsLoading}
-                columns={InvoiceColumns}
-                dataSource={invoices}
-                showPagination={true}
-                // pageSize={10}
-                showSizeChanger={true}
-            />
-        },
+        // {
+        //     key: '2',
+        //     label: 'Thanh toán',
+        //     children: <CustomTable
+        //         loading={InvoicesIsLoading}
+        //         columns={InvoiceColumns}
+        //         dataSource={invoices}
+        //         showPagination={true}
+        //         // pageSize={10}
+        //         showSizeChanger={true}
+        //     />
+        // },
     ];
     return (
         <Tabs defaultActiveKey="1" items={items} />

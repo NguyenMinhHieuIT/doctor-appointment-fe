@@ -30,7 +30,7 @@ const SelectDateAndTime = ({
           <div>
            <b>Bác sĩ có lịch làm việc vào: <br /> <br /> </b>  
             {
-                dataMap
+              dataMap
             }
           </div>
         </div>

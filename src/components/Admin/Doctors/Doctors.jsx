@@ -10,12 +10,14 @@ import ModalViewDoctor from "./ModalViewDoctor";
 import ModalUpdateDoctor from "./ModalUpdateDoctor";
 import { searchDoctorOptions } from "../../../constant/admin.constant";
 import { toast } from "react-toastify";
+import ModalDeleteDoctor from "./ModalDeleteDoctor";
 
 const { Search } = Input;
 const Doctors = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [showView, setShowView] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [selectItems, setSelectItems] = useState([]);
   const [selectValues, setSelectValues] = useState('');
@@ -49,6 +51,11 @@ const Doctors = () => {
 
   const setModalUpdate = (id) => {
     setShowUpdate(true);
+    setId(id);
+  };
+
+  const setModalDelete = (id) => {
+    setShowDelete(true);
     setId(id);
   };
 
@@ -124,7 +131,9 @@ const Doctors = () => {
           >
             <FaEdit />
           </div>
-          <div className="btn btn-danger mx-2">
+          <div className="btn btn-danger mx-2" 
+          onClick={() => setModalDelete(data?.id)}
+          >
             <FaTrash />
           </div>
         </div>
@@ -156,6 +165,7 @@ const Doctors = () => {
     setShowAdd(false);
     setShowView(false);
     setShowUpdate(false);
+    setShowDelete(false);
     reset();
   };
 
@@ -171,6 +181,8 @@ const Doctors = () => {
   return (
     <>
       <AdminLayout>
+        <h1>Danh sách bác sĩ</h1>
+        <br />
         <ModalAddDoctor
           show={showAdd}
           handleClose={handleClose}
@@ -184,6 +196,7 @@ const Doctors = () => {
           id={id}
           refetchParent={refetch}
         />
+        <ModalDeleteDoctor show={showDelete} handleClose={handleClose} id={id} refetch={refetch}/>
         <div className="preTable d-flex justify-content-between">
           <div className="d-flex">
             <Search

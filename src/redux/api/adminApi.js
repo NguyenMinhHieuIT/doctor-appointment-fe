@@ -51,7 +51,13 @@ export const adminApi = baseApi.injectEndpoints({
             query: (param) => ({
                 url: `${ADMIN_URL}${PATIENT_URL}`,
                 method: 'GET',
-                param: param,
+                params: param,
+            })
+        }),
+        adminGetOnePatient: build.query({
+            query: (id) => ({
+                url: `${ADMIN_URL}${PATIENT_URL}/${id}`,
+                method: 'GET',
             })
         }),
         adminCreatePatient: build.mutation({
@@ -62,7 +68,7 @@ export const adminApi = baseApi.injectEndpoints({
             })
         }),
         adminUpdatePatient: build.mutation({
-            query: (data, id) => ({
+            query: ({data, id}) => ({
                 url: `${ADMIN_URL}${PATIENT_URL}/${id}`,
                 method: 'PATCH',
                 data: data,
@@ -81,7 +87,7 @@ export const adminApi = baseApi.injectEndpoints({
             query: (param) => ({
                 url: `${ADMIN_URL}${APPOINT_URL}`,
                 method: 'GET',
-                param: param,
+                params: param,
             })
         }),
         adminCreateAppoint: build.mutation({
@@ -104,6 +110,39 @@ export const adminApi = baseApi.injectEndpoints({
                 method: 'DELETE',
             })
         }),
+        adminGetOneAppoint: build.query({
+            query: (id) => ({
+                url: `${ADMIN_URL}${APPOINT_URL}/${id}`,
+                method: 'GET',
+            })
+        }),
+        adminGetReview: build.query({
+            query: (query) => ({
+                url: `/review/admin`,
+                method: 'GET',
+                params: query
+            })
+        }),
+        adminGetOneReview: build.query({
+            query: (id) => ({
+                url: `/review/admin/${id}`,
+                method: 'GET',
+            })
+        })
+        ,
+        adminUpdateReview: build.mutation({
+            query: ({ data, id }) => ({
+                url: `/review/admin/${id}`,
+                method: 'PATCH',
+                data: data,
+            })
+        }),
+        adminDeleteReview: build.mutation({
+            query: (id) => ({
+                url: `/review/${id}`,
+                method: 'DELETE',
+            })
+        }),
 
 
     })
@@ -115,15 +154,22 @@ export const {
     useAdminGetStatDoctorQuery,
     useAdminCreateDoctorMutation,
     useAdminUpdateDoctorMutation,
-    useAdminDeleteDoctorMulation,
+    useAdminDeleteDoctorMutation,
 
     useAdminGetPatientQuery,
+    useAdminGetOnePatientQuery,
     useAdminCreatePatientMutation,
     useAdminUpdatePatientMutation,
-    useAdminDeletePatientMulation,
+    useAdminDeletePatientMutation,
 
     useAdminGetAppointQuery,
+    useAdminGetOneAppointQuery,
     useAdminCreateAppointMutation,
     useAdminUpdateAppointMutation,
-    useAdminDeleteAppointMulation,
+    useAdminDeleteAppointMutation,
+
+    useAdminGetReviewQuery,
+    useAdminGetOneReviewQuery,
+    useAdminUpdateReviewMutation,
+    useAdminDeleteReviewMutation,
  } = adminApi;

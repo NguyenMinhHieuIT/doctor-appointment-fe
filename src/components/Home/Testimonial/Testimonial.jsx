@@ -48,8 +48,8 @@ const Testimonial = () => {
     return (
         <div className="container" style={{ marginTop: "10rem", marginBottom: "10rem" }}>
             <div className='mb-5 section-title text-center'>
-                <h2>TESTIMONIAL</h2>
-                <p className='m-0 text-secondary'>What Our Patients Says.</p>
+                <h2>LỜI CHỨNG</h2>
+                <p className='m-0 text-secondary'>Bệnh nhân đánh giá về chúng tôi.</p>
             </div>
             <div className="row d-flex justify-content-center">
                 <Swiper

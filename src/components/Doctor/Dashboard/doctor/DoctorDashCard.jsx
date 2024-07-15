@@ -3,21 +3,21 @@ import { FaHospitalUser, FaCalendarAlt, FaHospital } from "react-icons/fa";
 import moment from 'moment';
 const DoctorDashCard = (props) => {
     const cardData = [
-        {
-            icon: <FaHospital className='icon' />,
-            title: 'Tổng số bệnh nhân',
-            amount: props.totalPatient,
-            date: moment(new Date()).format('lll')
-        },
+        // {
+        //     icon: <FaHospital className='icon' />,
+        //     title: 'Tổng số bệnh nhân',
+        //     amount: props.totalPatient,
+        //     date: moment(new Date()).format('lll')
+        // },
         {
             icon: <FaHospitalUser className='icon active' />,
-            title: 'Bệnh nhân hôm nay',
+            title: 'Cuộc hẹn hôm nay',
             amount: props.todayPatient,
             date: moment(new Date()).format('lll')
         },
         {
             icon: <FaCalendarAlt className='icon danger' />,
-            title: 'Cuộc hẹn',
+            title: 'Tổng cuộc hẹn',
             amount: props.totalAppoint,
             date: moment(new Date()).format('lll')
         }

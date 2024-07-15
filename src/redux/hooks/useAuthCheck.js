@@ -6,6 +6,7 @@ export default function useAuthCheck() {
     const [authChecked, setAuthChecked] = useState(false);
     const [data, setData] = useState({});
     const [role, setRole] = useState("");
+    const [userId, setUserId] = useState(1);
     const { data: userData, isError, isSuccess, refetch } = useGetPatientQuery();
     const [localAuth, setLocalAuth] = useState(getUserInfo());
     useEffect(()=>{
@@ -18,12 +19,14 @@ export default function useAuthCheck() {
             setData(userData)
             setRole(localAuth.role)
             setAuthChecked(isSuccess && !isError)
+            setUserId(userData?.id)
         }
     }, [userData, isError, isSuccess, localAuth]);
 
     return {
         authChecked,
         data,
-        role
+        role,
+        userId
     };
 }

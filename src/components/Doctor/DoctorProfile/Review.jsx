@@ -8,21 +8,56 @@ import { Button, Radio, message, Space, Rate } from 'antd';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import moment from 'moment';
-import 'moment/locale/vi'; // Import Vietnamese locale
+ // Import Vietnamese locale
+import { Pagination } from 'antd';
 
 const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-moment.locale('vi'); // Set moment to use Vietnamese
+ // Set moment to use Vietnamese
 
 const Review = ({ doctorId, refetch }) => {
     const { register, handleSubmit, } = useForm({});
     const [value, setValue] = useState(null);
     const [recommend, setRecommend] = useState(null);
     const [showError, setShowError] = useState(false);
-
-    const { data: dataReview, isError, isLoading } = useGetDoctorReviewsQuery(doctorId);
+    const [pageSize, setPageSize] = useState(5);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [query, setQuery] = useState({ 
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+        search: doctorId + '',
+        searchFields: ['doctorId']
+    });
+    const { data: dataReview, refetch: refetchReview, isError, isLoading } = useGetDoctorReviewsQuery(query);
     const [createReview, { isSuccess: createIsSuccess, isError: createTsError, error: createError, isLoading: createIsLoading }] = useCreateReviewMutation();
-
+    let meta = dataReview?.meta;
+    let data = dataReview?.data;
     const onChange = (e) => setRecommend(e.target.value);
+
+    const onPaginationChange = (page, pageSizee) => {
+        if (page !== pageNumber) {
+          setPageNumber(page);
+          setPageSize(pageSizee);
+          setQuery({
+            pageSize: pageSizee,
+            pageNumber: page,
+            search: doctorId + '',
+            searchFields: ['doctorId']
+          });
+        }
+    
+        if (pageSizee !== pageSize) {
+          setPageNumber(1);
+          setPageSize(pageSizee);
+          setQuery({
+            pageSize: pageSizee,
+            pageNumber: 1,
+            search: doctorId + '',
+            searchFields: ['doctorId']
+          });
+        }
+        meta = dataReview?.meta;
+        data = dataReview?.data;
+    }
 
     useEffect(() => {
         if (recommend !== null && value !== null) {
@@ -64,7 +99,7 @@ const Review = ({ doctorId, refetch }) => {
     if (!isLoading && !isError && dataReview?.data.length > 0) content =
         <>
             {
-                dataReview?.data && dataReview?.data.map((item, key) => (
+                data && data.map((item, key) => (
                     <div className='mb-4' key={item?.id + key}>
                         <div className='d-flex gap-3 justify-content-between'>
                             <div className='d-flex gap-4'>
@@ -85,7 +120,7 @@ const Review = ({ doctorId, refetch }) => {
                             <div className='text-end'>
                                 <div>
                                     <StarRatings
-                                        rating={5}
+                                        rating={item?.star}
                                         starRatedColor="#f4c150"
                                         numberOfStars={5}
                                         name='rating'
@@ -113,6 +148,16 @@ const Review = ({ doctorId, refetch }) => {
                 <div className="text-center">
                     <Link to={'/'} className='more-btn'>Tất cả đánh giá:  <strong>{dataReview?.meta.totalItems}</strong></Link>
                 </div>
+                <div className='text-center mt-5 mb-5'>
+                <Pagination
+                  showSizeChanger
+                  onChange={onPaginationChange}
+                  total={meta?.totalPages * meta?.pageSize}
+                  pageSizeOptions={[1, 2, 3, 5, 10, 20, 30]} 
+                  current={pageNumber}
+                  pageSize={pageSize}
+                />
+              </div>
 
                 <div className="mt-5">
                     <h4>Viết đánh giá của bạn</h4>

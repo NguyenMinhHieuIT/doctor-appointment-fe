@@ -6,10 +6,9 @@ const REVIEW_URL = '/review'
 export const reviewApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
         getAllReviews: build.query({
-            query: (args) => ({
+            query: () => ({
                 url: `${REVIEW_URL}`,
                 method: 'GET',
-                params: args
             }),
             providesTags: [tagTypes.reviews]
         }),
@@ -21,9 +20,10 @@ export const reviewApi = baseApi.injectEndpoints({
             providesTags: [tagTypes.reviews]
         }),
         getDoctorReviews: build.query({
-            query: (id) => ({
+            query: (query) => ({
                 url: `${REVIEW_URL}/doctor`,
-                method: 'GET'
+                method: 'GET',
+                params: query
             }),
             providesTags: [tagTypes.reviews]
         }),
@@ -43,7 +43,7 @@ export const reviewApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: [tagTypes.reviews]
         }),
-        deleteReview: build.query({
+        deleteReview: build.mutation({
             query: (id) => ({
                 url: `${REVIEW_URL}/${id}`,
                 method: 'DELETE',
@@ -63,7 +63,7 @@ export const reviewApi = baseApi.injectEndpoints({
 
 export const {
     useCreateReviewMutation,
-    useDeleteReviewQuery,
+    useDeleteReviewMutation,
     useGetAllReviewsQuery,
     useGetDoctorReviewsQuery,
     useGetSingleReviewQuery,

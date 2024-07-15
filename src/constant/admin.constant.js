@@ -14,3 +14,19 @@ export const searchDoctorOptions = Object.keys(searchDoctor).map((item)=>{
         value: item,  
     }
 })
+
+export const searchPatient = {
+    name: 'Tên',
+    age: 'Tuổi',
+    address: 'Địa chỉ',
+    email: 'Email',
+    phone: 'Số điện thoại',
+    bloodGroup: 'Nhóm máu'
+}
+
+export const searchPatientOptions = Object.keys(searchPatient).map((item)=>{
+    return {
+        label: searchPatient[item],
+        value: item,  
+    }
+})

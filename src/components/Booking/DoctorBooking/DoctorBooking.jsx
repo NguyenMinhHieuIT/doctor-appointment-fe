@@ -11,12 +11,15 @@ import moment from 'moment';
 import SelectDateAndTime from '../SelectDateAndTime';
 import PersonalInformation from '../PersonalInformation';
 import CheckoutPage from '../BookingCheckout/CheckoutPage';
-import { useCreateAppointmentMutation } from '../../../redux/api/appointmentApi';
 import { useDispatch } from 'react-redux';
+import { useCreateAppointmentMutation } from '../../../redux/api/appointmentApi';
 import { addInvoice } from '../../../redux/feature/invoiceSlice';
 import Header from '../../Shared/Header/Header';
 import useAuthCheck from '../../../redux/hooks/useAuthCheck';
+import 'moment/locale/en-au';
 import { toast } from 'react-toastify';
+
+moment.locale('en');
 
 const DoctorBooking = () => {
     const dispatch = useDispatch();

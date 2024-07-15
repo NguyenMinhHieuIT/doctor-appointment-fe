@@ -13,7 +13,7 @@ const InfoPage = () => {
                         <div className="content">
                             <h3>Tại sao chọn chúng tôi?</h3>
                             <p>
-                            Điều quan trọng là phải chăm sóc bệnh nhân, được bệnh nhân theo dõi, nhưng điều đó sẽ xảy ra vào thời điểm có rất nhiều công sức và đau đớn. Duis hay irure nỗi đau khiển trách những nỗi đau khắc nghiệt hơn nhưng và Nó được tổ chức bởi vì họ Tuy nhiên, ở những thời điểm hoặc nhu cầu nhất định, sự lựa chọn của cơ thể.
+                            Đặt lịch hẹn với bác sĩ nhanh chóng và tiện lợi, mọi lúc mọi nơi. Chỉ cần vài cú click, bạn đã có thể chọn thời gian phù hợp và xác nhận cuộc hẹn với bác sĩ của mình.
                             </p>
                         </div>
                     </div>
@@ -25,15 +25,15 @@ const InfoPage = () => {
                                         <FaHouseUser className="icon"/>
                                         <h4>Cuộc hẹn</h4>
                                         <small className='text-secondary'>Dịch vụ 24 giờ </small>
-                                        <p>Chúng là kết quả hoặc có thể nói là của một cái gì đó tương đương với những lao động này, ngoại trừ một số</p>
+                                        <p>Kết nối với bác sĩ một cách dễ dàng và nhanh chóng qua hệ thống đặt lịch hẹn trực tuyến của chúng tôi. Tiết kiệm thời gian, tăng cường hiệu quả chăm sóc sức khỏe.</p>
                                     </div>
                                 </div>
                                 <div className="col-xl-4 d-flex align-items-stretch">
                                     <div className="icon-box mt-4 mt-xl-0">
                                         <FaHeadset className="icon"/>
-                                        <h4>Trường hợp khẩn cấp</h4>
-                                        <h6 className='text-secondary'>+88 01751 040425</h6>
-                                        <p>Cảm ơn rất nhiều. Những người dễ chịu vì nhất. Chịu đựng gánh nặng lao động chẳng là gì cả, đau đớn và rắc rối.</p>
+                                        <h4>Liên hệ</h4>
+                                        <h6 className='text-secondary'>+84 971790548</h6>
+                                        <p>Đơn giản hóa việc đặt lịch hẹn với bác sĩ. Truy cập trang web của chúng tôi để xem lịch trống và đặt hẹn ngay lập tức, không cần phải chờ đợi.</p>
                                     </div>
                                 </div>
                                 <div className="col-xl-4 d-flex align-items-stretch">

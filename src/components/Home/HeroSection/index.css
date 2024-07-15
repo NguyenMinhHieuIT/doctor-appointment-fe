@@ -1,7 +1,7 @@
 #hero {
     width: 100%;
     height: 90vh;
-    background: url("../../../images/img/hero-bg.jpg") top center;
+    background: url("../../../images/doctor/Hinh-01-9431-1711096700.png") top center;
     background-size: cover;
     margin-bottom: -115px;
     margin-top: 80px;
@@ -17,7 +17,8 @@
     font-weight: 700;
     line-height: 56px;
     text-transform: uppercase;
-    color: #2c4964;
+    /* color: #2c4964; */
+    color: #1977cc;
   }
   
   #hero h2 {

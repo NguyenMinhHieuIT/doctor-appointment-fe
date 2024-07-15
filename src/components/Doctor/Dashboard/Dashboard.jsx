@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DoctorDashCard from './doctor/DoctorDashCard';
 import useAuthCheck from '../../../redux/hooks/useAuthCheck';
 import DashboardLayout from '../DashboardLayout/DashboardLayout';
@@ -9,12 +9,6 @@ const Dashboard = () => {
     return (
         <>
             <DashboardLayout>
-                {role === 'doctor' && <DoctorDashCard 
-                    totalPatient={data?.patient && data.patient}
-                    todayPatient={15}
-                    totalAppoint={100}
-                />}
-
                 <div className="row">
                     {role === 'patient' &&
                         <div className="col-md-12 rounded" style={{ background: '#f8f9fa' }}>

@@ -18,7 +18,12 @@ const Home = () => {
             <Service />
             <ClinicAndSpecialities />
             <OurDoctors/>
-            <Testimonial />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+            {/* <Testimonial /> */}
             <Footer />
         </>
     );

@@ -14,7 +14,7 @@ export const authApi = baseApi.injectEndpoints({
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = (await queryFulfilled).data;
-                    setUserInfo({ accessToken: result.accessToken });
+                    setUserInfo({ accessToken: result?.accessToken, userId: result?.user?.id });
                 } catch (error) {
                 }
             },

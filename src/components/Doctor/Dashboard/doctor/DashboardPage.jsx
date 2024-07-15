@@ -9,19 +9,17 @@ import { Tabs } from 'antd';
 import { Link } from 'react-router-dom';
 import { StatusAppoint } from '../../../../constant/global';
 import { toast } from 'react-toastify';
-
+import DoctorDashCard from './DoctorDashCard';
 
 const DashboardPage = () => {
     const [sortBy, setSortBy] = useState("upcoming");
-    const { data, refetch, isLoading } = useGetDoctorAppointmentsQuery({});
+    let { data, refetch, isLoading } = useGetDoctorAppointmentsQuery({});
     const [pageSize, setPageSize] = useState(5);
     const [pageNumber, setPageNumber] = useState(1);
     const [updateAppointment, { isError, isSuccess, error }] = useUpdateAppointmentMutation();
-    const { data: tData, tRefetch, tIsLoading } = useGetDoctorAppointmentsQuery({
-        type: 'today'
-    });
     
-
+    const day = moment().format('YYYY-MM-DD') + '';
+    const tData = data?.filter(i => i.scheduleDate.indexOf(day) !== -1)
     const handleOnselect = (value) => {
         // eslint-disable-next-line eqeqeq
         setSortBy(value == 1 ? 'upcoming' : value == 2 ? 'today' : sortBy)
@@ -55,7 +53,7 @@ const DashboardPage = () => {
         {
             title: 'Bệnh nhân',
             key: '1',
-            width: 100,
+            width: 50,
             render: function (data) {
                 const fullName = `${data?.patient?.name ?? ''}`;
                 const patientName = fullName.trim() || "Un Patient";
@@ -74,19 +72,29 @@ const DashboardPage = () => {
             }
         },
         {
-            title: 'Ngày đặt',
-            key: '2',
-            width: 100,
+            title: 'Email bệnh nhân',
+            key: '3',
+            width: 50,
             render: function (data) {
                 return (
-                    <div>{moment(data?.scheduleDate).format("LL")} <span className="d-block text-info">{data?.startTime + ' _ ' + data?.endTime }</span></div>
+                    <p>{ data?.email }</p>
+                )
+            }
+        },
+        {
+            title: 'Lý do khám',
+            key: '4',
+            width: 50,
+            render: function (data) {
+                return (
+                    <p>{ data?.reasonForVisit }</p>
                 )
             }
         },
         {
             title: 'Trạng Thái',
-            key: '4',
-            width: 100,
+            key: '5',
+            width: 50,
             render: function (data) {
                 return (
                     <Tag color="#87d068" className='text-uppercase'>{data?.status}</Tag>
@@ -94,23 +102,49 @@ const DashboardPage = () => {
             }
         },
         {
+            title: 'Ngày hẹn',
+            key: '2',
+            width: 50,
+            render: function (data) {
+                return (
+                    <div>{moment(data?.scheduleDate).format("LL")} <span className="d-block text-info">{data?.startTime + ' _ ' + data?.endTime }</span></div>
+                )
+            }
+        },
+        {
+            title: 'Ngày tạo cuộc hẹn',
+            key: '2',
+            width: 50,
+            render: function (data) {
+                return (
+                    <div>{moment(data?.createdAt).format("LL")}</div>
+                )
+            }
+        },
+        {
             title: 'Hành động',
-            key: '5',
-            width: 100,
+            key: '6',
+            width: 50,
             render: function (data) {
                 return (
                     <div className='d-flex gap-2'>
                         {
-                            !data.prescriptionStatus
-                                ?
-                                <Link to={`/dashboard/appointment/treatment/${data?.id}`}>
-                                    <Button type="primary" icon={<FaBriefcaseMedical />} size="small">Đơn thuốc</Button>
-                                </Link>
-                                :
-                                <Link to={`/dashboard/prescription/${data?.prescription[0]?.id}`}>
-                                    <Button type="primary" shape="circle" icon={<FaEye />} size="small" />
-                                </Link>
+                            data?.status === 'Bỏ qua' || data?.status === 'Đang chờ' ? null :
+                            
+                                !data.prescriptionStatus
+                                    ?
+                                    <Link to={`/dashboard/appointment/treatment/${data?.id}`}>
+                                        <Button type="primary" icon={<FaBriefcaseMedical />} size="small">+</Button>
+                                    </Link>
+                                    :
+                                    <Link to={`/dashboard/prescription/${data?.prescription[0]?.id}`}>
+                                        <Button type="primary" shape="circle" icon={<FaBriefcaseMedical />} size="small" />
+                                    </Link>
+                            
                         }
+                         <Link to={`/dashboard/appointments/${data?.id}`}>
+                            <Button type="primary" shape="circle" icon={<FaEye />} size="small" />
+                        </Link>
                         {
                             data?.status === 'Đang chờ' &&
                             <>
@@ -127,7 +161,7 @@ const DashboardPage = () => {
     const items = [
         {
             key: '1',
-            label: 'Sắp tới',
+            label: 'Cuộc hẹn của tôi',
             children: <CustomTable
                 loading={isLoading}
                 columns={upcomingColumns}
@@ -154,7 +188,14 @@ const DashboardPage = () => {
     ];
 
     return (
+        <>
+        <DoctorDashCard 
+                    totalPatient={data?.patient && data.patient}
+                    todayPatient={tData?.length}
+                    totalAppoint={data?.length}
+                />
         <Tabs defaultActiveKey="1" items={items} onChange={handleOnselect} />
+        </>
     )
 }
 

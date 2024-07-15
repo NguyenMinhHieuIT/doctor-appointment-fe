@@ -1,66 +1,202 @@
-import React from 'react'
-import AdminLayout from '../AdminLayout/AdminLayout'
+import React, { useEffect, useState } from "react";
+import AdminLayout from "../AdminLayout/AdminLayout";
+import "./Doctors.css";
+import { useAdminGetAppointQuery, useAdminGetDoctorQuery, useAdminGetPatientQuery } from "../../../redux/api/adminApi";
+import CustomTable from "../../UI/component/CustomTable";
+import { Tabs, Select, Input} from "antd";
+import { FaEye, FaEdit, FaTrash, FaPlusCircle } from "react-icons/fa";
+import ModalViewDoctor from "./ModalViewDoctor";
+import ModalUpdateDoctor from "./ModalUpdateDoctor";
+import { searchDoctorOptions } from "../../../constant/admin.constant";
+import { toast } from "react-toastify";
+import ModalDeleteDoctor from "./ModalDeleteDoctor";
+import moment from "moment";
 
-import './Appointments.css';
+const { Search } = Input;
+const Appointments = () => {
+  const [showAdd, setShowAdd] = useState(false);
+  const [showView, setShowView] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [pageSize, setPageSize] = useState(10);
+  const [selectItems, setSelectItems] = useState([]);
+  const [selectValues, setSelectValues] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [seed, setSeed] = useState(1);
+  const [query, setQuery] = useState({ sort: "id", pageSize, pageNumber });
+  const { data, isLoading, refetch } = useAdminGetAppointQuery(query);
+  const [sortId, setSortId] = useState(false);
+  const [id, setId] = useState(0);
 
-const AdminAppointments = () => {
-    return (
-        <>
-            <AdminLayout >
-            <div className="row">
-						<div className="col-md-12">
-						
-						
-							<div className="card">
-								<div className="card-body">
-									<div className="table-responsive">
-										<table className="datatable table table-hover table-center mb-0">
-											<thead>
-												<tr>
-													<th>Doctor Name</th>
-													<th>Speciality</th>
-													<th>Patient Name</th>
-													<th>Apointment Time</th>
-													<th>Status</th>
-													<th className="text-right">Amount</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>
-														<h2 className="table-avatar">
-															<a href="profile.html" className="avatar avatar-sm mr-2"><img className="avatar-img rounded-circle" src="assets/img/doctors/doctor-thumb-01.jpg" alt=""/></a>
-															<a href="profile.html">Dr. Ruby Perrin</a>
-														</h2>
-													</td>
-													<td>Dental</td>
-													<td>
-														<h2 className="table-avatar">
-															<a href="profile.html" className="avatar avatar-sm mr-2"><img className="avatar-img rounded-circle" src="assets/img/patients/patient1.jpg" alt=""/></a>
-															<a href="profile.html">Charlene Reed </a>
-														</h2>
-													</td>
-													<td>9 Nov 2019 <span className="text-primary d-block">11.00 AM - 11.15 AM</span></td>
-													<td>
-														<div className="status-toggle">
-															<input type="checkbox" id="status_1" className="check" checked/>
-															<label for="status_1" className="checktoggle">checkbox</label>
-														</div>
-													</td>
-													<td className="text-right">
-														$200.00
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							
-						</div>
-					</div>
-            </AdminLayout>
-        </>
-    )
-}
-export default AdminAppointments;
+  useEffect(() => {
+    setQuery({ sort: "id", pageSize, pageNumber, search: selectValues, searchFields: selectItems});
+  }, [pageSize, pageNumber, selectValues]);
+  const reset = () => {
+    setSeed(Math.random());
+  };
+
+  const sortById = () => {
+    setQuery((prevQuery) => ({
+      ...prevQuery,
+      sort: sortId ? "id" : "-id",
+    }));
+    setSortId(!sortId);
+  };
+
+  const setModalView = (id) => {
+    setShowView(true);
+    setId(id);
+  };
+
+  const setModalUpdate = (id) => {
+    setShowUpdate(true);
+    setId(id);
+  };
+
+  const setModalDelete = (id) => {
+    setShowDelete(true);
+    setId(id);
+  };
+
+  const onPaginationChange = (page, pageSizee) => {
+    if (page !== pageNumber) {
+      setPageNumber(page);
+      setPageSize(pageSizee);
+    }
+
+    if (pageSizee !== pageSize) {
+      setPageNumber(1);
+      setPageSize(pageSizee);
+    }
+  };
+
+  const doctorColumns = [
+    {
+      title: (
+        <div onClick={sortById} style={{ cursor: "pointer" }}>
+          #
+        </div>
+      ),
+      width: 3,
+      render: (data) => <p className="text-nowrap mb-0">{data?.id}</p>,
+    },
+    {
+      title: "Bệnh nhân",
+      width: 15,
+      render: (data) => <h6 className="text-nowrap mb-0">{data?.name}</h6>,
+    },
+    {
+      title: "Bác sĩ",
+      width: 15,
+      render: (data) => (
+        <h6 className="text-nowrap mb-0">{data?.doctor?.name ?? "null"}</h6>
+      ),
+    },
+    {
+      title: "Cơ sở khám",
+      width: 20,
+      render: (data) => <h6 className="text-nowrap mb-0">{data?.doctor?.clinicName}</h6>,
+      ellipsis: true,
+    },
+    {
+      title: "Địa chỉ",
+      width: 20,
+      render: (data) => (
+        <h6 className="text-nowrap mb-0">{data?.doctor?.clinicAddress}</h6>
+      ),
+      ellipsis: true,
+    },
+    {
+      title: "Ngày",
+      width: 20,
+      render: (data) => (
+        <h6 className="text-nowrap mb-0">{ moment(data?.scheduleDate).format('Y/M/D') }</h6>
+      ),
+      ellipsis: true,
+    },
+    {
+      title: "Hành động",
+      width: 20,
+      render: (data) => (
+        <div>
+          <div
+            className="btn btn-primary mx-2"
+            onClick={() => setModalView(data?.id)}
+          >
+            <FaEye />
+          </div>
+          <div
+            className="btn btn-warning mx-2"
+            onClick={() => setModalUpdate(data?.id)}
+          >
+            <FaEdit />
+          </div>
+          <div className="btn btn-danger mx-2" 
+          onClick={() => setModalDelete(data?.id)}
+          >
+            <FaTrash />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  const items = [
+    {
+      key: "1",
+      label: "Bệnh nhân",
+      children: (
+        <CustomTable
+          loading={isLoading}
+          columns={doctorColumns}
+          dataSource={data?.data}
+          pageSize={pageSize}
+          totalPages={data?.meta?.totalPages * data?.meta?.pageSize}
+          currentPage={pageNumber}
+          showPagination={true}
+          showSizeChanger={true}
+          onPaginationChange={onPaginationChange}
+        />
+      ),
+    },
+  ];
+
+  const handleClose = () => {
+    setShowAdd(false);
+    setShowView(false);
+    setShowUpdate(false);
+    setShowDelete(false);
+    reset();
+  };
+
+  const onSearch = (value) => {
+    const valueLength = value ? value.split(',').length : 0;
+    if(valueLength !== selectItems.length){
+        toast.error('Dữ liệu và trường tìm kiếm không khớp nhau');
+        return;
+    }
+    setSelectValues(value);
+  };
+
+  return (
+    <>
+      <AdminLayout>
+        <h1>Danh sách cuộc hẹn</h1>
+        <br />
+        <ModalViewDoctor show={showView} handleClose={handleClose} id={id} />
+        <ModalUpdateDoctor
+          key={seed}
+          show={showUpdate}
+          handleClose={handleClose}
+          id={id}
+          refetchParent={refetch}
+        />
+        <ModalDeleteDoctor show={showDelete} handleClose={handleClose} id={id} refetch={refetch}/>
+       
+        <Tabs defaultActiveKey="1" items={items} />
+      </AdminLayout>
+    </>
+  );
+};
+
+export default Appointments;

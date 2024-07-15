@@ -71,12 +71,6 @@ const DashboardSidebar = () => {
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to={'/dashboard/favourite'} activeClassName="active">
-                                    <FaHouseUser className="icon" />
-                                    <span>Yêu thích</span>
-                                </NavLink>
-                            </li>
-                            <li>
                                 <NavLink to={'/dashboard/profile-setting'} activeClassName="active">
                                     <FaUserCog className="icon" />
                                     <span>Hồ sơ</span>

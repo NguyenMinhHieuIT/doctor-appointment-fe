@@ -57,7 +57,7 @@ const AdminSidebar = () => {
 
                         </li>
                         <li className='text-white'>
-                            <Link to={'/admin/profile'}>
+                            <Link to={'/dashboard/profile-setting'}>
                                 <FaExclamationCircle /> <span>Báo cáo</span>
                             </Link>
                         </li>
@@ -69,16 +69,16 @@ const AdminSidebar = () => {
                         </li>
 
                         <li className='text-white'>
-                            <Link to={'/admin/profile'}>
+                            <Link to={'/dashboard/profile-setting'}>
                                 <FaRegUser /> <span>Hồ sơ</span>
                             </Link>
                         </li>
                        
-                        <li className='text-white'>
+                        {/* <li className='text-white'>
                             <Link to={'/admin/profile'}>
                                 <FaSignOutAlt /> <span>Đăng xuất</span>
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </div>

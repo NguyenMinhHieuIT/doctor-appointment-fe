@@ -19,7 +19,6 @@ import Profile from './components/Admin/Profile/Profile';
 import Transactions from './components/Admin/Transactions/Transactions';
 import Specialites from './components/Admin/Specialites/Specialites';
 import AdminReviews from './components/Admin/Reviews/Reviews'
-import PatientFavouriteDoctor from './components/Doctor/PatientFavourite/PatientFavourite';
 import DoctorInvoice from './components/Doctor/Invoice/DoctorInvoice';
 import SearchDoctor from './components/Doctor/SearchDoctor/SearchDoctor';
 import Contact from './components/Contact/Contact';
@@ -58,7 +57,6 @@ function App() {
             <Route path='/dashboard/appointment/treatment/edit/:id' element={<TreatmentEdit />} />
             <Route path='/dashboard/change-password' element={<ChangePassword />} />
             <Route path='/dashboard/profile-setting' element={<ProfileSetting />} />
-            <Route path='/dashboard/favourite' element={<PatientFavouriteDoctor />} />
             <Route path='/dashboard/invoices' element={<DoctorInvoice />} />
             <Route path='/booking/:doctorId' element={<DoctorBooking />} />
             <Route path='/booking/success/:id' element={<BookingSuccess />} />

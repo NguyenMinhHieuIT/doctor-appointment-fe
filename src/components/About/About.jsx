@@ -3,87 +3,31 @@ import './index.css';
 import Header from '../Shared/Header/Header';
 import Footer from '../Shared/Footer/Footer';
 import ImageHeading from '../../images/doc/doctor 5.jpg'
-import img from '../../images/logo.png'
-import SubHeader from '../Shared/SubHeader';
-import { useGetAllBlogsQuery } from '../../redux/api/blogApi';
-import { Empty, message } from 'antd';
-import { Link } from 'react-router-dom';
-import { truncate } from '../../utils/truncate';
-import { useGetDoctorsQuery } from '../../redux/api/doctorApi';
-
+import img from '../../images/doctor/dr-nguyen-nam-binh.jpg';
 const About = () => {
-    const { data, isError, isLoading } = useGetAllBlogsQuery({ limit: 4 });
-    const { data: doctorData, isLoading: DoctorIsLoading, isError: doctorIsError } = useGetDoctorsQuery({ pageSize:4 , pageNumber:1 });
-
-    const blogData = data?.blogs;
-    const doctors = doctorData?.doctors;
-
-    let doctorContent = null;
-    if (!DoctorIsLoading && doctorIsError) doctorContent = <div>Something Went Wrong !</div>
-    if (!DoctorIsLoading && !doctorIsError && doctors?.length === 0) doctorContent = <div><Empty /></div>
-    if (!DoctorIsLoading && !doctorIsError && doctors?.length > 0) doctorContent =
-        <>
-            {doctors && doctors.map((item, id) => (
-                <div className="col-lg-3 col-md-6 col-sm-6" key={id + item.id}>
-                    <div className="card shadow border-0 mb-5 mb-lg-0">
-                        {item.avatar && <img src={item.avatar} class="img-fluid w-100" alt="" />}
-                        <div className="p-2">
-                            <h4 className="mt-4 mb-0" style={{ color: '#223a66' }}><a>{item?.name}</a></h4>
-                            <p>{item?.designation}</p>
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </>
-
-    let content = null;
-    if (!isLoading && isError) content = <div>{message.error('Something went Wrong!')}</div>
-    if (!isLoading && !isError && blogData?.length === 0) content = <Empty />
-    if (!isLoading && !isError && blogData?.length > 0) content =
-        <>
-            {
-                blogData && blogData?.map((item, id) => (
-                    <div className="col-lg-3 col-md-6" key={id + item.id}>
-                        <div className="card shadow border-0 mb-5 mb-lg-0">
-                            <img src={item?.img} alt="blog Image" width={300} height={200} className="w-100  rounded-top image-hover" style={{ objectFit: 'contain' }} />
-
-                            <div className='p-2'>
-                                <Link to={`/blog/${item?.id}`}>
-                                    <h6 className="text-start mb-1 text-capitalize" style={{ color: '#223a66' }}>{truncate(item?.title, 40)}</h6>
-                                </Link>
-                                <div className="px-2">
-                                    <p className="form-text text-start text-capitalize">{truncate(item?.description, 80)}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))
-            }
-        </>
+   
     return (
         <>
             <Header />
-            <SubHeader title="about us" subtitle="Lorem ipsum dolor sit amet consectetur adipisicing." />
             <div className="container" style={{ marginBottom: 100, marginTop: 100 }}>
                 <div className="row p-5">
                     <div className="col-lg-4">
                         <div className='section-title text-center'>
-                            <h2 className='text-uppercase'>Our Doctors Acheivement</h2>
-                            <p className='form-text m-0'>Lorem ipsum dolor sit amet.</p>
+                            <h2 className='text-uppercase'>Bác sĩ Nguyễn Văn A</h2>
+                            <p className='form-text m-0'>-----------------</p>
                         </div>
-                        <p className='mt-3'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quod laborum alias. Vitae dolorum, officia sit! Saepe ullam facere at, consequatur incidunt, quae esse, quis ut reprehenderit dignissimos, libero delectus.</p>
+                        <p className='mt-3'>Chào mừng bạn đến với trang web đặt lịch hẹn trực tuyến của chúng tôi. Với nền tảng này, bạn có thể dễ dàng chọn thời gian phù hợp để gặp gỡ bác sĩ, giúp tiết kiệm thời gian và nâng cao chất lượng chăm sóc sức khỏe.Tôi rất vui khi giới thiệu đến bạn trang web đặt lịch hẹn giữa bác sĩ và bệnh nhân. Với hệ thống này, việc quản lý lịch hẹn trở nên dễ dàng hơn bao giờ hết, giúp chúng tôi phục vụ bạn tốt hơn và hiệu quả hơn.</p>
                     </div>
 
                     <div className="col-lg-8">
 
-                        <img src={ImageHeading} alt="" className="img-fluid rounded shadow" />
+                        <img src={img} alt="" className="img-fluid rounded shadow" />
                     </div>
                 </div>
             </div>
 
             <div className="container" style={{ marginBottom: 100, marginTop: 100 }}>
                 <div className="row">
-                    {content}
                 </div>
             </div>
 
@@ -92,14 +36,12 @@ const About = () => {
                 <div className="row justify-content-center">
                     <div className="col-lg-6">
                         <div className='mb-4 section-title text-center'>
-                            <h2 className='text-uppercase'>Meet Our Specialist</h2>
-                            <p className='form-text m-0'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, ipsum!</p>
+                            <h2 className='text-uppercase'>GẶP GỠ CHUYÊN GIA CỦA CHÚNG TÔI</h2>
                         </div>
                     </div>
                 </div>
 
                 <div className="row">
-                    {doctorContent}
 
                 </div>
             </div>
@@ -108,8 +50,7 @@ const About = () => {
                 <div className="row">
                     <div className="col-lg-6 offset-lg-6">
                         <div className='mb-4 section-title text-center'>
-                            <h2 className='text-uppercase'>What Doctor's Say</h2>
-                            <p className='form-text m-0'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, ipsum!</p>
+                            <h2 className='text-uppercase'>BÁC SĨ NÓI GÌ</h2>
                         </div>
                     </div>
                 </div>
@@ -117,12 +58,11 @@ const About = () => {
                 <div className="row align-items-center">
                     <div className="col-lg-6 offset-lg-6">
                         <div className="my-2">
-                            <h4 style={{ color: '#223a66' }} className='my-0'>Amazing service!</h4>
+                            <h4 style={{ color: '#223a66' }} className='my-0'>Trang web tuyệt vời!</h4>
                             <span>John Partho</span>
                         </div>
                         <p className='form-text'>
-                            They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat. Quibusdam laboriosam eveniet nostrum nemo commodi numquam quod.
-                        </p>
+                        Trang web đặt lịch hẹn của chúng tôi mang lại sự tiện lợi và nhanh chóng cho bạn. Chỉ cần vài thao tác đơn giản, bạn có thể chọn thời gian khám bệnh phù hợp và nhận được sự chăm sóc chu đáo từ chúng tôi.Đặt lịch hẹn với bác sĩ chưa bao giờ dễ dàng đến thế. Với trang web của chúng tôi, bạn có thể linh hoạt chọn thời gian phù hợp, giúp bạn chủ động hơn trong việc chăm sóc sức khỏe. </p>
                     </div>
                 </div>
             </div>
